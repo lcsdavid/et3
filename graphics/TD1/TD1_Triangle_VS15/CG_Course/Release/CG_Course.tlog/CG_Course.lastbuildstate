@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-Release|Win32|C:\Users\ARVR\Desktop\Gl_Course_VS15\CG_Course\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.16299.0
+Release|Win32|C:\Users\lucasdavid\Documents\GitHub\et3_info\graphics\TD1\TD1_Triangle_VS15\|
