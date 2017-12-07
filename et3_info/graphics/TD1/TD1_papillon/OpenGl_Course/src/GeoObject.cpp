@@ -112,3 +112,15 @@ void GeoObject::InitVBO(void) {
 	glEnableVertexAttribArray(1); // don't forget this!
 
 }
+
+void GeoObject::setVertices(float * vertices)
+{
+	for (size_t i = 0; i < _size * 3; i++)
+		_vertices[i] = vertices[i];
+}
+
+void GeoObject::setColors(float * colors)
+{
+	for (size_t i = 0; i < _size * 3; i++)
+		_colors[i] = colors[i];
+}

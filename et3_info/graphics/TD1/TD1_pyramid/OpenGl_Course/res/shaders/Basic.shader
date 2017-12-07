@@ -41,7 +41,7 @@ in vec3 lightOut;
 in vec3 normalOut;
 
 // uniform variables
-// uniform sampler2DRect mire;
+//uniform sampler2DRect mire;
 
 // output color
 out vec4 frag_colour;
@@ -50,7 +50,7 @@ void main() {
 	// TODO calculate diffuse lighting for Phong shading and
 	// use it to calculate output color
 
-	// frag_colour.xyz = texture(mire,texCoord);
+	//frag_colour.xyz = texture(mire,texCoord);
 
 	frag_colour = vec4(colorOut, 1);
 

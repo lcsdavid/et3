@@ -16,6 +16,8 @@ GLint uniform_texture;
 
 // rotation angle
 GLfloat rotation_angle = 0.0f;
+GLfloat speed = 1.0f;
+GLboolean rotating = true;
 
 int screen_width = 1024;
 int screen_height = 768;
@@ -154,9 +156,29 @@ int main(void)
 
 	//create object
 	object_1.buildPolyeder(6, 1, 0, 0);
+	float vertices_1[] = { 
+		-2, 0, 0,   2, 0, 0,   -2, -1, 0,
+		2, 0, 0,    2, -1, 0,  -2, -1, 0 
+	};
+	float colors_1[] = {
+		1, 0, 0,   1, 0, 0,   1, 0, 0,
+		1, 0, 0,   1, 0, 0,   1, 0, 0
+	};
+	object_1.setVertices(vertices_1);
+	object_1.setColors(colors_1);
 	object_1.InitVBO();
 
 	object_2.buildPolyeder(6, 0, 1, 0);
+	float vertices_2[] = {
+		-2, 0, 0,   2, 0, 0,   -2, 1, 0,
+		2, 0, 0,   2, 1, 0,   -2, 1, 0
+	};
+	float colors_2[] = {
+		0, 1, 0,   0, 1, 0,   0, 1, 0,
+		0, 1, 0,   0, 1, 0,   0, 1, 0
+	};
+	object_2.setVertices(vertices_2);
+	object_2.setColors(colors_2);
 	object_2.InitVBO();
 
 	ShaderProgramSources source = ParseShader("res/shaders/Basic.shader");
@@ -193,26 +215,29 @@ int main(void)
 
 		// Model matrix : a varying rotation matrix (around Oz)
 		// TODO define rotation axis
-		glm::vec3 myRotationAxis(0.0f, 0.0f, 0.0f);
-		double current_time = glfwGetTime();
+		glm::vec3 myRotationAxis(1.0f, 0.0f, 0.0f);
+		double current_time = glfwGetTime() * speed;
 		// TODO define rotation angle as a function of time
-		rotation_angle = 0.0f;
-
+		if(rotating)
+			rotation_angle = std::pow(std::cos(current_time), 2);
+	
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		glUseProgram(shader);
 		glBindVertexArray(object_1._vao);
 		glUniformMatrix4fv(uniform_proj, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		glUniformMatrix4fv(uniform_view, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 		// TODO define rotation matrix for wing #1
-		modelMatrix = glm::mat4(1.0f);
+		glm::mat4 rotationMatrix_1 = glm::rotate(glm::mat4(1.0f), -rotation_angle, myRotationAxis);
+		modelMatrix = glm::mat4(1.0f) * rotationMatrix_1;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		glDrawArrays(GL_TRIANGLES, 0, object_1.getSize());
 
 		// TODO define rotation matrix for wing #2
 		glBindVertexArray(object_2._vao);
-		modelMatrix = glm::mat4(1.0f);
+		glm::mat4 rotationMatrix_2 = glm::rotate(glm::mat4(1.0f), rotation_angle, myRotationAxis);
+		modelMatrix = glm::mat4(1.0f) * rotationMatrix_2;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		glDrawArrays(GL_TRIANGLES, 0, object_1.getSize());
 		
@@ -242,5 +267,12 @@ void char_callback(GLFWwindow* window, unsigned int key)
 		perspective = true;
 	if (key == 'o' || key == 'O')
 		perspective = false;
+	if (key == ' ')
+		rotating = !rotating;
+	if (key == '+')
+		speed += 0.01f;
+	if (key == '-')
+		speed -= 0.01f;
+	
 	// TODO: control speed and stop/resume animation with control keys
 }

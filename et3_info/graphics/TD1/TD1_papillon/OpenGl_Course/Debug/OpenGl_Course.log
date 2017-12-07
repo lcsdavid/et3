@@ -1,4 +1,3 @@
-﻿  GeoObject.cpp
-  GLmain.cpp
-  Generating Code...
-  OpenGl_Course.vcxproj -> F:\Google Drive\teaching\GL_Course\TD1_papillon\Debug\OpenGl_Course.exe
+﻿  GLmain.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_papillon\opengl_course\src\glmain.cpp(222): warning C4244: '=' : conversion de 'double' en 'GLfloat', perte possible de données
+  OpenGl_Course.vcxproj -> C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_papillon\Debug\OpenGl_Course.exe
