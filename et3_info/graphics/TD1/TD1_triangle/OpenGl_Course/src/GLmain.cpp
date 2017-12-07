@@ -145,15 +145,26 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	//create object
-	object.buildPolygon(3);
 
 	// Question 1.1
-	float colors[] = { 1, 1, 1,  1, 1, 1,  1, 1, 1 };
-	object.setColors(colors);
+	// object.buildPolygon(3);
+	// float colors_1[] = { 1, 1, 1,  1, 1, 1,  1, 1, 1 };
+	// object.setColors(colors);
+	// object.InitVBO();
+	// Question 1.1
 
+	// Question 1.2
+	object.buildPolygon(6);
+	float colors_6[] = { 1, 0, 0,  1, 0, 0,  1, 0, 0, // in
+						 1, 1, 1,  1, 1, 1,  1, 1, 1 }; // around
+	object.setColors(colors_6);
 	object.InitVBO();
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// Question 1.2
 
+
+	
+
+	
 	ShaderProgramSources source = ParseShader("res/shaders/Basic.shader");
 	unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 
@@ -199,12 +210,21 @@ int main(void)
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		glUniform1i(uniform_texture, 0); //Texture unit 0 is for base images.
 
-		glActiveTexture(GL_TEXTURE0 + 0);
+		glActiveTexture(GL_TEXTURE0 + 0);		
 		glBindTexture(GL_TEXTURE_2D, textureID);
 
 		//draw the buffer that is bound at the moment. (kind of primitive to render, starting index, # of vertices)
-		glDrawArrays(GL_LINE_LOOP, 0, object.getSize());
 		
+		// Question 1.1
+		// glDrawArrays(GL_LINE_LOOP, 0, object.getSize());
+		// Questions 1.1
+
+		// Question 1.2
+		glDrawArrays(GL_TRIANGLES, 0, object.getSize() / 2);
+		glDrawArrays(GL_LINE_LOOP, 3, object.getSize() / 2);
+		// Question 1.2
+
+
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 

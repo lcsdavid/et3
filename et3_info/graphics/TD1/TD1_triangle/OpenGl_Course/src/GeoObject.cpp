@@ -37,13 +37,16 @@ GeoObject::~GeoObject()
 void GeoObject::buildPolygon(int size)
 {
 	// vertices array
-	float vertices[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0 };
+	float vertices[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0,
+						 -1, -1, 0,  1, -1, 0,  0, 1, 0 };
 
 	// normal array
 	float normals[] = { 0, 0, 1,  0, 0, 1,  0, 0, 1 };
 
 	// color array
-	float colors[] = { 1, 0, 0,  0, 1, 0,  0, 0, 1 };
+	float colors[] = { 1, 0, 0,  0, 1, 0,  0, 0, 1 ,
+					   1, 0, 1,  0, 1, 1,  1, 0, 1 };
+
 
 	// texCoord array
 	float texCoord[] = { 0, 0,  0, 1,  1, 0.5 };
