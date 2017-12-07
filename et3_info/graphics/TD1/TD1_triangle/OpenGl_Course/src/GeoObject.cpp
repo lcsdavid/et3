@@ -37,16 +37,13 @@ GeoObject::~GeoObject()
 void GeoObject::buildPolygon(int size)
 {
 	// vertices array
-	float vertices[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0,
-						 -1, -1, 0,  1, -1, 0,  0, 1, 0 };
+	float vertices[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0 };
 
 	// normal array
 	float normals[] = { 0, 0, 1,  0, 0, 1,  0, 0, 1 };
 
 	// color array
-	float colors[] = { 1, 0, 0,  0, 1, 0,  0, 0, 1 ,
-					   1, 0, 1,  0, 1, 1,  1, 0, 1 };
-
+	float colors[] = { 1, 1, 1,  1, 1, 1,  1, 1, 1 };
 
 	// texCoord array
 	float texCoord[] = { 0, 0,  0, 1,  1, 0.5 };
@@ -80,7 +77,7 @@ void GeoObject::InitVBO(void) {
 	//bind the buffer and tell it which kind of buffer it is. in this case, just an array
 	glBindBuffer(GL_ARRAY_BUFFER, vboVertices);
 	//load data into the buffer. (type of buffer, size of buffer, pointer to data, kind of usage)
-	glBufferData(GL_ARRAY_BUFFER, 3 * _size * sizeof(float), _vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 3 * _size * sizeof(float), _vertices, GL_DYNAMIC_DRAW);
 
 	unsigned int vboColors = 0;
 	glGenBuffers(1, &vboColors);
@@ -105,10 +102,10 @@ void GeoObject::InitVBO(void) {
 
 }
 
-void GeoObject::setVertices(float * colors)
+void GeoObject::setVertices(float * vertices)
 {
 	for (size_t i = 0; i < _size * 3; i++) {
-		_colors[i] = colors[i];
+		_vertices[i] = vertices[i];
 	}
 }
 

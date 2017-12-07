@@ -12,7 +12,7 @@ public:
 	void buildPolyedre(int size, float r, float g, float b);
 	void buildPolygon(int size);
 	void InitVBO(void);
-	void setVertices(float * colors);
+	void setVertices(float * vertices);
 	void setColors(float * colors);
 
 	unsigned int getSize() { return _size; }

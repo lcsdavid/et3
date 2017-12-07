@@ -1,2 +1,6 @@
-﻿  GLmain.cpp
+﻿  GeoObject.cpp
+  GLmain.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_triangle\opengl_course\src\glmain.cpp(193): warning C4838: la conversion de 'double' en 'float' requiert une conversion restrictive
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_triangle\opengl_course\src\glmain.cpp(193): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
   OpenGl_Course.vcxproj -> C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_triangle\Debug\OpenGl_Course.exe

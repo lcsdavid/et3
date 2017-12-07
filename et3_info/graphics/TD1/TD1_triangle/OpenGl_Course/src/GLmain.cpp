@@ -154,15 +154,47 @@ int main(void)
 	// Question 1.1
 
 	// Question 1.2
-	object.buildPolygon(6);
-	float colors_6[] = { 1, 0, 0,  1, 0, 0,  1, 0, 0, // in
-						 1, 1, 1,  1, 1, 1,  1, 1, 1 }; // around
-	object.setColors(colors_6);
-	object.InitVBO();
+	// object.buildPolygon(6);
+	// float colors_6[] = { 1, 0, 0,  1, 0, 0,  1, 0, 0, // in
+	//					 1, 1, 1,  1, 1, 1,  1, 1, 1 }; // around
+	// float vertices_6[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0,
+	//					   -1, -1, 0, 1, -1, 0, 0, 1, 0};
+	// object.setColors(colors_6);
+	// object.setVertices(vertices_6);
+	// object.InitVBO();
 	// Question 1.2
 
+	// Question 1.3
+	// object.buildPolygon(6);
+	// float colors_6[] = { 1, 0, 0,  0, 1, 0,  0, 0, 1, // in     FULL
+	//		   			    1, 0, 0,  0, 1, 0,  0, 0, 1 }; // around
+	// float colors_6[] = { 0, 0, 0,  0, 0, 0,  0, 0, 0, // in     EMPTY
+	// 					    1, 0, 0,  0, 1, 0,  0, 0, 1 }; // around
+	// float vertices_6[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0,
+	//					    -1, -1, 0,  1, -1, 0,  0, 1, 0 };
+	// object.setColors(colors_6);
+	// object.setVertices(vertices_6);
+	// object.InitVBO();
+	// Question 1.3
 
-	
+	// Question 1.4
+	// object.buildPolygon(3);
+	// float colors_3[] = { 1, 0, 0,  1, 1, 0,  0.5, 0.5, 0.5 };
+	// float vertices_3[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0};
+	// object.setColors(colors_3);
+	// object.setVertices(vertices_3);
+	// object.InitVBO();
+	// Question 1.4
+
+	// Question 1.5
+	object.buildPolygon(3);
+	double time = glfwGetTime() / 10;
+	float colors_3[] = { 1, 0, 0,  1, 0, 0,  0, 0, 1 };
+	float vertices_3[] = { -1 + time, -1 + time, 0 + time,  1 + time, -1 + time, 0 + time,  0 + time, 1 + time, 0 + time };
+	object.setColors(colors_3);
+	object.setVertices(vertices_3);
+	object.InitVBO();
+	// Question 1.5
 
 	
 	ShaderProgramSources source = ParseShader("res/shaders/Basic.shader");
@@ -197,6 +229,7 @@ int main(void)
 				glm::vec3(0, 1, 0)  // Head is up (set to 0,1,0)
 			);
 
+
 		// Model matrix : an identity matrix (model will be at the origin)
 		modelMatrix = glm::mat4(1.0f);
 
@@ -219,11 +252,14 @@ int main(void)
 		// glDrawArrays(GL_LINE_LOOP, 0, object.getSize());
 		// Questions 1.1
 
-		// Question 1.2
-		glDrawArrays(GL_TRIANGLES, 0, object.getSize() / 2);
-		glDrawArrays(GL_LINE_LOOP, 3, object.getSize() / 2);
+		// Question 1.2 and 1.3
+		// glDrawArrays(GL_TRIANGLES, 0, object.getSize() / 2);
+		// glDrawArrays(GL_LINE_LOOP, 3, object.getSize() / 2);
 		// Question 1.2
 
+		// Question 1.4
+		glDrawArrays(GL_TRIANGLES, 0, object.getSize());
+		// Question 1.4
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
