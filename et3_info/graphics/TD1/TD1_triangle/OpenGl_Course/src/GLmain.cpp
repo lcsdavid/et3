@@ -189,10 +189,11 @@ int main(void)
 	// Question 1.5
 	object.buildPolygon(3);
 	double time = glfwGetTime() / 10;
-	float colors_3[] = { 1, 0, 0,  1, 0, 0,  0, 0, 1 };
-	float vertices_3[] = { -1 + time, -1 + time, 0 + time,  1 + time, -1 + time, 0 + time,  0 + time, 1 + time, 0 + time };
+	float vertices_3[] = { -1, -1, 0,  1, -1, 0,  0, 1, 0 };
+	float colors_3[] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
 	object.setColors(colors_3);
 	object.setVertices(vertices_3);
+	
 	object.InitVBO();
 	// Question 1.5
 
@@ -203,6 +204,20 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+		// Question 1.5
+		double time = glfwGetTime();
+		double c = std::cos(time);
+		double s = std::sin(time);
+		float temp_3[] = {
+			vertices_3[0] * s + vertices_3[1] * c, vertices_3[1] * s - vertices_3[0] * c, 0,
+			vertices_3[3] * s + vertices_3[4] * c, vertices_3[4] * s - vertices_3[3] * c, 0,
+			vertices_3[6] * s + vertices_3[7] * c, vertices_3[7] * s - vertices_3[6] * c, 0
+		};
+
+		float* vertices_3 = temp_3;
+		object.setVertices(vertices_3);
+		object.modifyVBO();
+		// Question 1.5
 
 		// projection matrix
 		glm::mat4 projectionMatrix; // Store the projection matrix
@@ -234,7 +249,7 @@ int main(void)
 		modelMatrix = glm::mat4(1.0f);
 
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		glUseProgram(shader);
 		glBindVertexArray(object._vao);

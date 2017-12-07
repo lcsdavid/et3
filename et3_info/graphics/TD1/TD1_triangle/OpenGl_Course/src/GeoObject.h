@@ -12,6 +12,7 @@ public:
 	void buildPolyedre(int size, float r, float g, float b);
 	void buildPolygon(int size);
 	void InitVBO(void);
+	void modifyVBO();
 	void setVertices(float * vertices);
 	void setColors(float * colors);
 
@@ -24,6 +25,9 @@ protected:
 	float * _normals;
 	float * _colors;
 	float * _texcoors;
+
+	unsigned int _vboVertices;
+	unsigned int _vboColors;
 	unsigned int _size; //Number of Vertices / Normals / Texture Coordonates
 };
 
