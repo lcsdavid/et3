@@ -33,7 +33,7 @@ struct ShaderProgramSources
 	std::string FragmentSource;
 };
 
-static ShaderProgramSources ParseShader(const std::string& filepath) 
+static ShaderProgramSources ParseShader(const std::string& filepath)
 {
 
 	std::ifstream stream(filepath);
@@ -42,12 +42,12 @@ static ShaderProgramSources ParseShader(const std::string& filepath)
 		NONE = -1, VERTEX = 0, FRAGMENT = 1
 	};
 
-    std::string line;
+	std::string line;
 	std::stringstream ss[2];
 	ShaderType type = ShaderType::NONE;
-	while (getline(stream, line)) 
+	while (getline(stream, line))
 	{
-		if (line.find("#shader") != std::string::npos) 
+		if (line.find("#shader") != std::string::npos)
 		{
 			if (line.find("vertex") != std::string::npos)
 				type = ShaderType::VERTEX;
@@ -78,7 +78,7 @@ static unsigned int CompileShader(unsigned int type, const std::string& source)
 	if (result == GL_FALSE) {
 		int length;
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-		char* message = (char*)alloca(length*sizeof(char));
+		char* message = (char*)alloca(length * sizeof(char));
 		glGetShaderInfoLog(id, length, &length, message);
 		std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader!" << std::endl;
 		std::cout << message << std::endl;
@@ -119,13 +119,13 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
 	if (uniform_inverseModel == -1)
 		fprintf(stderr, "Could not bind uniform uniform_inverseModel\n");
 
-	if (uniform_view == -1) 
+	if (uniform_view == -1)
 		fprintf(stderr, "Could not bind uniform uniform_view\n");
 
-	if (uniform_proj == -1) 
+	if (uniform_proj == -1)
 		fprintf(stderr, "Could not bind uniform uniform_proj\n");
 
-	if (uniform_texture == -1) 
+	if (uniform_texture == -1)
 		fprintf(stderr, "Could not bind uniform uniform_texture\n");
 
 	if (uniform_light == -1)
@@ -165,22 +165,45 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	//create object
+
+	// Qustion 2.1
 	object.buildPolyeder(18, 1, 1, 1);
+	float colors_18[] = { 
+		0, 1, 1,   0, 1, 1,    0, 1, 1,
+		1, 0, 1,   1, 0, 1,    1, 0, 1,
+		1, 1, 0,   1, 1, 0,    1, 1, 0,
+		1, 0, 0,   0, 1, 0,    0, 0, 1,
+		1, 1, 1,   1, 1, 1,    1, 1, 1,
+		1, 1, 1,   1, 1, 1,    1, 1, 1 };
+	object.setColors(colors_18);
 	object.InitVBO();
+	// Question 2.1
 
 	ShaderProgramSources source = ParseShader("res/shaders/Basic.shader");
 	unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 
+	double rad = 0;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-
+		rad += glfwGetTime() / 10;
+		double c = std::cos(rad);
+		double s = std::sin(rad);
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i] * s + object.getVertices()[i + 1] * c;
+			new_vertices[i + 1] = object.getVertices()[i + 1] * s - object.getVertices()[i] * c;
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
 		// projection matrix
 		glm::mat4 projectionMatrix; // Store the projection matrix
 		glm::mat4 viewMatrix; // Store the view matrix
 		glm::mat4 modelMatrix; // Store the model matrix
 
-	    // Projection: Perspective or Ortho matrix
+		// Projection: Perspective or Ortho matrix
 		if (perspective) {
 			projectionMatrix
 				= glm::perspective(45.0f, (float)screen_width / (float)screen_height, 1.0f, 200.0f);
@@ -205,7 +228,7 @@ int main(void)
 		modelMatrix = glm::mat4(1.0f);
 
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		glUseProgram(shader);
 		glBindVertexArray(object._vao);
@@ -224,8 +247,16 @@ int main(void)
 
 		// draw points from the currently bound VAO with current in-use shader
 		// TODO define primitive for glDrawArrays
-		// glDrawArrays ( *primitive* , 0, _object.getSize());
+	
+		glDrawArrays(GL_TRIANGLES, 12, 3); // BASE
+		glDrawArrays(GL_TRIANGLES, 15, 3); // BASE
+		glDrawArrays(GL_TRIANGLES, 0, 3); // face
+		glDrawArrays(GL_TRIANGLES, 3, 3);
+		glDrawArrays(GL_LINE_LOOP, 6, 3);
+		glDrawArrays(GL_LINE_LOOP, 9, 3);
 		
+		
+
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
@@ -252,5 +283,67 @@ void char_callback(GLFWwindow* window, unsigned int key)
 		perspective = true;
 	if (key == 'o' || key == 'O')
 		perspective = false;
-	// TODO change rotation angle according to key stroke
+	if (key == '<' || key == '>') {
+		double rad = 0;
+		if (key == '<')
+			rad = 0.1;
+		else
+			rad = -0.1;
+		double c = std::cos(rad);
+		double s = std::sin(rad);
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i] * s + object.getVertices()[i + 1] * c;
+			new_vertices[i + 1] = object.getVertices()[i + 1] * s - object.getVertices()[i] * c;
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
+	}
+	if (key == 'q' || key == 'Q') {
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i] - 0.1;
+			new_vertices[i + 1] = object.getVertices()[i + 1];
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
+	}
+	if (key == 'D' || key == 'd') {
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i] + 0.1;
+			new_vertices[i + 1] = object.getVertices()[i + 1];
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
+	}
+	if (key == 'z' || key == 'Z') {
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i];
+			new_vertices[i + 1] = object.getVertices()[i + 1] + 0.1;
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
+	}
+	if (key == 's' || key == 'S') {
+		float* new_vertices = new float[object.getSize() * 3];
+		for (size_t i = 0; i < object.getSize() * 3; i += 3) {
+			new_vertices[i] = object.getVertices()[i];
+			new_vertices[i + 1] = object.getVertices()[i + 1] - 0.1;
+			new_vertices[i + 2] = object.getVertices()[i + 2];
+		}
+		object.setVertices(new_vertices);
+		delete[] new_vertices;
+		object.updateVBO();
+	}
+
 }

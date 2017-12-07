@@ -12,6 +12,10 @@ public:
 	void buildPolyeder(int size, float r, float g, float b);
 	void buildPolygon(int size);
 	void InitVBO(void);
+	void updateVBO(void);
+	void setColors(float* colors);
+	void setVertices(float* vertices);
+	float* getVertices();
 
 	unsigned int getSize() { return _size; }
 
@@ -22,6 +26,9 @@ protected:
 	float * _normals;
 	float * _colors;
 	float * _texcoors;
+	unsigned int _vboVertices;
+	unsigned int _vboColors;
+	unsigned int _vboNormals;
 	unsigned int _size; //Number of Vertices / Normals / Texture Coordonates
 };
 

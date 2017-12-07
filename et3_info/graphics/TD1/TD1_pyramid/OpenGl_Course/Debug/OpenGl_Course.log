@@ -1,4 +1,10 @@
-﻿  GeoObject.cpp
-  GLmain.cpp
-  Generating Code...
-  OpenGl_Course.vcxproj -> F:\Google Drive\teaching\GL_Course\TD1_pyramid\Debug\OpenGl_Course.exe
+﻿  GLmain.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(194): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(195): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(296): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(297): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(307): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(318): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(330): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(341): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  OpenGl_Course.vcxproj -> C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_pyramid\Debug\OpenGl_Course.exe
