@@ -1,6 +1,6 @@
 #include "string.h"
 
-char * str_copy(char* str) {
+char * string_copy(char* str) {
 	size_t size = strlen(str);
 	char* str_copy = malloc(sizeof(char) * size);
 	if(str_copy == NULL)
@@ -14,8 +14,8 @@ char * read_name() {
 	char str_name[256];
 	printf("Entrez votre nom: ");
 	if(scanf("%s", str_name))
-		return str_copy(str_name);
-	return str_copy("Entrée non valide.");
+		return string_copy(str_name);
+	return string_copy("Entrée non valide.");
 }
 
 char * lower_case(char* str) {
@@ -54,15 +54,15 @@ int letter_to_num(char c) {
 	return -1;
 }
 
-void append(char** array, char* str, size_t size) {
-	char** buffer = realloc(array, sizeof(char*) * (size + 1));
-	if(buffer == NULL)
-		out_of_memory("append, malloc on buffer.");
-	for(int i = 0; i < size; i++)
-		buffer[i] = array[i];
-	buffer[size] = str_copy(str);
-	free(array);
-	array = buffer;
+char** append(char** array, char* str, size_t size) {
+	if(size == 0)
+		array = malloc(sizeof(char*));
+	else
+		array = realloc(array, sizeof(char*) * (size + 1));
+	if(array == 0)
+		out_of_memory("append, malloc on array.");
+	array[size] = string_copy(str);
+	return array;
 }
 
 int bigger(char* left, char* right) {
@@ -72,9 +72,9 @@ int bigger(char* left, char* right) {
 	else
 		size = strlen(right);
 	for(int i = 0; i < size; i++) {
-		if(left[i] > right[i])
+		if(letter_to_num(left[i]) > letter_to_num(right[i]))
 			return 1;
-		if(left[i] < right[i])
+		if(letter_to_num(left[i]) < letter_to_num(right[i]))
 			return 0;
 	}
 	return strlen(left) > strlen(right);
@@ -99,7 +99,12 @@ void swap_str(char* left, char* right) {
 	right = buffer;
 }
 
-void order_str_array(char ** array, size_t size) {
+void display_array_string(char ** array, size_t size) {
+	for(size_t i = 0; i < size; i++)
+			printf("%s\n", array[i]);
+}
+
+void sort_array_string(char ** array, size_t size) {
 	char* buffer;
 	for(int i = 0; i < size; i++) {
 		buffer = array[i];
@@ -110,136 +115,4 @@ void order_str_array(char ** array, size_t size) {
 		}
 		array[j] = buffer;
 	}
-}
-
-void display_2Darray_int(int** array, size_t n, size_t m) {
-	for(size_t i = 0; i < n; i++) {
-		printf("[");
-		for(size_t j = 0; i < m; j++) {
-			printf("%d", array[i][j]);
-			if(j != m - 1)
-				printf(", ");
-		}
-		printf("]\n");
-	}
-}
-
-int** create_2Darray_int(size_t n, size_t m, int default_value) {
-	int** result = malloc(sizeof(int) * n);
-	if(!result)
-		out_of_memory("create_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		if(!result[i])
-			out_of_memory("create_2Darray_int, malloc on result[i].");
-		for(size_t j = 0; i < m; j++)
-			result[i][j] = default_value;
-	}
-	return result;
-}
-
-void free_2Darray(int** array, size_t n) {
-	for(size_t i = 0; i < n; i++)
-		free(array[i]);
-	free(array);
-}
-
-int** addition_mtm_2Darray_int(int** arr_a, int** arr_b, size_t n, size_t m) {
-	int** result = malloc(sizeof(int) * n);
-	if(!result)
-		out_of_memory("addition_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		result[i] = malloc(sizeof(int) * m);
-		if(!result[i])
-			out_of_memory("addition_2Darray_int, malloc on result[i].");
-		for(size_t j = 0; j < m; j++)
-			result[i][j] = arr_a[i][j] + arr_b[i][j];
-	}
-	return result;
-}
-
-int** substraction_mtm_2Darray_int(int** arr_a, int** arr_b, size_t n, size_t m) {
-	int** result = malloc(sizeof(int) * n);
-	if(!result)
-		out_of_memory("addition_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		result[i] = malloc(sizeof(int) * m);
-		if(!result[i])
-			out_of_memory("addition_2Darray_int, malloc on result[i].");
-		for(size_t j = 0; j < m; j++)
-			result[i][j] = arr_a[i][j] - arr_b[i][j];
-	}
-	return result;
-}
-
-int** multiplication_mtm_2Darray_int(int** arr_a, int** arr_b, size_t n, size_t m) {
-	int** result = malloc(sizeof(int) * n);
-	if(!result)
-		out_of_memory("addition_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		result[i] = malloc(sizeof(int) * m);
-		if(!result[i])
-			out_of_memory("addition_2Darray_int, malloc on result[i].");
-		for(size_t j = 0; j < m; j++)
-			result[i][j] = arr_a[i][j] * arr_b[i][j];
-	}
-	return result;
-}
-
-int** transpose_2Darray_int(int** array, size_t n, size_t m) {
-	int** result = malloc(sizeof(int) * m);
-	if(!result)
-		out_of_memory("addition_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < m; i++) {
-		result[i] = malloc(sizeof(int) * n);
-		if(!result[i])
-			out_of_memory("addition_2Darray_int, malloc on result[i].");
-		for(size_t j = 0; j < n; j++)
-			result[i][j] = array[j][i];
-	}
-	return result;
-}
-
-int* linesum_2Darray_int(int** array, size_t n, size_t m) {
-	int* result = malloc(sizeof(int) * m);
-	if(!result)
-		out_of_memory("linesum_2Darray_int, malloc on result.");
-	for(size_t j = 0; j < m; j++) {
-		result[j] = 0;
-		for(size_t i = 0; i < m; i++)
-			result[j] += array[i][j];
-	}
-	return result;
-}
-
-int* columnsum_2Darray_int(int** array, size_t n, size_t m) {
-	int* result = malloc(sizeof(int) * n);
-	if(!result)
-		out_of_memory("columnsum_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		result[i] = 0;
-		for(size_t j = 0; j < m; i++)
-			result[i] += array[i][j];
-	}
-	return result;
-}
-
-int** multiplication_2Darray_int(int** arr_a, int** arr_b, size_t n, size_t m, size_t p) {
-	int* result = malloc(sizeof(int) * p);
-	if(!result)
-		out_of_memory("multiplication_2Darray_int, malloc on result.");
-	for(size_t i = 0; i < n; i++) {
-		result[i] = malloc(sizeof(int) * m);
-		if(!result[i])
-			out_of_memory("multiplication_2Darray_int, malloc on result[i].");
-			for(size_t j = 0; j < m; j++)
-				for(size_t k = 0; k < n; k++)
-					result[i][j] = arr_a[i][k] * arr_b[k][j];
-	}
-}
-
-
-/* Falcultatif: pour répérer les problèmes avec la mémoire */
-void out_of_memory(char* context) {
-	printf("Out Of Memory: At function %s\n. Exiting...\n",context);
-	exit(0);
 }
