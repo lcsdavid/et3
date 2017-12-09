@@ -2,6 +2,6 @@
 *.rar
 *.zip
 
-/Debug
-/Release
-/.vs
+**/Debug
+**/Release
+**/.vs
