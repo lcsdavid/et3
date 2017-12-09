@@ -1,4 +1,0 @@
-﻿LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'LIBCMT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
-LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'MSVCRT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' n'a pu être trouvé avec 'glew32s.lib(glew.obj)' ou sur 'C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_pyramid\Debug\vc120.pdb' ; l'objet sera lié sans informations de débogage
-  OpenGl_Course.vcxproj -> C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_pyramid\Debug\OpenGl_Course.exe

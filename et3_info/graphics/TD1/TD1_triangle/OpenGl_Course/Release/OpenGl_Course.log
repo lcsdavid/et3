@@ -1,5 +1,0 @@
-﻿  GeoObject.cpp
-  GLmain.cpp
-f:\google drive\teaching\gl_course\td1_triangle\opengl_course\src\GLmain.h(3): fatal error C1083: Cannot open include file: 'glm.hpp': No such file or directory
-  td1_utils.cpp
-src\td1_utils.cpp(49): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned long', possible loss of data
