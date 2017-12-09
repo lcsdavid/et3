@@ -1,10 +1,4 @@
-﻿  GLmain.cpp
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(194): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(195): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(296): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(297): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(307): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(318): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(330): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_pyramid\opengl_course\src\glmain.cpp(341): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+﻿LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'LIBCMT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'MSVCRT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' n'a pu être trouvé avec 'glew32s.lib(glew.obj)' ou sur 'C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_pyramid\Debug\vc120.pdb' ; l'objet sera lié sans informations de débogage
   OpenGl_Course.vcxproj -> C:\Users\lucasdavid\Documents\GitHub\et3\et3_info\graphics\TD1\TD1_pyramid\Debug\OpenGl_Course.exe
