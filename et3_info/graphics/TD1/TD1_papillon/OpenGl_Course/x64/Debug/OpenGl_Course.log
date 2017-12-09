@@ -1,0 +1,7 @@
+﻿  td1_utils.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_papillon\opengl_course\src\td1_utils.h(7): fatal error C1083: Impossible d'ouvrir le fichier include : 'GL/glew.h' : No such file or directory
+  GeoObject.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_papillon\opengl_course\src\geoobject.h(3): fatal error C1083: Impossible d'ouvrir le fichier include : 'GL/glew.h' : No such file or directory
+  GLmain.cpp
+c:\users\lucasdavid\documents\github\et3\et3_info\graphics\td1\td1_papillon\opengl_course\src\glmain.h(1): fatal error C1083: Impossible d'ouvrir le fichier include : 'GL/glew.h' : No such file or directory
+  Génération de code en cours...
