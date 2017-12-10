@@ -1,4 +1,4 @@
-all: TP1
+default: TP1
 
 TP1: main.o affichage.o
 	gcc -o TP1 main.o affichage.o

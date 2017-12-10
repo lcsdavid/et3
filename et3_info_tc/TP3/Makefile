@@ -1,4 +1,4 @@
-all: TP3
+default: TP3
 
 TP3: main.o fonctions.o
 	gcc  -lm -o TP3 main.o fonctions.o

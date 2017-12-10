@@ -37,10 +37,23 @@ int main(int argc, char **argv) {
 	display_array_string(name_list, 5);*/
 
 	// 3.2
-	int** mat = create_matrix_int(3, 3, 0);
+	int** identity = create_matrix_int(3, 3, 0);
 	// 3.1
-	display_matrix_int(mat, 3, 3);
+	for(size_t i = 0; i < 3; i++)
+		for(size_t j = 0; j < 3; j++)
+		 if(i == j)
+			identity[i][j] = 1;
+	display_matrix_int(identity, 3, 3);
+	// flemme de tester tout dans le main
 
+
+	// 4
+	int** mat = create_matrix_int(3, 3, 5);
+	printf("\n");
+	display_matrix_int(mat, 3, 3);
+	mat = product_matrix_int(identity, mat, 3, 3, 3);
+	printf("\n");
+	display_matrix_int(mat, 3, 3);
 
 	return 0;
 }

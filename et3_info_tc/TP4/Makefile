@@ -1,4 +1,4 @@
-all: TP4
+default: TP4
 
 TP4: main.o tableau.o rand.o
 	gcc -o TP4 main.o tableau.o rand.o

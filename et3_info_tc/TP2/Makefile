@@ -1,4 +1,4 @@
-all: TP2
+default: TP2
 
 TP2: main.o
 	gcc -o TP2 main.o
