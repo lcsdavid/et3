@@ -22,4 +22,12 @@ void push_back_sl_list(sl_list_t* l, sl_cell_t* c);
 
 sl_cell_t* find_sl_list(sl_list_t* l, double value);
 
+sl_cell_t* zip_sl_list(sl_list_t* l1, sl_list_t* l2);
+
+sl_cell_t* find_last_sl_list(sl_list_t* l, double value);
+
+sl_cell_t* reverse_sl_list(sl_list_t* l);
+
+sl_cell_t* filter_sl_list(sl_list_t* l, int* function);
+
 #endif

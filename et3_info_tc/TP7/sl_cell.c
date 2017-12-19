@@ -1,10 +1,15 @@
 #include "sl_cell.h"
 
-sl_cell_t* create_cell(double value) {
+sl_cell_t* create_sl_cell(double value) {
 	sl_cell_t* that = malloc(sizeof(sl_cell_t));
 	that->value = value;
 	that->next = NULL;
 	return that;
+}
+
+sl_cell_t* copy_sl_cell(sl_cell_t* c) {
+	sl_cell_t* copy_cell = create_sl_cell(c->value);
+	return copy_cell;
 }
 
 void delete_sl_cell(sl_cell_t* c) {
