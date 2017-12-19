@@ -1,9 +1,12 @@
 #ifndef DL_CELL_H
 #define DL_CELL_H
 
-typedef struct dl_cell_t;
+#include <stdlib.h>
+#include <assert.h>
 
-typedef struct {
+typedef struct dl_cell dl_cell_t;
+
+typedef struct dl_cell {
 	double value;
 	dl_cell_t* next;
 	dl_cell_t* previous;
@@ -15,7 +18,7 @@ void delete_dl_cell(dl_cell_t* c);
 
 void delete_chain_dl_cell(dl_cell_t* c)
 
-void link_dl_cell(dl_cell_t* main_cell, dl_cell_t* previous_cell, dl_cell_t* next_cell) ;
+void link_dl_cell(dl_cell_t* main_cell, dl_cell_t* next_cell, dl_cell_t* previous_cell);
 
 void unlink_dl_cell(dl_cell_t* c);
 

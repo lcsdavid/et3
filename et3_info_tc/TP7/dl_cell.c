@@ -15,10 +15,22 @@ void delete_dl_cell(dl_cell_t* c) {
 
 void delete_chain_dl_cell(dl_cell_t* c) {
 	assert(c);
-	free(c);
+	if(c->next)
+		delete_chain_dl_cell(c->next);
+	if(c->previous)
+		delete_chain_dl_cell(c->previous);
+	delete_dl_cell(c);
 }
 
-void link_dl_cell(dl_cell_t* main_cell, dl_cell_t* previous_cell, dl_cell_t* next_cell);
+void link_dl_cell(dl_cell_t* main_cell, dl_cell_t* next_cell, dl_cell_t* previous_cell) {
+	assert(main_cell);
+	main_cell->next = next_cell;
+	main_cell->previous = previous_cell;
+}
 
-void unlink_dl_cell(dl_cell_t* c);
+void unlink_dl_cell(dl_cell_t* c) {
+	assert(c);
+	main_cell->next = NULL;
+	main_cell->previous = NULL;
+}
 

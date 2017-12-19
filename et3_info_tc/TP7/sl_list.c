@@ -41,7 +41,7 @@ sl_cell_t* find_sl_list(sl_list_t* l, double value) {
 	assert(l);
 	if(l->first) {
 		sl_cell_t* current_cell = l->first;
-		while(current_cell->value != value) {*
+		while(current_cell->value != value) {
 			current_cell = current_cell->next;
 			if(!current_cell)
 				break;

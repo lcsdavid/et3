@@ -1,6 +1,9 @@
 #ifndef SL_LIST_H
 #define SL_LIST_H
 
+#include <stdlib.h>
+#include <assert.h>
+
 #include "sl_cell.h"
 
 typedef struct {

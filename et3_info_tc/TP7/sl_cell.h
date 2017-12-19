@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-typedef struct sl_cell_t;
+typedef struct sl_cell sl_cell_t;
 
-typedef struct {
+typedef struct sl_cell {
 	double value;
 	sl_cell_t* next;
 } sl_cell_t;
