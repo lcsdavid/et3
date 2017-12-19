@@ -7,16 +7,21 @@ sl_cell_t* create_cell(double value) {
 	return that;
 }
 
-void delete_cell(sl_cell_t* c) {
+void delete_sl_cell(sl_cell_t* c) {
 	assert(c);
-	if(c->next)
-		delete_cell(c->next);
 	free(c);
 }
 
-void link_cell(sl_cell_t* c1, sl_cell_t* c2) {
-	assert(c1);
-	c1->next = c2;
+void delete_chain_sl_cell(sl_cell_t* c) {
+	assert(c);
+	if(c->next)
+		delete_cell(c->next);
+	delete_sl_cell(c);
+}
+
+void link_cell(sl_cell_t* main_cell, sl_cell_t* next_cell) {
+	assert(main_cell);
+	main_cell->next = next_cell;
 }
 
 void unlink_cell(sl_cell_t* c) {

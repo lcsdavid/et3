@@ -7,26 +7,30 @@ sl_list_t* create_sl_list() {
 }
 
 void delete_sl_list(sl_list_t* l) {
+	assert(l);
 	free(l);
 }
 
 int is_empty_sl_list(sl_list_t* l) {
-	if(l->first) // Si l->first non NULL.
+	assert(l);
+	if(l->first)
 		return 0;
 	else
 		return 1;
 }
 
 void push_front_sl_list(sl_list_t* l, sl_cell_t* c) {
-	if(l->first) // Si l->first non NULL.
+	assert(l);
+	if(l->first)
 		l->c->next = l->first;
 	l->first = c;
 }
 
 void push_back_sl_list(sl_list_t* l, sl_cell_t* c) {
+	assert(l);
 	if(l->first) {
 		sl_cell_t* current_cell = l->first;
-		while(current_cell->next) // Tant que current_cell->next non NULL.
+		while(current_cell->next)
 			current_cell = current_cell->next;
 		current_cell->next = c;
 	}
@@ -34,11 +38,12 @@ void push_back_sl_list(sl_list_t* l, sl_cell_t* c) {
 }
 
 sl_cell_t* find_sl_list(sl_list_t* l, double value) {
+	assert(l);
 	if(l->first) {
 		sl_cell_t* current_cell = l->first;
 		while(current_cell->value != value) {*
 			current_cell = current_cell->next;
-			if(!current_cell) // Si current_cell NULL.
+			if(!current_cell)
 				break;
 		}
 		return current_cell;
