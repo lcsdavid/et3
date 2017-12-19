@@ -1,12 +1,17 @@
 #include "rect.h"
 
 rect_t* create_rect(point_t const* A, point_t const* B, point_t const* C, point_t const* D) {
+<<<<<<< HEAD
 	if(equal_point(A, B) || equal_point(B, C) || equal_point(C, D) || equal_point(D, A))
+=======
+	if(equal_point(A, B) || equal_point(B, C) || equal_point(C, D) || equal_point(D, A))
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894
 		return NULL;
 	if(scalar_product(A, B, C) != 0 || scalar_product(B, C, D) != 0 || scalar_product(C, D, A) != 0)
 		return NULL;
 	rect_t* that = malloc(sizeof(rect_t));
 	that->A = malloc(sizeof(point_t));
+<<<<<<< HEAD
 	*that->A = *A;
 	that->B = malloc(sizeof(point_t));
 	*that->B = *B;
@@ -14,6 +19,16 @@ rect_t* create_rect(point_t const* A, point_t const* B, point_t const* C, point_
 	*that->C = *C;
 	that->D = malloc(sizeof(point_t));
 	*that->D = *D;
+=======
+	that->A = *A;
+	that->B = malloc(sizeof(point_t));
+	that->B = *B;
+	that->C = malloc(sizeof(point_t));
+	that->C = *C;
+	that->D = malloc(sizeof(point_t));
+	that->A = *A;
+
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894
 	return that;
 }
 
@@ -25,6 +40,7 @@ void delete_rect(rect_t* r) {
 	free(r);
 }
 
+<<<<<<< HEAD
 void display_rect(rect_t const* r) {
 	printf("[");
 	display_point(r->A);
@@ -66,3 +82,17 @@ int disjoint_rect(rect_t const* r1, rect_t const* r2) {
 		&& !point_in_rect(r2->A, r1) && !point_in_rect(r2->B, r1)
 		&& !point_in_rect(r2->C, r1) && !point_in_rect(r2->D, r1);
 }
+=======
+
+void display_rect(rect_t const* r) {
+	printf("[");	
+	display_point(r->A);
+	printf(", ");	
+	display_point(r->B);
+	printf(", ");	
+	display_point(r->C);
+	printf(", ");		
+	display_point(r->D);
+	printf("]");
+}
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894

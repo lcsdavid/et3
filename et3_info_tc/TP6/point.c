@@ -29,8 +29,14 @@ void translate_point(point_t* p, double dx, double dy) {
 }
 
 double scalar_product(point_t const* A, point_t const* O, point_t const* B) {
+<<<<<<< HEAD
 	if(distance_point(O, A) == 0 || distance_point(O, B) == 0)
 		return 0;
 	return ((A->x - O->x) * (B->x - O->x) + (A->y - O->y) * (B->y - O->y)) /
 		(distance_point(O, A) * distance_point(O, B));
 }
+=======
+	return ((A->x - O->x) * (B->x - O->x) + (A->y - O->y) * (B->y - O->y)) / (distance_point(O,A) * distance_point(O,B));
+}
+
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894

@@ -3,6 +3,7 @@
 #include "rect.h"
 
 int main() {
+<<<<<<< HEAD
 	point_t* A = create_point(1, 1);
 	point_t* B = create_point(1, 3);
 	point_t* C = create_point(3, 3);
@@ -17,5 +18,8 @@ int main() {
 		scalar_product(p, r->A, r->B), scalar_product(p, r->B, r->C),
 		scalar_product(p, r->C, r->D));
 	printf("%d\n", point_in_rect(p, r));
+=======
+	printf("Hello world!");
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894
 	return 0;
 }

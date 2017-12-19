@@ -16,6 +16,7 @@ void delete_rect(rect_t* r);
 
 void display_rect(rect_t const* r);
 
+<<<<<<< HEAD
 int equal_rect(rect_t const* r1, rect_t const* r2);
 
 double surface_rect(rect_t const* r);
@@ -24,4 +25,6 @@ int point_in_rect(point_t const* p, rect_t const* r);
 
 int disjoint_rect(rect_t const* r1, rect_t const* r2);
 
+=======
+>>>>>>> 41e9e815a30e05477251052da9d1ae1ee44dd894
 #endif
