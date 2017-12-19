@@ -15,7 +15,7 @@ void delete_cell(sl_cell_t* c) {
 }
 
 void link_cell(sl_cell_t* c1, sl_cell_t* c2) {
-	assert(c1 && c2);
+	assert(c1);
 	c1->next = c2;
 }
 

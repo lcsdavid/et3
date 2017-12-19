@@ -13,10 +13,10 @@ void delete_sl_list(sl_list_t* l);
 
 int is_empty_sl_list(sl_list_t* l);
 
-void push_front_sl_list(sl_list_t* l);
+void push_front_sl_list(sl_list_t* l, sl_cell_t* c);
 
-void push_back_sl_list(sl_list_t* l);
+void push_back_sl_list(sl_list_t* l, sl_cell_t* c);
 
-void find_sl_list(sl_list_t* l);
+sl_cell_t* find_sl_list(sl_list_t* l, double value);
 
 #endif
