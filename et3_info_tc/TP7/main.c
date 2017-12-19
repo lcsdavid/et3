@@ -1,7 +1,7 @@
-#include "sl_cell_t.h"
-#include "sl_list_t.h"
-#include "dl_cell_t.h"
-#include "dl_list_t.h"
+#include "sl_cell.h"
+#include "sl_list.h"
+#include "dl_cell.h"
+#include "dl_list.h"
 
 int main() {
 

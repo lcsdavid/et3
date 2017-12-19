@@ -30,7 +30,7 @@ void link_dl_cell(dl_cell_t* main_cell, dl_cell_t* next_cell, dl_cell_t* previou
 
 void unlink_dl_cell(dl_cell_t* c) {
 	assert(c);
-	main_cell->next = NULL;
-	main_cell->previous = NULL;
+	c->next = NULL;
+	c->previous = NULL;
 }
 

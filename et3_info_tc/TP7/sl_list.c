@@ -22,7 +22,7 @@ int is_empty_sl_list(sl_list_t* l) {
 void push_front_sl_list(sl_list_t* l, sl_cell_t* c) {
 	assert(l);
 	if(l->first)
-		l->c->next = l->first;
+		c->next = l->first;
 	l->first = c;
 }
 
