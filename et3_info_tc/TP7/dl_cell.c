@@ -8,6 +8,13 @@ dl_cell_t* create_dl_cell(double value) {
 	return that;
 }
 
+dl_cell_t* copy_dl_cell(dl_cell_t* c) {
+	dl_cell_t* copy_cell = create_dl_cell(c->value);
+	copy_cell->next = c->next;
+	copy_cell->previous = c->previous;
+	return copy_cell;
+}
+
 void delete_dl_cell(dl_cell_t* c) {
 	assert(c);
 	free(c);
@@ -33,4 +40,3 @@ void unlink_dl_cell(dl_cell_t* c) {
 	c->next = NULL;
 	c->previous = NULL;
 }
-

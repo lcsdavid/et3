@@ -9,6 +9,7 @@ sl_cell_t* create_sl_cell(double value) {
 
 sl_cell_t* copy_sl_cell(sl_cell_t* c) {
 	sl_cell_t* copy_cell = create_sl_cell(c->value);
+	copy_cell->next = c->next;
 	return copy_cell;
 }
 

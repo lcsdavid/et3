@@ -20,35 +20,30 @@ int is_empty_sl_list(sl_list_t* l) {
 }
 
 void push_front_sl_list(sl_list_t* l, sl_cell_t* c) {
-	assert(l);
+	assert(l && c);
 	if(l->first)
 		c->next = l->first;
 	l->first = c;
 }
 
 void push_back_sl_list(sl_list_t* l, sl_cell_t* c) {
-	assert(l);
-	if(l->first) {
-		sl_cell_t* current_cell = l->first;
-		while(current_cell->next)
-			current_cell = current_cell->next;
-		current_cell->next = c;
+	assert(l && c);
+	if(!l->first) {
+		l->first = c;
+		return;
 	}
-	l->first = c;
+	sl_cell_t* current_cell = l->first;
+	while(current_cell->next)
+		current_cell = current_cell->next;
+	current_cell->next = c;
 }
 
 sl_cell_t* find_sl_list(sl_list_t* l, double value) {
 	assert(l);
-	if(l->first) {
-		sl_cell_t* current_cell = l->first;
-		while(current_cell->value != value) {
-			current_cell = current_cell->next;
-			if(!current_cell)
-				break;
-		}
-		return current_cell;
-	}
-	return NULL;
+	sl_cell_t* current_cell = l->first;
+	while(current_cell && current_cell->next && current_cell->value != value)
+		current_cell = current_cell->next;
+	return current_cell;
 }
 
 sl_list_t* zip_sl_list(sl_list_t* l1, sl_list_t* l2) {
@@ -58,9 +53,7 @@ sl_list_t* zip_sl_list(sl_list_t* l1, sl_list_t* l2) {
 	list_push_back(zip_list, copy_sl_cell(l2->first));
 	sl_cell_t* current_cell_1 = l1->first;
 	sl_cell_t* current_cell_2 = l2->first;
-	while(1) {
-		if(!current_cell_1->next && !current_cell_2->next)
-			break;
+	while(current_cell_1->next && current_cell_2->next) {
 		if(current_cell_1->next) {
 			current_cell_1 = current_cell_1->next;
 			list_push_back(zip_list, copy_sl_cell(current_cell_1));
@@ -76,31 +69,22 @@ sl_list_t* zip_sl_list(sl_list_t* l1, sl_list_t* l2) {
 sl_cell_t* find_last_sl_list(sl_list_t* l, double value) {
 	assert(l);
 	sl_cell_t* last_found = NULL;
-	if(l->first) {
-		if(l->first->value == value)
-			last_found = l->first;
-		sl_cell_t* current_cell = l->first;
-		while(current_cell->next) {
-			current_cell = current_cell->next;
-			if(current_cell->value == value)
-				last_found = current_cell;
-		}
-		return last_found;
+	sl_cell_t* current_cell = l->first;
+	while(current_cell) {
+		if(current_cell->value == value)
+			last_found = current_cell;
+		current_cell = current_cell->next;
 	}
 	return last_found;
 }
 
 sl_cell_t* reverse_sl_list(sl_list_t* l) {
 	assert(l);
-	if(!l->first)
-		return l;
 	sl_cell_t* current_cell = l->first;
 	sl_list_t* reversed_list = create_sl_list();
-	push_front_sl_list(reversed_list, current_cell);
-	while(current_cell->next) {
-		current_cell = current_cell->next;
+	while(current_cell) {
 		push_front_sl_list(reversed_list, current_cell);
+		current_cell = current_cell->next;
 	}
 	return reversed_list;
 }
-
