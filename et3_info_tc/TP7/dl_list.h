@@ -23,4 +23,12 @@ void push_back_dl_list(dl_list_t* l, dl_cell_t* c);
 
 dl_cell_t* find_dl_list(dl_list_t* l, double value);
 
+dl_list_t* zip_dl_list(dl_list_t* l1, dl_list_t* l2);
+
+dl_cell_t* find_last_dl_list(dl_list_t* l, double value);
+
+dl_list_t* reverse_dl_list(dl_list_t* l);
+
+dl_list_t* filter_dl_list(dl_list_t* l, int *f(double));
+
 #endif
