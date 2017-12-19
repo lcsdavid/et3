@@ -106,7 +106,7 @@ int ***create_level(size_t n_size, size_t m_size, unsigned int mine_count) {
     }
     for (size_t k = 0; k < mine_count; k++) {
         level[mines[k][0]][mines[k][1]][0] = -1;
-    } /*
+    }/*
     for (size_t k = 0; k < mine_count; k++) {
         int i = mines[k][0];
         int j = mines[k][1];
@@ -129,7 +129,7 @@ int ***create_level(size_t n_size, size_t m_size, unsigned int mine_count) {
             level[i][j + 1][0] += 1;
         if (level[i + 1][j + 1][0] != -1)
             level[i + 1][j + 1][0] += 1;
-    } */
+    }*/
 	for (size_t k = 0; k < mine_count; k++) {
         free(mines[k]);
     }
@@ -137,8 +137,8 @@ int ***create_level(size_t n_size, size_t m_size, unsigned int mine_count) {
 	return level;
 }
 
-void display_grid(int ***level, size_t n_size, size_t m_size) {
-    for (size_t i = 0; i < n_size; i++) {
+void display_grid(int ***level, int* pointer_position, size_t n_size, size_t m_size) {
+	for (size_t i = 0; i < n_size; i++) {
 		move(2 + 2 * i, 4);
         for (size_t k = 0; k < m_size * 2 + 1; k++) {
             if (k % 2 == 0)
@@ -148,7 +148,7 @@ void display_grid(int ***level, size_t n_size, size_t m_size) {
 		}
     	move(3 + 2 * i, 4);
     	for (size_t j = 0; j < m_size; j++) {
-        	printw("|");
+        	printw("");
         	if (level[i][j][1] == 0)
             	printw(" ");
         	else if (level[i][j][1] == 1) {
@@ -158,7 +158,7 @@ void display_grid(int ***level, size_t n_size, size_t m_size) {
                 	printw("%d", level[i][j][0]);
         	}
     	}
-		printw("|");
+		//printw("|");
 		move(4 + i * 2, 4);
 		for (size_t k = 0; k < m_size * 2 + 1; k++) {
             if (k % 2 == 0)

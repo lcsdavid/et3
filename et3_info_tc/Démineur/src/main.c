@@ -1,6 +1,9 @@
+#include <locale.h>
+
 #include "demineur.h"
 
 int main() {
+	setlocale(LC_CTYPE,"C-UTF-8");
     initscr();
 	//raw();
 	//cbreak();
@@ -13,7 +16,8 @@ int main() {
 	clear();
 	refresh();
 	int*** level = create_level(n_size, m_size, mine_count);
-	display_grid(level, n_size, m_size);
+	int pointer_position[2] = {0 , 0};
+	display_grid(level, pointer_position, n_size, m_size);
 	getch();
     endwin();
     return 0;
