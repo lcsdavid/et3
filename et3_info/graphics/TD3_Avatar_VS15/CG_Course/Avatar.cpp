@@ -94,19 +94,18 @@ void Avatar::update(double t) {
 	// of the avatar as a function of input time
 	// (use a time scale for controlling the animation speed)
 	if (_velocity[0] || _velocity[1] || _velocity[2]) {
-		//float w = sqrtf(_velocity[0] * _velocity[0] + _velocity[1] * _velocity[1] + _velocity[2] * _velocity[2]) * ANGULAR_SPEED_SCALE;
 		_rightArmAngle = M_PI_4 * fabs(cosf(t + 33.56)) - (M_PI_2 / 3);
 		_leftArmAngle = M_PI_4 * fabs(cosf(t + 33.56 + M_PI_2)) - (M_PI_2 / 3);
 
 		_rightForearmAngle = (M_PI_4 / 3) * fabs(cosf(t + 33.56));
 		_leftForearmAngle = (M_PI_4 / 3) * fabs(-cosf(t + 33.56));
 
-		_rightThighAngle = (M_2_PI / 9)  * fabs(cosf(t)) - (M_PI / 9);
-		_leftThighAngle = (M_2_PI / 9)  * fabs(-cosf(t)) - (M_PI / 9);
+		_rightThighAngle = (M_PI * 2 / 9) * fabs(cosf(t)) - (M_PI / 9);
+		_leftThighAngle = (M_PI * 2 / 9) * fabs(cosf(t + M_PI_2)) - (M_PI / 9);
 
 		_rightLegAngle = (M_PI / 9) * fabs(cosf(t + 33.56 + M_PI_2)) - (M_PI / 9);
-		_leftLegAngle = (M_PI / 9) * fabs(-cosf(t + 33.56 + M_PI_2)) - (M_PI / 9);
-	}	
+		_leftLegAngle = (M_PI / 9) * fabs(cosf(t + 33.56)) - (M_PI / 9);
+	}
 	for (size_t i = 0; i < 3; i++) {
 		// Globally torso is the avatar's position
 		_torso->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;

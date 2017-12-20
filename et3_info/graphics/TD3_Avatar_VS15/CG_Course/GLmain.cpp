@@ -154,6 +154,9 @@ void setup(void) {
 // update function
 void update(void) {
 	double current_time = glfwGetTime() - initial_time;
+	if (!avatar->_velocity[0] && !avatar->_velocity[1] && !avatar->_velocity[2])
+		initial_time = glfwGetTime();
+	
 	avatar->update(current_time);
 }
 
@@ -202,7 +205,6 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-
 		update();
 
 		// projection matrix
@@ -389,20 +391,12 @@ void char_callback(GLFWwindow* window, unsigned int key)
 		eye[2] += 0.5;
 	if (key == 'm')
 		eye[2] -= 0.5;
-	if (key == '8') {
+	if (key == '8')
 		avatar->_velocity[1] += 0.1f;
-		glfwSetTime(0);
-	}
-	if (key == '2') {
+	if (key == '2')
 		avatar->_velocity[1] -= 0.1f;
-		glfwSetTime(0);
-	}
-	if (key == '4') {
+	if (key == '4')
 		avatar->_velocity[0] += 0.1f;
-		glfwSetTime(0);
-	}
-	if (key == '6') {
+	if (key == '6')
 		avatar->_velocity[0] -= 0.1f;
-		glfwSetTime(0);
-	}
-	}
+}
