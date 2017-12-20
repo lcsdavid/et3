@@ -217,8 +217,8 @@ int main(void)
 		glm::vec3 rotationAxis(1, 0, 0);
 
 		// for forearm, thigh, leg models
-		glm::mat4 reshapeMatrix = glm::mat4(glm::vec4(-1, 0, 0, 0),
-			glm::vec4(0, -1, 0, 0), glm::vec4(0, 0, -1, 0), glm::vec4(0, 0, 0, 1));
+		glm::mat4 reshapeMatrix = glm::mat4(glm::vec4(1, 0, 0, 0),
+			glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, -1, 0), glm::vec4(0, 0, 0, 1));
 
 		// Projection: Perspective or Ortho matrix
 		if (perspective) {
@@ -266,73 +266,79 @@ int main(void)
 		avatar->_torso->draw();
 
 		// Head
-		headModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_head->_coords[0],
-			avatar->_head->_coords[1], avatar->_head->_coords[2]));
+		headModelMatrix = torsoModelMatrix // avatar location
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 8.5)); // relative location
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(headModelMatrix));
 		avatar->_head->draw();
 
 		// Right Arm
-		armModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_arm[RIGHT]->_coords[0],
-			avatar->_arm[RIGHT]->_coords[1], avatar->_arm[RIGHT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
+		armModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(3, 0, 7))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightArmAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(armModelMatrix));
 		avatar->_arm[RIGHT]->draw();
 		// Left Arm
-		armModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_arm[LEFT]->_coords[0],
-			avatar->_arm[LEFT]->_coords[1], avatar->_arm[LEFT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
+		armModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(-3, 0, 7))
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftArmAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(armModelMatrix));
 		avatar->_arm[LEFT]->draw();
 
 		// Right Forearm
-		forearmModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_forearm[RIGHT]->_coords[0],
-			avatar->_forearm[RIGHT]->_coords[1], avatar->_forearm[RIGHT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_forearmsAngle, rotationAxis)
-			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
+		forearmModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(3, 0, 2))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightArmAngle, rotationAxis)
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightForearmAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(forearmModelMatrix));
 		avatar->_forearm[RIGHT]->draw();
 		// Left Forearm
-		forearmModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_forearm[LEFT]->_coords[0],
-			avatar->_forearm[LEFT]->_coords[1], avatar->_forearm[LEFT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_forearmsAngle, rotationAxis)
-			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
+		forearmModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(-3, 0, 2))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftArmAngle, rotationAxis)
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftForearmAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(forearmModelMatrix));
 		avatar->_forearm[LEFT]->draw();
 
 		// Right Thigh
-		thighModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_thigh[RIGHT]->_coords[0],
-			avatar->_thigh[RIGHT]->_coords[1], avatar->_thigh[RIGHT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+		thighModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(1.25, 0, 0))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightThighAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(thighModelMatrix));
 		avatar->_thigh[RIGHT]->draw();
 		// Left Thigh
-		thighModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_thigh[LEFT]->_coords[0],
-			avatar->_thigh[LEFT]->_coords[1], avatar->_thigh[LEFT]->_coords[2]))
-			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+		thighModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(-1.25, 0, 0))
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftThighAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(thighModelMatrix));
 		avatar->_thigh[LEFT]->draw();
 
 		// Right Leg
-		legModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_leg[RIGHT]->_coords[0],
-			avatar->_leg[RIGHT]->_coords[1], avatar->_leg[RIGHT]->_coords[2])) 
-			* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
-			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+		legModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(1.25, 0, -5))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightThighAngle, rotationAxis)
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_rightLegAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(legModelMatrix));
 		avatar->_leg[RIGHT]->draw();
 		// Left Leg
-		legModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_leg[LEFT]->_coords[0],
-			avatar->_leg[LEFT]->_coords[1], avatar->_leg[LEFT]->_coords[2]))
+		legModelMatrix = torsoModelMatrix
+			* glm::translate(glm::mat4(1.0f), glm::vec3(-1.25, 0, -5))
 			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 5))
-			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftThighAngle, rotationAxis)
 			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -5))
-			* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_leftLegAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(legModelMatrix));
 		avatar->_leg[LEFT]->draw();
@@ -383,12 +389,20 @@ void char_callback(GLFWwindow* window, unsigned int key)
 		eye[2] += 0.5;
 	if (key == 'm')
 		eye[2] -= 0.5;
-	if (key == '8')
+	if (key == '8') {
 		avatar->_velocity[1] += 0.1f;
-	if(key == '2')
+		glfwSetTime(0);
+	}
+	if (key == '2') {
 		avatar->_velocity[1] -= 0.1f;
-	if (key == '4')
+		glfwSetTime(0);
+	}
+	if (key == '4') {
 		avatar->_velocity[0] += 0.1f;
-	if (key == '6')
+		glfwSetTime(0);
+	}
+	if (key == '6') {
 		avatar->_velocity[0] -= 0.1f;
-}
+		glfwSetTime(0);
+	}
+	}

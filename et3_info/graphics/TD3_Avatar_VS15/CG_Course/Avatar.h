@@ -24,6 +24,9 @@ public:
 	float _Yposition;
 
 	float _velocity[3];
-	float _armsAngle, _forearmsAngle, _thighsAngle, _legsAngle;
+	float _rightArmAngle, _leftArmAngle,
+		_rightForearmAngle, _leftForearmAngle,
+		_rightThighAngle, _leftThighAngle,
+		_rightLegAngle, _leftLegAngle;
 };
 

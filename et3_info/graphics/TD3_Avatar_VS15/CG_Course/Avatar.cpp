@@ -28,6 +28,7 @@ Avatar::Avatar()
 	_leg[RIGHT]->buildCylinder(0.75, 0.25, 5.0, 20);
 
 	// avatar objects coords init
+	/* Needed if we have collision with other objects
 	_head->_coords[0] = 0;
 	_head->_coords[1] = _Yposition;
 	_head->_coords[2] = 8.5f;
@@ -46,18 +47,19 @@ Avatar::Avatar()
 	_forearm[RIGHT]->_coords[0] = -3.0f;
 	_forearm[RIGHT]->_coords[1] = _Yposition;
 	_forearm[RIGHT]->_coords[2] = 2.0f;
-	_thigh[LEFT]->_coords[0] = 1.25f;
+	_thigh[LEFT]->_coords[0] = 1.25;
 	_thigh[LEFT]->_coords[1] = _Yposition;
-	_thigh[LEFT]->_coords[2] = 0;
-	_thigh[RIGHT]->_coords[0] = -1.25f;
+	_thigh[LEFT]->_coords[2] = -5;
+	_thigh[RIGHT]->_coords[0] = -1.25;
 	_thigh[RIGHT]->_coords[1] = _Yposition;
-	_thigh[RIGHT]->_coords[2] = 0;
-	_leg[LEFT]->_coords[0] = 1.25f;
+	_thigh[RIGHT]->_coords[2] = -5;
+	_leg[LEFT]->_coords[0] = 1.25;
 	_leg[LEFT]->_coords[1] = _Yposition;
-	_leg[LEFT]->_coords[2] = -5.0f;
-	_leg[RIGHT]->_coords[0] = -1.25f;
+	_leg[LEFT]->_coords[2] = -10;
+	_leg[RIGHT]->_coords[0] = -1.25;
 	_leg[RIGHT]->_coords[1] = _Yposition;
-	_leg[RIGHT]->_coords[2] = -5.0f;
+	_leg[RIGHT]->_coords[2] = -10;
+	*/
 
 	// initVBO
 	_head->InitVBO();
@@ -92,22 +94,22 @@ void Avatar::update(double t) {
 	// of the avatar as a function of input time
 	// (use a time scale for controlling the animation speed)
 	if (_velocity[0] || _velocity[1] || _velocity[2]) {
-		_armsAngle = (cos(t) / 6 + cos(M_PI_4)) * ANGULAR_SPEED_SCALE;
-		_forearmsAngle = -fabs(cos(t) / 2) * ANGULAR_SPEED_SCALE;
-		_thighsAngle = fabs(cos(t) / 2)  * ANGULAR_SPEED_SCALE;
-		_legsAngle = -fabs(cos(t) / 4) * ANGULAR_SPEED_SCALE;
-	}
+		//float w = sqrtf(_velocity[0] * _velocity[0] + _velocity[1] * _velocity[1] + _velocity[2] * _velocity[2]) * ANGULAR_SPEED_SCALE;
+		_rightArmAngle = M_PI_4 * fabs(cosf(t + 33.56)) - (M_PI_2 / 3);
+		_leftArmAngle = M_PI_4 * fabs(cosf(t + 33.56 + M_PI_2)) - (M_PI_2 / 3);
+
+		_rightForearmAngle = (M_PI_4 / 3) * fabs(cosf(t + 33.56));
+		_leftForearmAngle = (M_PI_4 / 3) * fabs(-cosf(t + 33.56));
+
+		_rightThighAngle = (M_2_PI / 9)  * fabs(cosf(t)) - (M_PI / 9);
+		_leftThighAngle = (M_2_PI / 9)  * fabs(-cosf(t)) - (M_PI / 9);
+
+		_rightLegAngle = (M_PI / 9) * fabs(cosf(t + 33.56 + M_PI_2)) - (M_PI / 9);
+		_leftLegAngle = (M_PI / 9) * fabs(-cosf(t + 33.56 + M_PI_2)) - (M_PI / 9);
+	}	
 	for (size_t i = 0; i < 3; i++) {
-		_head->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
+		// Globally torso is the avatar's position
 		_torso->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_arm[LEFT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_arm[RIGHT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_forearm[LEFT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_forearm[RIGHT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_thigh[LEFT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_thigh[RIGHT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_leg[LEFT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
-		_leg[RIGHT]->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
 	}
 
 }
