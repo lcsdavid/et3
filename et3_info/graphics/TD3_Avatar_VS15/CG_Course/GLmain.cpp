@@ -290,6 +290,7 @@ int main(void)
 		forearmModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_forearm[RIGHT]->_coords[0],
 			avatar->_forearm[RIGHT]->_coords[1], avatar->_forearm[RIGHT]->_coords[2]))
 			* glm::rotate(glm::mat4(1.0f), avatar->_forearmsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(forearmModelMatrix));
 		avatar->_forearm[RIGHT]->draw();
@@ -297,6 +298,7 @@ int main(void)
 		forearmModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_forearm[LEFT]->_coords[0],
 			avatar->_forearm[LEFT]->_coords[1], avatar->_forearm[LEFT]->_coords[2]))
 			* glm::rotate(glm::mat4(1.0f), avatar->_forearmsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_armsAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(forearmModelMatrix));
 		avatar->_forearm[LEFT]->draw();
@@ -319,14 +321,18 @@ int main(void)
 		// Right Leg
 		legModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_leg[RIGHT]->_coords[0],
 			avatar->_leg[RIGHT]->_coords[1], avatar->_leg[RIGHT]->_coords[2])) 
-			//* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
+			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(legModelMatrix));
 		avatar->_leg[RIGHT]->draw();
 		// Left Leg
 		legModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_leg[LEFT]->_coords[0],
 			avatar->_leg[LEFT]->_coords[1], avatar->_leg[LEFT]->_coords[2]))
-			//* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -5))
+			* glm::rotate(glm::mat4(1.0f), avatar->_legsAngle, rotationAxis)
 			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(legModelMatrix));
 		avatar->_leg[LEFT]->draw();
