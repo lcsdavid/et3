@@ -91,6 +91,12 @@ void Avatar::update(double t) {
 	// TODO update the variables for the animation
 	// of the avatar as a function of input time
 	// (use a time scale for controlling the animation speed)
+	if (_velocity[0] || _velocity[1] || _velocity[2]) {
+		_armsAngle = (cos(t) - cos(M_PI_4)) * ANGULAR_SPEED_SCALE;
+		_forearmsAngle = fabs(cos(t)) * ANGULAR_SPEED_SCALE;
+		_thighsAngle = fabs(cos(t)) * ANGULAR_SPEED_SCALE;
+		_legsAngle = fabs(cos(t)) * ANGULAR_SPEED_SCALE;
+	}
 	for (size_t i = 0; i < 3; i++) {
 		_head->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;
 		_torso->_coords[i] += _velocity[i] * LINEAR_SPEED_SCALE;

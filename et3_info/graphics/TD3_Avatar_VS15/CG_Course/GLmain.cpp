@@ -209,12 +209,12 @@ int main(void)
 		glm::mat4 projectionMatrix; // Store the projection matrix
 		glm::mat4 viewMatrix; // Store the view matrix
 		glm::mat4 torsoModelMatrix; // Store the model matrix
-		glm::mat4 modelMatrix1, modelMatrix2; // working model matrices
 		glm::mat4 headModelMatrix;
 		glm::mat4 armModelMatrix;
 		glm::mat4 forearmModelMatrix;
 		glm::mat4 thighModelMatrix;
 		glm::mat4 legModelMatrix;
+		glm::vec3 rotationAxis(1, 0, 0);
 
 		// for forearm, thigh, leg models
 		glm::mat4 reshapeMatrix = glm::mat4(glm::vec4(-1, 0, 0, 0),
@@ -306,7 +306,9 @@ int main(void)
 
 		// Right Thigh
 		legModelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(avatar->_leg[RIGHT]->_coords[0],
-			avatar->_leg[RIGHT]->_coords[1], avatar->_leg[RIGHT]->_coords[2])) * reshapeMatrix;
+			avatar->_leg[RIGHT]->_coords[1], avatar->_leg[RIGHT]->_coords[2])) 
+			* glm::rotate(glm::mat4(1.0f), avatar->_thighsAngle, rotationAxis)
+			* reshapeMatrix;
 		glUniformMatrix4fv(uniform_model, 1, GL_FALSE, glm::value_ptr(legModelMatrix));
 		avatar->_leg[RIGHT]->draw();
 		// Left Thigh
@@ -361,4 +363,12 @@ void char_callback(GLFWwindow* window, unsigned int key)
 		eye[2] += 0.5;
 	if (key == 'm')
 		eye[2] -= 0.5;
+	if (key == '8')
+		avatar->_velocity[1] += 0.1f;
+	if(key == '2')
+		avatar->_velocity[1] -= 0.1f;
+	if (key == '4')
+		avatar->_velocity[0] += 0.1f;
+	if (key == '6')
+		avatar->_velocity[0] -= 0.1f;
 }
