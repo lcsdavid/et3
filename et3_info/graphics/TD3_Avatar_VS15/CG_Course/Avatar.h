@@ -23,7 +23,7 @@ public:
 
 	float _Yposition;
 
-	float _velocity[3];
+	double _velocity[3];
 	float _rightArmAngle, _leftArmAngle,
 		_rightForearmAngle, _leftForearmAngle,
 		_rightThighAngle, _leftThighAngle,

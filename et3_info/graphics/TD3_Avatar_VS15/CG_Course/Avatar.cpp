@@ -93,7 +93,7 @@ void Avatar::update(double t) {
 	// TODO update the variables for the animation
 	// of the avatar as a function of input time
 	// (use a time scale for controlling the animation speed)
-	if (_velocity[0] || _velocity[1] || _velocity[2]) {
+	if (_velocity[0] != 0. || _velocity[1] != 0. || _velocity[2] != 0.) {
 		_rightArmAngle = M_PI_4 * fabs(cosf(t + 33.56)) - (M_PI_2 / 3);
 		_leftArmAngle = M_PI_4 * fabs(cosf(t + 33.56 + M_PI_2)) - (M_PI_2 / 3);
 

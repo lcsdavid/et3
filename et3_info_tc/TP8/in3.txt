@@ -1,0 +1,4 @@
+Leroy: A 15 B 12 C 14 D 18
+Sapin: A 12 F 13 B 13 C 12
+Dubois: A 18 D 16 Z 14
+Lachaize: A 13
