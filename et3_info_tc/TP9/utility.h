@@ -4,6 +4,7 @@
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a < b ? b : a)
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 

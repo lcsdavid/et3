@@ -12,7 +12,7 @@ typedef struct {
 /* Basic constructor */
 histogram_t * histogram_image(const image_t * image);
 
-/* Draw histogram in file (filepath). */
-void write_histogram(const histogram_t * histogram, const char * filepath);
+/* Draw histogram in file (filepath). Return 1 if succeed, 0 else. */
+int write_histogram(const histogram_t * histogram, const char * filepath);
 
 #endif
