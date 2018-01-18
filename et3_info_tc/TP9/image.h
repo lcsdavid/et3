@@ -13,10 +13,10 @@ typedef struct {
     uint8_t ** pixels;
 } image_t;
 
-/* Basic constructor */
+/* Basic constructor (image is by default white) */
 image_t * create_image(int height, int width, int vmax);
 
-/* Basic constructor with default vmax = 0 */
+/* Basic constructor with default vmax = 255 (image is by default white) */
 image_t * create_image_hw(int height, int width);
 
 /* Copies image */

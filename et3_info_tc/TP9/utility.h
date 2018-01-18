@@ -21,4 +21,7 @@ void merge_gamut(uint8_t ** A, size_t left, size_t right, size_t end, uint8_t **
 /* Copy array for gamut array */
 void copy_array_gamut(uint8_t ** A, uint8_t ** B, size_t n);
 
+/* Returns index if value in array else 0 */
+int in_gamut(uint8_t ** array, size_t n, uint8_t value);
+
 #endif
