@@ -1,3 +1,6 @@
 # exclude binary files and executable
 *.o
 TP[1-8]/TP[1-8]*
+
+TP9/*.c
+TP9/*.o
