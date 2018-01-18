@@ -6,9 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define min(a, b) (a < b ? a : b)
-#define max(a, b) (a < b ? b : a)
-
 #include "utility.h"
 
 typedef struct {
