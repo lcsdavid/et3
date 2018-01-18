@@ -5,8 +5,7 @@
 #include "utility.h"
 
 typedef struct {
-    size_t size;
-    uint8_t * intensity;
+    int * intensity;
 } histogram_t;
 
 /* Basic constructor */
