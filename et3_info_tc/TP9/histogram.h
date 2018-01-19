@@ -4,7 +4,9 @@
 #include "image.h"
 #include "utility.h"
 
-typedef struct {
+typedef struct Image image_t;
+
+typedef struct Histogram {
     int * intensity;
 } histogram_t;
 

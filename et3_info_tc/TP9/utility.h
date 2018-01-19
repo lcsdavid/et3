@@ -1,8 +1,11 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <string.h>
+
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a < b ? b : a)
+
 
 #include <stdint.h>
 #include <stdio.h>
@@ -12,16 +15,6 @@ void out_of_memory(const char * context);
 
 void out_of_bounds(const char * context);
 
-/* Special merge_sort algo for gamut array. */
-void merge_sort_gamut(uint8_t ** A, size_t n);
-
-/* Special merge algo for gamut array. */
-void merge_gamut(uint8_t ** A, size_t left, size_t right, size_t end, uint8_t ** B);
-
-/* Copy array for gamut array */
-void copy_array_gamut(uint8_t ** A, uint8_t ** B, size_t n);
-
-/* Returns index if value in array else 0 */
-int in_gamut(uint8_t ** array, size_t n, uint8_t value);
+char * modify_filepath(const char * filepath, const char * prefix);
 
 #endif

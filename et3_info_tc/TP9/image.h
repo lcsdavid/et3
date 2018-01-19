@@ -6,9 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "histogram.h"
 #include "utility.h"
 
-typedef struct {
+typedef struct Histogram histogram_t;
+
+typedef struct Image {
     int height, width, vmax;
     uint8_t ** pixels;
 } image_t;
@@ -42,5 +45,15 @@ int write_image(const image_t * image, const char * filepath, const char * desc)
 
 /* Adapts contrast in a copied image. */
 image_t * adapt_contrast_image(const image_t * image, float k);
+
+void grey_to_bw(image_t * image);
+
+void erosion(image_t * image);
+
+void dilatation(image_t * image);
+
+void opening(image_t * image);
+
+void closing(image_t * image);
 
  #endif
