@@ -1,0 +1,62 @@
+\hypertarget{utility_8c}{}\section{src/utility.c File Reference}
+\label{utility_8c}\index{src/utility.\+c@{src/utility.\+c}}
+{\ttfamily \#include \char`\"{}utility.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}{modify\+\_\+filepath}} (const char $\ast$filepath, const char $\ast$prefix)
+\item 
+void \mbox{\hyperlink{utility_8c_a4ecae2a7906b3cfe535a5002b4d7e9bc}{out\+\_\+of\+\_\+memory}} (const char $\ast$context)
+\item 
+void \mbox{\hyperlink{utility_8c_a14e2cccf116e049d81795a9515e3edd8}{out\+\_\+of\+\_\+bounds}} (const char $\ast$context)
+\item 
+void \mbox{\hyperlink{utility_8c_a853216ac51aa181669ff4d3de74058a7}{print\+\_\+help}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}\label{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}} 
+\index{utility.\+c@{utility.\+c}!modify\+\_\+filepath@{modify\+\_\+filepath}}
+\index{modify\+\_\+filepath@{modify\+\_\+filepath}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{modify\+\_\+filepath()}{modify\_filepath()}}
+{\footnotesize\ttfamily char$\ast$ modify\+\_\+filepath (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filepath,  }\item[{const char $\ast$}]{prefix }\end{DoxyParamCaption})}
+
+Format filepath in function of a given prefix. 
+\begin{DoxyParams}{Parameters}
+{\em filepath} & \\
+\hline
+{\em prefix} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new\+\_\+filepath 
+\end{DoxyReturn}
+\mbox{\Hypertarget{utility_8c_a14e2cccf116e049d81795a9515e3edd8}\label{utility_8c_a14e2cccf116e049d81795a9515e3edd8}} 
+\index{utility.\+c@{utility.\+c}!out\+\_\+of\+\_\+bounds@{out\+\_\+of\+\_\+bounds}}
+\index{out\+\_\+of\+\_\+bounds@{out\+\_\+of\+\_\+bounds}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{out\+\_\+of\+\_\+bounds()}{out\_of\_bounds()}}
+{\footnotesize\ttfamily void out\+\_\+of\+\_\+bounds (\begin{DoxyParamCaption}\item[{const char $\ast$}]{context }\end{DoxyParamCaption})}
+
+Out of bounds error. 
+\begin{DoxyParams}{Parameters}
+{\em context} & Can be the function and/or the line which triggered this error. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utility_8c_a4ecae2a7906b3cfe535a5002b4d7e9bc}\label{utility_8c_a4ecae2a7906b3cfe535a5002b4d7e9bc}} 
+\index{utility.\+c@{utility.\+c}!out\+\_\+of\+\_\+memory@{out\+\_\+of\+\_\+memory}}
+\index{out\+\_\+of\+\_\+memory@{out\+\_\+of\+\_\+memory}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{out\+\_\+of\+\_\+memory()}{out\_of\_memory()}}
+{\footnotesize\ttfamily void out\+\_\+of\+\_\+memory (\begin{DoxyParamCaption}\item[{const char $\ast$}]{context }\end{DoxyParamCaption})}
+
+Out of memory error. 
+\begin{DoxyParams}{Parameters}
+{\em context} & Can be the function and/or the line which triggered this error. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utility_8c_a853216ac51aa181669ff4d3de74058a7}\label{utility_8c_a853216ac51aa181669ff4d3de74058a7}} 
+\index{utility.\+c@{utility.\+c}!print\+\_\+help@{print\+\_\+help}}
+\index{print\+\_\+help@{print\+\_\+help}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{print\+\_\+help()}{print\_help()}}
+{\footnotesize\ttfamily void print\+\_\+help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Formatted output which explains how works application. 

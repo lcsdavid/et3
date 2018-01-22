@@ -1,0 +1,56 @@
+\hypertarget{histogram_8c}{}\section{src/histogram.c File Reference}
+\label{histogram_8c}\index{src/histogram.\+c@{src/histogram.\+c}}
+{\ttfamily \#include \char`\"{}histogram.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}} $\ast$ \mbox{\hyperlink{histogram_8c_a3660c48ebd25ca72b53ac877333e9583}{histogram\+\_\+image}} (const \mbox{\hyperlink{histogram_8h_a1cc7469813b385e72a49b98203520b5b}{image\+\_\+t}} $\ast$image)
+\item 
+void \mbox{\hyperlink{histogram_8c_a171a3ca8394d3d9ab77a50b826706b5e}{delete\+\_\+histogram}} (\mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}} $\ast$histogram)
+\item 
+int \mbox{\hyperlink{histogram_8c_a22c1c106f4363fb167c1eb2b0f066055}{write\+\_\+histogram}} (const \mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}} $\ast$histogram, const char $\ast$filepath)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{histogram_8c_a171a3ca8394d3d9ab77a50b826706b5e}\label{histogram_8c_a171a3ca8394d3d9ab77a50b826706b5e}} 
+\index{histogram.\+c@{histogram.\+c}!delete\+\_\+histogram@{delete\+\_\+histogram}}
+\index{delete\+\_\+histogram@{delete\+\_\+histogram}!histogram.\+c@{histogram.\+c}}
+\subsubsection{\texorpdfstring{delete\+\_\+histogram()}{delete\_histogram()}}
+{\footnotesize\ttfamily void delete\+\_\+histogram (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}} $\ast$}]{histogram }\end{DoxyParamCaption})}
+
+Delete allocated memory. 
+\begin{DoxyParams}{Parameters}
+{\em histogram} & to delete. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{histogram_8c_a3660c48ebd25ca72b53ac877333e9583}\label{histogram_8c_a3660c48ebd25ca72b53ac877333e9583}} 
+\index{histogram.\+c@{histogram.\+c}!histogram\+\_\+image@{histogram\+\_\+image}}
+\index{histogram\+\_\+image@{histogram\+\_\+image}!histogram.\+c@{histogram.\+c}}
+\subsubsection{\texorpdfstring{histogram\+\_\+image()}{histogram\_image()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}}$\ast$ histogram\+\_\+image (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{histogram_8h_a1cc7469813b385e72a49b98203520b5b}{image\+\_\+t}} $\ast$}]{image }\end{DoxyParamCaption})}
+
+Constructor of histogram\+\_\+t type. Count number of pixel for each intensity of grey (between 0 and 255). 
+\begin{DoxyParams}{Parameters}
+{\em image} & Evaluated image\+\_\+t. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If image not valid \+: N\+U\+LL else histogram\+\_\+t of image. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{histogram_8c_a22c1c106f4363fb167c1eb2b0f066055}\label{histogram_8c_a22c1c106f4363fb167c1eb2b0f066055}} 
+\index{histogram.\+c@{histogram.\+c}!write\+\_\+histogram@{write\+\_\+histogram}}
+\index{write\+\_\+histogram@{write\+\_\+histogram}!histogram.\+c@{histogram.\+c}}
+\subsubsection{\texorpdfstring{write\+\_\+histogram()}{write\_histogram()}}
+{\footnotesize\ttfamily int write\+\_\+histogram (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{histogram_8h_a1b8f1c8c3d2e0579bfb239a5febd3517}{histogram\+\_\+t}} $\ast$}]{histogram,  }\item[{const char $\ast$}]{filepath }\end{DoxyParamCaption})}
+
+Draw histogram in an image\+\_\+t and save it. 
+\begin{DoxyParams}{Parameters}
+{\em histogram} & histogram\+\_\+t to draw and save. \\
+\hline
+{\em filepath} & location of file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If success \+: 1 else 0. 
+\end{DoxyReturn}
