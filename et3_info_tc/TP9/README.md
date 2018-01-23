@@ -16,7 +16,7 @@ On peut recevoir une aide en exécutant l'application avec l'option suivante :
 | Histogramme          | `-h,  --histogram`      | `[FILE] (entrée) ([FILE] (sortie))`         |
 | Opening              | `-o,  --opening`        | `[FILE] (entrée) ([FILE] (sortie))`         |
 
-Par défaut les images seront stockés dans un dossier (out/) à la racine de l’exécutable.
+Par défaut les images seront stockés dans un dossier (out) à la racine de l’exécutable.
 Si une sortie est précisé l'image sera stocké à la destination indiqué sous réserve de la validité de la sortie fourni.
 Dans le cas ou la sortie spécifié nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.
 
@@ -36,7 +36,7 @@ Il y a une [documentation][doxygen_doc] généré sous Doxygen dans le dossier [
 Erreur dans les fichiers .pgm
 --------
 Si le fichier comporte une erreur dans la majorité des cas l'application indique que le fichier est corrompu.
-Dans certain cas, l'application va indiqué à l'utilisateur qu'il va essayer tant bien que mal de "deviner" où est l'erreur dans l'image et ainsi la corrigé.
+Dans certain cas, l'application va indiqué à l'utilisateur qu'il va essayer tant bien que mal de "deviner" où est l'erreur dans l'image et ainsi la corriger.
 
 Fichier
 ------
