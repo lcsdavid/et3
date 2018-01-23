@@ -5,6 +5,7 @@
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -22,6 +23,8 @@ void \mbox{\hyperlink{utility_8h_a4ecae2a7906b3cfe535a5002b4d7e9bc}{out\+\_\+of\
 void \mbox{\hyperlink{utility_8h_a14e2cccf116e049d81795a9515e3edd8}{out\+\_\+of\+\_\+bounds}} (const char $\ast$context)
 \item 
 void \mbox{\hyperlink{utility_8h_a853216ac51aa181669ff4d3de74058a7}{print\+\_\+help}} ()
+\item 
+void \mbox{\hyperlink{utility_8h_a0d9fb1f3a32de2d46e5da3568a457c19}{create\+\_\+folder}} (const char $\ast$filepath)
 \end{DoxyCompactItemize}
 
 
@@ -41,6 +44,17 @@ void \mbox{\hyperlink{utility_8h_a853216ac51aa181669ff4d3de74058a7}{print\+\_\+h
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{utility_8h_a0d9fb1f3a32de2d46e5da3568a457c19}\label{utility_8h_a0d9fb1f3a32de2d46e5da3568a457c19}} 
+\index{utility.\+h@{utility.\+h}!create\+\_\+folder@{create\+\_\+folder}}
+\index{create\+\_\+folder@{create\+\_\+folder}!utility.\+h@{utility.\+h}}
+\subsubsection{\texorpdfstring{create\+\_\+folder()}{create\_folder()}}
+{\footnotesize\ttfamily void create\+\_\+folder (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filepath }\end{DoxyParamCaption})}
+
+Create a folder according to the given path. 
+\begin{DoxyParams}{Parameters}
+{\em filepath} & \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{utility_8h_a8a5bebf926ba5ea2d3fb315f88ef55e1}\label{utility_8h_a8a5bebf926ba5ea2d3fb315f88ef55e1}} 
 \index{utility.\+h@{utility.\+h}!modify\+\_\+filepath@{modify\+\_\+filepath}}
 \index{modify\+\_\+filepath@{modify\+\_\+filepath}!utility.\+h@{utility.\+h}}

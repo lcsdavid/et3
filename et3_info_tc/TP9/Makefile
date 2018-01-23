@@ -13,7 +13,6 @@ CFLAGs := -Wall -O3
 
 SRC_DIR := src
 OBJ_DIR := obj
-BIN_DIR := bin
 
 SRCs := $(wildcard $(SRC_DIR)/*.c)
 OBJs := $(SRCs:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a < b ? b : a)
@@ -34,5 +35,11 @@ void out_of_bounds(const char * context);
  *  Formatted output which explains how works application.
  */
 void print_help();
+
+/**
+ * Create a folder according to the given path.
+ * @param filepath
+ */
+void create_folder(const char * filepath);
 
 #endif

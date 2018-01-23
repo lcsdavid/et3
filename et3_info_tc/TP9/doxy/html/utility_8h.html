@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="baboon.jpg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">pgm
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
   </td>
  </tr>
@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('utility_8h.html','');});
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
 </div>
 <p><a href="utility_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -119,6 +120,8 @@ Functions</h2></td></tr>
 <tr class="separator:a14e2cccf116e049d81795a9515e3edd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a853216ac51aa181669ff4d3de74058a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a853216ac51aa181669ff4d3de74058a7">print_help</a> ()</td></tr>
 <tr class="separator:a853216ac51aa181669ff4d3de74058a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d9fb1f3a32de2d46e5da3568a457c19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a0d9fb1f3a32de2d46e5da3568a457c19">create_folder</a> (const char *filepath)</td></tr>
+<tr class="separator:a0d9fb1f3a32de2d46e5da3568a457c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="affe776513b24d84b39af8ab0930fef7f"></a>
@@ -178,6 +181,30 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a0d9fb1f3a32de2d46e5da3568a457c19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d9fb1f3a32de2d46e5da3568a457c19">&#9670;&nbsp;</a></span>create_folder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void create_folder </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filepath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Create a folder according to the given path. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filepath</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8a5bebf926ba5ea2d3fb315f88ef55e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a5bebf926ba5ea2d3fb315f88ef55e1">&#9670;&nbsp;</a></span>modify_filepath()</h2>
 
