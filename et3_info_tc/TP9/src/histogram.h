@@ -10,7 +10,7 @@ typedef struct Image image_t;
  * /struct histogram_t as the number of pixel for each intensity (proportion[256]) of grey (between 0 and 255) of a given image_t.
  */
 typedef struct Histogram {
-    int * proportion;
+    int proportion[256];
 } histogram_t;
 
 /**

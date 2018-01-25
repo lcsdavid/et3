@@ -11,13 +11,7 @@
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a < b ? b : a)
 
-/**
- * Format filepath in function of a given prefix.
- * @param filepath
- * @param prefix
- * @return new_filepath
- */
-char * modify_filepath(const char * filepath, const char * prefix);
+// Error handling
 
 /**
  * Out of memory error.
@@ -30,6 +24,14 @@ void out_of_memory(const char * context);
  * @param context Can be the function and/or the line which triggered this error.
  */
 void out_of_bounds(const char * context);
+
+// File parsing
+
+void end_line(FILE * file);
+
+void skip_comments(FILE * file);
+
+// Display
 
 /**
  *  Formatted output which explains how works application.
