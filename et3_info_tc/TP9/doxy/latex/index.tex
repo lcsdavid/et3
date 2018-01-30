@@ -1,16 +1,18 @@
 pgm est une application permettant de manipuler des fichiers .pgm avec plusieurs opérations.
 
-On peut recevoir une aide en exécutant l\textquotesingle{}application avec l\textquotesingle{}option suivante \+: {\ttfamily \$ ./pgm -\/-\/help}
+On peut recevoir une aide en exécutant l\textquotesingle{}application avec l\textquotesingle{}option suivante \+: {\ttfamily -\/-\/help}
+
+Ex\+: {\ttfamily ./pgm -\/-\/help}
 
 \tabulinesep=1mm
 \begin{longtabu} spread 0pt [c]{*{3}{|X[-1]}|}
 \hline
-\rowcolor{\tableheadbgcolor}\textbf{ Opérations  }&\textbf{ Commande  }&\textbf{ Variables   }\\\cline{1-3}
+\rowcolor{\tableheadbgcolor}\textbf{ Opérations  }&\textbf{ Commandes  }&\textbf{ Variables   }\\\cline{1-3}
 \endfirsthead
 \hline
 \endfoot
 \hline
-\rowcolor{\tableheadbgcolor}\textbf{ Opérations  }&\textbf{ Commande  }&\textbf{ Variables   }\\\cline{1-3}
+\rowcolor{\tableheadbgcolor}\textbf{ Opérations  }&\textbf{ Commandes  }&\textbf{ Variables   }\\\cline{1-3}
 \endhead
 Adapter le contraste  &{\ttfamily -\/ac, -\/-\/adapt-\/contrast}  &{\ttfamily \mbox{[}V\+A\+L\+UE\mbox{]} \mbox{[}F\+I\+LE\mbox{]} (entrée) (\mbox{[}F\+I\+LE\mbox{]} (sortie))}   \\\cline{1-3}
 Noir et blanc  &{\ttfamily -\/bw, -\/-\/black-\/n-\/white}  &{\ttfamily \mbox{[}F\+I\+LE\mbox{]} (entrée) (\mbox{[}F\+I\+LE\mbox{]} (sortie))}   \\\cline{1-3}
@@ -23,11 +25,13 @@ Opening  &{\ttfamily -\/o, -\/-\/opening}  &{\ttfamily \mbox{[}F\+I\+LE\mbox{]} 
 \end{longtabu}
 
 
-Par défaut les images seront stockés dans un dossier (out/) à la racine de l’exécutable. Si une sortie est précisé l\textquotesingle{}image sera stocké à la destination indiqué sous réserve de la validité de la sortie fourni. Dans le cas ou la sortie spécifié nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.
+Par défaut les images seront stockées dans un dossier (out) à la racine de l’exécutable. Si une sortie est précisée l\textquotesingle{}image sera stockée à la destination indiquée sous réserve de la validité de la sortie fournie. Dans le cas où la sortie spécifiée nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.
 
 \subsection*{Compilation }
 
-Pour compiler la seul chose à faire est d\textquotesingle{}exécuter la commande suivante\+: {\ttfamily make}
+Pour compiler il faut utiliser le Makefile\+: {\ttfamily make}
+
+{\ttfamily make clean} supprime les .o et le binaire (ne fonctionne que sous Linux).
 
 Le Makefile compile tout le contenu du dossier src. Il prend en compte quel est le système d\textquotesingle{}exploitation pour changer la cible\+: {\ttfamily pgm $\vert$ pgm.\+exe $\vert$ pgm.\+app}
 
@@ -35,13 +39,34 @@ L\textquotesingle{}application est compilable sur toute plateforme\+: Windows, U
 
 \subsection*{Documentation }
 
-Il y a une \href{doxy/html/index.html}{\tt documentation} généré sous Doxygen dans le dossier \href{doxy/}{\tt doxy}.
+Il y a une \href{doxy/html/index.html}{\tt documentation} générée sous Doxygen dans le dossier \href{doxy/}{\tt doxy}.
 
-\subsection*{Erreur dans les fichiers .pgm }
+\subsection*{Ce qu\textquotesingle{}il y a à dire sur les questions }
 
-Si le fichier comporte une erreur dans la majorité des cas l\textquotesingle{}application indique que le fichier est corrompu. Dans certain cas, l\textquotesingle{}application va indiqué à l\textquotesingle{}utilisateur qu\textquotesingle{}il va essayer tant bien que mal de \char`\"{}deviner\char`\"{} où est l\textquotesingle{}erreur dans l\textquotesingle{}image et ainsi la corrigé.
+Pour diriger le programme cela marche en ligne de commande. Il faut passer en argument ce que l\textquotesingle{}on veut faire (cf. ci-\/dessus).
 
-\subsection*{Fichier }
+Pour la partie image il était nécessaire de créer un constructeur et destructeur de image\+\_\+t. Un copy\+\_\+image au cas où.. Pour l\textquotesingle{}histogramme il y a le constructeur, destructeur et le write.
+
+Pour le noir et blanc, on calcul l\textquotesingle{}histogramme au préalable pour établir s comme la valeur de gris la plus représentée. On determine en fonction de se qui est blanc ou noir.
+
+Chaque fonction qui modifie une image le fait par paramètre et renvoie tout de même le pointeur de l\textquotesingle{}image. Cela permet de faire des {\ttfamily if(!adapt-\/contrast(image)) \{ /$\ast$ erreur $\ast$/ \}} pour détecter plus facilement les erreurs via pointeurs null.
+
+\subsection*{Ce dont nous sommes fière du -\/ au + }
+
+
+\begin{DoxyItemize}
+\item La bonne compilation du code + les fonctions bonus.
+\item Le Makefile qui est suffisament généralisé pour compiler tout ce qu\textquotesingle{}il y a dans src/ (hors library).
+\item Ce Doxyfile + l\textquotesingle{}utilisation du Markdown pour le R\+E\+A\+D\+ME.
+\item L\textquotesingle{}esthétique de mon application qui a pour but d\textquotesingle{}imiter le princie des commandes sous bash.
+\item La possibilité de choisir le fichier de sortie + la création de dossier dans le cas où il est inexistant.
+\end{DoxyItemize}
+
+\subsection*{Difficulté }
+
+Pas de difficulté apparente.
+
+\subsection*{Fichiers }
 
 Les sources et headers sont stockés dans le dossier src. Les objects dans le dossier obj.
 
@@ -64,6 +89,6 @@ Les sources et headers sont stockés dans le dossier src. Les objects dans le do
 
 \subsection*{Auteurs }
 
-\href{mailto:lucas.david@u-psud.fr}{\tt Lucas David} \+: E\+T3 Info
+\href{mailto:lucas.david@u-psud.fr}{\tt Lucas David} \+: E\+T3 I\+N\+FO
 
 \href{mailto:robin.matha@u-psud.fr}{\tt Robin Matha}\+: E\+T3 P\+SO 

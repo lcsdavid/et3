@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -27,9 +28,24 @@ void out_of_bounds(const char * context);
 
 // File parsing
 
+/**
+ *  End the line in a file.
+ *  @param file
+ */
 void end_line(FILE * file);
 
+/**
+ *  Skip every line which begins by #.
+ *  @param file
+ */
 void skip_comments(FILE * file);
+
+/**
+ *  Check if there is data before reach end of file.
+ *  @param file
+	@return if data return 0 if not 1
+ */
+int check_eof(FILE * file);
 
 // Display
 

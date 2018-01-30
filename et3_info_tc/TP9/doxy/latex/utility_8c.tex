@@ -4,11 +4,15 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-char $\ast$ \mbox{\hyperlink{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}{modify\+\_\+filepath}} (const char $\ast$filepath, const char $\ast$prefix)
-\item 
 void \mbox{\hyperlink{utility_8c_a4ecae2a7906b3cfe535a5002b4d7e9bc}{out\+\_\+of\+\_\+memory}} (const char $\ast$context)
 \item 
 void \mbox{\hyperlink{utility_8c_a14e2cccf116e049d81795a9515e3edd8}{out\+\_\+of\+\_\+bounds}} (const char $\ast$context)
+\item 
+void \mbox{\hyperlink{utility_8c_a1aabab7a47d7af7dcf9264b4befa1e61}{end\+\_\+line}} (F\+I\+LE $\ast$file)
+\item 
+void \mbox{\hyperlink{utility_8c_aed8d5a4d7019f2b8128fa76caedb1b30}{skip\+\_\+comments}} (F\+I\+LE $\ast$file)
+\item 
+int \mbox{\hyperlink{utility_8c_ae9b0e7ad392abd44ff33abc54b8d655c}{check\+\_\+eof}} (F\+I\+LE $\ast$file)
 \item 
 void \mbox{\hyperlink{utility_8c_a853216ac51aa181669ff4d3de74058a7}{print\+\_\+help}} ()
 \item 
@@ -17,6 +21,20 @@ void \mbox{\hyperlink{utility_8c_a0d9fb1f3a32de2d46e5da3568a457c19}{create\+\_\+
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{utility_8c_ae9b0e7ad392abd44ff33abc54b8d655c}\label{utility_8c_ae9b0e7ad392abd44ff33abc54b8d655c}} 
+\index{utility.\+c@{utility.\+c}!check\+\_\+eof@{check\+\_\+eof}}
+\index{check\+\_\+eof@{check\+\_\+eof}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{check\+\_\+eof()}{check\_eof()}}
+{\footnotesize\ttfamily int check\+\_\+eof (\begin{DoxyParamCaption}\item[{F\+I\+LE $\ast$}]{file }\end{DoxyParamCaption})}
+
+Check if there is data before reach end of file. 
+\begin{DoxyParams}{Parameters}
+{\em file} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if data return 0 if not 1 
+\end{DoxyReturn}
 \mbox{\Hypertarget{utility_8c_a0d9fb1f3a32de2d46e5da3568a457c19}\label{utility_8c_a0d9fb1f3a32de2d46e5da3568a457c19}} 
 \index{utility.\+c@{utility.\+c}!create\+\_\+folder@{create\+\_\+folder}}
 \index{create\+\_\+folder@{create\+\_\+folder}!utility.\+c@{utility.\+c}}
@@ -28,22 +46,17 @@ Create a folder according to the given path.
 {\em filepath} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}\label{utility_8c_a8a5bebf926ba5ea2d3fb315f88ef55e1}} 
-\index{utility.\+c@{utility.\+c}!modify\+\_\+filepath@{modify\+\_\+filepath}}
-\index{modify\+\_\+filepath@{modify\+\_\+filepath}!utility.\+c@{utility.\+c}}
-\subsubsection{\texorpdfstring{modify\+\_\+filepath()}{modify\_filepath()}}
-{\footnotesize\ttfamily char$\ast$ modify\+\_\+filepath (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filepath,  }\item[{const char $\ast$}]{prefix }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{utility_8c_a1aabab7a47d7af7dcf9264b4befa1e61}\label{utility_8c_a1aabab7a47d7af7dcf9264b4befa1e61}} 
+\index{utility.\+c@{utility.\+c}!end\+\_\+line@{end\+\_\+line}}
+\index{end\+\_\+line@{end\+\_\+line}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{end\+\_\+line()}{end\_line()}}
+{\footnotesize\ttfamily void end\+\_\+line (\begin{DoxyParamCaption}\item[{F\+I\+LE $\ast$}]{file }\end{DoxyParamCaption})}
 
-Format filepath in function of a given prefix. 
+End the line in a file. 
 \begin{DoxyParams}{Parameters}
-{\em filepath} & \\
-\hline
-{\em prefix} & \\
+{\em file} & \\
 \hline
 \end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-new\+\_\+filepath 
-\end{DoxyReturn}
 \mbox{\Hypertarget{utility_8c_a14e2cccf116e049d81795a9515e3edd8}\label{utility_8c_a14e2cccf116e049d81795a9515e3edd8}} 
 \index{utility.\+c@{utility.\+c}!out\+\_\+of\+\_\+bounds@{out\+\_\+of\+\_\+bounds}}
 \index{out\+\_\+of\+\_\+bounds@{out\+\_\+of\+\_\+bounds}!utility.\+c@{utility.\+c}}
@@ -72,4 +85,14 @@ Out of memory error.
 \subsubsection{\texorpdfstring{print\+\_\+help()}{print\_help()}}
 {\footnotesize\ttfamily void print\+\_\+help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Formatted output which explains how works application. 
+Formatted output which explains how works application. \mbox{\Hypertarget{utility_8c_aed8d5a4d7019f2b8128fa76caedb1b30}\label{utility_8c_aed8d5a4d7019f2b8128fa76caedb1b30}} 
+\index{utility.\+c@{utility.\+c}!skip\+\_\+comments@{skip\+\_\+comments}}
+\index{skip\+\_\+comments@{skip\+\_\+comments}!utility.\+c@{utility.\+c}}
+\subsubsection{\texorpdfstring{skip\+\_\+comments()}{skip\_comments()}}
+{\footnotesize\ttfamily void skip\+\_\+comments (\begin{DoxyParamCaption}\item[{F\+I\+LE $\ast$}]{file }\end{DoxyParamCaption})}
+
+Skip every line which begins by \#. 
+\begin{DoxyParams}{Parameters}
+{\em file} & \\
+\hline
+\end{DoxyParams}

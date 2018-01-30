@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width',['width',['../struct_image.html#a2474a5474cbff19523a51eb1de01cda4',1,'Image']]]
+  ['vmax',['vmax',['../struct_image.html#aeb4eb9ad2dc148d828a7f6e270aa0f09',1,'Image']]]
 ];

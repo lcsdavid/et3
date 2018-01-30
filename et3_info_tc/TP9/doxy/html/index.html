@@ -92,10 +92,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>pgm est une application permettant de manipuler des fichiers .pgm avec plusieurs opérations.</p>
-<p>On peut recevoir une aide en exécutant l'application avec l'option suivante : <code>$ ./pgm --help</code></p>
+<p>On peut recevoir une aide en exécutant l'application avec l'option suivante : <code>--help</code></p>
+<p>Ex: <code>./pgm --help</code></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Opérations  </th><th class="markdownTableHeadNone">Commande  </th><th class="markdownTableHeadNone">Variables   </th></tr>
+<th class="markdownTableHeadNone">Opérations  </th><th class="markdownTableHeadNone">Commandes  </th><th class="markdownTableHeadNone">Variables   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Adapter le contraste  </td><td class="markdownTableBodyNone"><code>-ac, --adapt-contrast</code>  </td><td class="markdownTableBodyNone"><code>[VALUE] [FILE] (entrée) ([FILE] (sortie))</code>   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
@@ -113,16 +114,30 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Opening  </td><td class="markdownTableBodyNone"><code>-o, --opening</code>  </td><td class="markdownTableBodyNone"><code>[FILE] (entrée) ([FILE] (sortie))</code>   </td></tr>
 </table>
-<p>Par défaut les images seront stockés dans un dossier (out/) à la racine de l’exécutable. Si une sortie est précisé l'image sera stocké à la destination indiqué sous réserve de la validité de la sortie fourni. Dans le cas ou la sortie spécifié nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.</p>
+<p>Par défaut les images seront stockées dans un dossier (out) à la racine de l’exécutable. Si une sortie est précisée l'image sera stockée à la destination indiquée sous réserve de la validité de la sortie fournie. Dans le cas où la sortie spécifiée nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.</p>
 <h2>Compilation </h2>
-<p>Pour compiler la seul chose à faire est d'exécuter la commande suivante: <code>make</code></p>
+<p>Pour compiler il faut utiliser le Makefile: <code>make</code></p>
+<p><code>make clean</code> supprime les .o et le binaire (ne fonctionne que sous Linux).</p>
 <p>Le Makefile compile tout le contenu du dossier src. Il prend en compte quel est le système d'exploitation pour changer la cible: <code>pgm | pgm.exe | pgm.app</code></p>
 <p>L'application est compilable sur toute plateforme: Windows, Unix (Linus, OS X (à vérifier)).</p>
 <h2>Documentation </h2>
-<p>Il y a une <a href="doxy/html/index.html">documentation</a> généré sous Doxygen dans le dossier <a href="doxy/">doxy</a>.</p>
-<h2>Erreur dans les fichiers .pgm </h2>
-<p>Si le fichier comporte une erreur dans la majorité des cas l'application indique que le fichier est corrompu. Dans certain cas, l'application va indiqué à l'utilisateur qu'il va essayer tant bien que mal de "deviner" où est l'erreur dans l'image et ainsi la corrigé.</p>
-<h2>Fichier </h2>
+<p>Il y a une <a href="index.html">documentation</a> générée sous Doxygen dans le dossier <a href="../../">doxy</a>.</p>
+<h2>Ce qu'il y a à dire sur les questions </h2>
+<p>Pour diriger le programme cela marche en ligne de commande. Il faut passer en argument ce que l'on veut faire (cf. ci-dessus).</p>
+<p>Pour la partie image il était nécessaire de créer un constructeur et destructeur de image_t. Un copy_image au cas où.. Pour l'histogramme il y a le constructeur, destructeur et le write.</p>
+<p>Pour le noir et blanc, on calcul l'histogramme au préalable pour établir s comme la valeur de gris la plus représentée. On determine en fonction de se qui est blanc ou noir.</p>
+<p>Chaque fonction qui modifie une image le fait par paramètre et renvoie tout de même le pointeur de l'image. Cela permet de faire des <code>if(!adapt-contrast(image)) { /* erreur */ }</code> pour détecter plus facilement les erreurs via pointeurs null.</p>
+<h2>Ce dont nous sommes fière du - au + </h2>
+<ul>
+<li>La bonne compilation du code + les fonctions bonus.</li>
+<li>Le Makefile qui est suffisament généralisé pour compiler tout ce qu'il y a dans src/ (hors library).</li>
+<li>Ce Doxyfile + l'utilisation du Markdown pour le README.</li>
+<li>L'esthétique de mon application qui a pour but d'imiter le princie des commandes sous bash.</li>
+<li>La possibilité de choisir le fichier de sortie + la création de dossier dans le cas où il est inexistant.</li>
+</ul>
+<h2>Difficulté </h2>
+<p>Pas de difficulté apparente.</p>
+<h2>Fichiers </h2>
 <p>Les sources et headers sont stockés dans le dossier src. Les objects dans le dossier obj.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -137,7 +152,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <td class="markdownTableBodyNone"><a class="el" href="utility_8c.html">utility.c</a>  </td><td class="markdownTableBodyNone"><a class="el" href="utility_8h.html">utility.h</a>   </td></tr>
 </table>
 <h2>Auteurs </h2>
-<p><a href="#" onclick="location.href='mai'+'lto:'+'luc'+'as'+'.da'+'vi'+'d@u'+'-p'+'sud'+'.f'+'r'; return false;">Lucas David</a> : ET3 Info</p>
+<p><a href="#" onclick="location.href='mai'+'lto:'+'luc'+'as'+'.da'+'vi'+'d@u'+'-p'+'sud'+'.f'+'r'; return false;">Lucas David</a> : ET3 INFO</p>
 <p><a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'.ma'+'th'+'a@u'+'-p'+'sud'+'.f'+'r'; return false;">Robin Matha</a>: ET3 PSO </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

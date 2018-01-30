@@ -98,6 +98,7 @@ $(document).ready(function(){initNavTree('utility_8h.html','');});
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;ctype.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;sys/stat.h&gt;</code><br />
 </div>
@@ -112,12 +113,16 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8a5bebf926ba5ea2d3fb315f88ef55e1"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a8a5bebf926ba5ea2d3fb315f88ef55e1">modify_filepath</a> (const char *filepath, const char *prefix)</td></tr>
-<tr class="separator:a8a5bebf926ba5ea2d3fb315f88ef55e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ecae2a7906b3cfe535a5002b4d7e9bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a4ecae2a7906b3cfe535a5002b4d7e9bc">out_of_memory</a> (const char *context)</td></tr>
 <tr class="separator:a4ecae2a7906b3cfe535a5002b4d7e9bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14e2cccf116e049d81795a9515e3edd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a14e2cccf116e049d81795a9515e3edd8">out_of_bounds</a> (const char *context)</td></tr>
 <tr class="separator:a14e2cccf116e049d81795a9515e3edd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aabab7a47d7af7dcf9264b4befa1e61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a1aabab7a47d7af7dcf9264b4befa1e61">end_line</a> (FILE *file)</td></tr>
+<tr class="separator:a1aabab7a47d7af7dcf9264b4befa1e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8d5a4d7019f2b8128fa76caedb1b30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#aed8d5a4d7019f2b8128fa76caedb1b30">skip_comments</a> (FILE *file)</td></tr>
+<tr class="separator:aed8d5a4d7019f2b8128fa76caedb1b30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b0e7ad392abd44ff33abc54b8d655c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#ae9b0e7ad392abd44ff33abc54b8d655c">check_eof</a> (FILE *file)</td></tr>
+<tr class="separator:ae9b0e7ad392abd44ff33abc54b8d655c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a853216ac51aa181669ff4d3de74058a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a853216ac51aa181669ff4d3de74058a7">print_help</a> ()</td></tr>
 <tr class="separator:a853216ac51aa181669ff4d3de74058a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9fb1f3a32de2d46e5da3568a457c19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utility_8h.html#a0d9fb1f3a32de2d46e5da3568a457c19">create_folder</a> (const char *filepath)</td></tr>
@@ -181,6 +186,31 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ae9b0e7ad392abd44ff33abc54b8d655c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b0e7ad392abd44ff33abc54b8d655c">&#9670;&nbsp;</a></span>check_eof()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int check_eof </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if there is data before reach end of file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if data return 0 if not 1 </dd></dl>
+
+</div>
+</div>
 <a id="a0d9fb1f3a32de2d46e5da3568a457c19"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d9fb1f3a32de2d46e5da3568a457c19">&#9670;&nbsp;</a></span>create_folder()</h2>
 
@@ -205,39 +235,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8a5bebf926ba5ea2d3fb315f88ef55e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a5bebf926ba5ea2d3fb315f88ef55e1">&#9670;&nbsp;</a></span>modify_filepath()</h2>
+<a id="a1aabab7a47d7af7dcf9264b4befa1e61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aabab7a47d7af7dcf9264b4befa1e61">&#9670;&nbsp;</a></span>end_line()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* modify_filepath </td>
+          <td class="memname">void end_line </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filepath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>prefix</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Format filepath in function of a given prefix. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>End the line in a file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filepath</td><td></td></tr>
-    <tr><td class="paramname">prefix</td><td></td></tr>
+    <tr><td class="paramname">file</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>new_filepath </dd></dl>
 
 </div>
 </div>
@@ -304,6 +322,30 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Formatted output which explains how works application. </p>
+
+</div>
+</div>
+<a id="aed8d5a4d7019f2b8128fa76caedb1b30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8d5a4d7019f2b8128fa76caedb1b30">&#9670;&nbsp;</a></span>skip_comments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void skip_comments </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Skip every line which begins by #. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

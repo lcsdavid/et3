@@ -2,10 +2,11 @@
 
 pgm est une application permettant de manipuler des fichiers .pgm avec plusieurs opérations.
 
-On peut recevoir une aide en exécutant l'application avec l'option suivante :
-`$ ./pgm --help`
+On peut recevoir une aide en exécutant l'application avec l'option suivante : `--help`
 
-|      Opérations      |        Commande         |         Variables                           |
+Ex: `./pgm --help`
+
+|      Opérations      |        Commandes        |                 Variables                   |
 |----------------------|-------------------------|---------------------------------------------|
 | Adapter le contraste | `-ac, --adapt-contrast` | `[VALUE] [FILE] (entrée) ([FILE] (sortie))` |
 | Noir et blanc        | `-bw, --black-n-white`  | `[FILE] (entrée) ([FILE] (sortie))`         |
@@ -16,13 +17,15 @@ On peut recevoir une aide en exécutant l'application avec l'option suivante :
 | Histogramme          | `-h,  --histogram`      | `[FILE] (entrée) ([FILE] (sortie))`         |
 | Opening              | `-o,  --opening`        | `[FILE] (entrée) ([FILE] (sortie))`         |
 
-Par défaut les images seront stockés dans un dossier (out) à la racine de l’exécutable.
-Si une sortie est précisé l'image sera stocké à la destination indiqué sous réserve de la validité de la sortie fourni.
-Dans le cas ou la sortie spécifié nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.
+Par défaut les images seront stockées dans un dossier (out) à la racine de l’exécutable.
+Si une sortie est précisée l'image sera stockée à la destination indiquée sous réserve de la validité de la sortie fournie.
+Dans le cas où la sortie spécifiée nécessite de créer de nouveaux dossiers, ils seront créés automatiquement.
 
 Compilation
 ------
-Pour compiler la seul chose à faire est d'exécuter la commande suivante: `make`
+Pour compiler il faut utiliser le Makefile: `make`
+
+`make clean` supprime les .o et le binaire (ne fonctionne que sous Linux).
 
 Le Makefile compile tout le contenu du dossier src.
 Il prend en compte quel est le système d'exploitation pour changer la cible: `pgm | pgm.exe | pgm.app`
@@ -31,14 +34,38 @@ L'application est compilable sur toute plateforme: Windows, Unix (Linus, OS X (�
 
 Documentation
 -------
-Il y a une [documentation][doxygen_doc] généré sous Doxygen dans le dossier [doxy][doxygen_path].
+Il y a une [documentation][doxygen_doc] générée sous Doxygen dans le dossier [doxy][doxygen_path].
 
-Erreur dans les fichiers .pgm
---------
-Si le fichier comporte une erreur dans la majorité des cas l'application indique que le fichier est corrompu.
-Dans certain cas, l'application va indiqué à l'utilisateur qu'il va essayer tant bien que mal de "deviner" où est l'erreur dans l'image et ainsi la corriger.
 
-Fichier
+Ce qu'il y a à dire sur les questions
+--------- 
+Pour diriger le programme cela marche en ligne de commande. Il faut passer en argument ce que l'on veut faire (cf. ci-dessus).
+
+Pour la partie image il était nécessaire de créer un constructeur et destructeur de image_t.
+Un copy_image au cas où..
+Pour l'histogramme il y a le constructeur, destructeur et le write.
+
+Pour le noir et blanc, on calcul l'histogramme au préalable pour établir s comme la valeur de gris la plus représentée.
+On determine en fonction de se qui est blanc ou noir.
+
+Chaque fonction qui modifie une image le fait par paramètre et renvoie tout de même le pointeur de l'image.
+Cela permet de faire des `if(!adapt-contrast(image)) { /* erreur */ }` pour détecter plus facilement les erreurs via pointeurs null.
+
+
+Ce dont nous sommes fière du - au +
+----------
+ - La bonne compilation du code + les fonctions bonus.
+ - Le Makefile qui est suffisament généralisé pour compiler tout ce qu'il y a dans src/ (hors library).
+ - Ce Doxyfile + l'utilisation du Markdown pour le README.
+ - L'esthétique de mon application qui a pour but d'imiter le princie des commandes sous bash.
+ - La possibilité de choisir le fichier de sortie + la création de dossier dans le cas où il est inexistant.
+
+Difficulté
+-------
+ 
+Pas de difficulté apparente.
+ 
+Fichiers
 ------
 Les sources et headers sont stockés dans le dossier src.
 Les objects dans le dossier obj.
@@ -53,7 +80,7 @@ Les objects dans le dossier obj.
 
 Auteurs
 -------
-[Lucas David][@lucas] : ET3 Info
+[Lucas David][@lucas] : ET3 INFO
 
 [Robin Matha][@robin]: ET3 PSO
 
