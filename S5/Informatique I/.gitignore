@@ -8,3 +8,8 @@ TP[1-9]/TP[1-9]*
 
 # html
 **.html
+
+# archives
+**.zip
+**.rar
+**.tar
