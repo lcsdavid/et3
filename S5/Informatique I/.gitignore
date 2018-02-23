@@ -5,3 +5,6 @@ TP[1-9]/TP[1-9]*
 # doxygen
 **/doxy
 **/Doxyfile
+
+# html
+**.html
