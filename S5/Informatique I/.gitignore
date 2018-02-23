@@ -1,3 +1,5 @@
 # exclude binary files and executable
 *.o
 TP[1-9]/TP[1-9]*
+TP9/doxy
+TP9/Doxyfile
