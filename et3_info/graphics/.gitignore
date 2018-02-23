@@ -1,7 +1,0 @@
-# exclude useless file
-*.rar
-*.zip
-
-**/Debug
-**/Release
-**/.vs
