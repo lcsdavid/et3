@@ -1,13 +1,13 @@
 package com.fêteforraine;
 
 public class Autotamponneuse {
-    public static final float TAILLE = 1.5f;
+    public static final double TAILLE = 1.5;
 
     private static int nombreAutotamponneuse = 0;
 
     private int id;
     private boolean surPiste;
-    private float X, Y;
+    private double X, Y;
     private boolean occupée;
     private String occupant;
 
@@ -25,7 +25,7 @@ public class Autotamponneuse {
         clignotante = false;
     }
 
-    public Autotamponneuse(float X, float Y) {
+    public Autotamponneuse(double X, double Y) {
         this();
         if (X > 0 || Y > 0) {
             this.X = X;
@@ -50,7 +50,7 @@ public class Autotamponneuse {
     public boolean collision(Autotamponneuse autreAutotamponneuse) {
         if(autreAutotamponneuse == null)
             return false;
-        return TAILLE - distance(autreAutotamponneuse) > 0;
+        return 2 * TAILLE > distance(autreAutotamponneuse);
     }
 
     public static boolean collision(Autotamponneuse autotamponneuse, Autotamponneuse autotamponneuse_bis) {
@@ -59,7 +59,7 @@ public class Autotamponneuse {
         return autotamponneuse.collision(autotamponneuse_bis);
     }
 
-    public boolean placer(float X, float Y) {
+    public boolean placer(double X, double Y) {
         if(X < 0 || Y < 0)
             return false;
         else if(X == 0 && Y == 0)
@@ -145,11 +145,11 @@ public class Autotamponneuse {
         if(!occupée)
             s += "libre éteinte non clignotante";
         else if(!allumée)
-            s += "occupée (" + occupant + "éteinte non clignotante";
+            s += "occupée (" + occupant + ") éteinte non clignotante";
         else if(!clignotante)
-            s += "occupée (" + occupant + "allumée non clignotante";
+            s += "occupée (" + occupant + ") allumée non clignotante";
         else
-            s += "occupée (" + occupant + "allumée clignotante";
+            s += "occupée (" + occupant + ") allumée clignotante";
         return s;
     }
 
