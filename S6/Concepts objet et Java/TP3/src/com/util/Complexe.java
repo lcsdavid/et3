@@ -1,19 +1,21 @@
-package com.util.Complexe;
+package com.util;
 
-public class Complexe {
+import java.io.Serializable;
+
+public class Complexe implements Serializable {
     private double re, im;
 
-    Complexe() {
+    public Complexe() {
         re = 0;
         im = 0;
     }
 
-    Complexe(double re, double im) {
+    public Complexe(double re, double im) {
         this.re = re;
         this.im = im;
     }
 
-    Complexe(Complexe oa) {
+    public Complexe(Complexe other) {
         this.re = other.re;
         this.im = other.im;
     }
@@ -26,7 +28,7 @@ public class Complexe {
         return Math.acos(re / module());
     }
 
-    public boolean add(Complexe complexe) {
+    public boolean additionner(Complexe complexe) {
         if(complexe == null)
             return false;
         re += complexe.re;
@@ -34,7 +36,7 @@ public class Complexe {
         return true;
     }
 
-    public boolean subtract(Complexe complexe) {
+    public boolean soustraire(Complexe complexe) {
         if(complexe == null)
             return false;
         re -= complexe.re;
@@ -42,7 +44,7 @@ public class Complexe {
         return true;
     }
 
-    public boolean multiply(Complexe complexe) {
+    public boolean multiplier(Complexe complexe) {
         if(complexe == null)
             return false;
         double re = this.re;
@@ -52,11 +54,11 @@ public class Complexe {
         return true;
     }
 
-    public boolean divide(Complexe complexe) {
+    public boolean diviser(Complexe complexe) {
         if(complexe == null)
             return false;
         complexe.im *= -1;
-        multiply(complexe);
+        multiplier(complexe);
         double d = Math.pow(complexe.re, 2) + Math.pow(complexe.im, 2);
         if(d == 0)
             return true;
@@ -71,4 +73,7 @@ public class Complexe {
             return false;
         return re == ((Complexe) obj).re && im == ((Complexe)obj).im;
     }
+
+
+    static final long serialVersionUID = 0xFB;
 }
