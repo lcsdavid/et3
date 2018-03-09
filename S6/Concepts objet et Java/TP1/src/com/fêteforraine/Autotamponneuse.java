@@ -59,7 +59,7 @@ public class Autotamponneuse {
         return autotamponneuse.collision(autotamponneuse_bis);
     }
 
-    public boolean placer(double X, double Y) {
+    boolean placer(double X, double Y) {
         if(X < 0 || Y < 0)
             return false;
         else if(X == 0 && Y == 0)
@@ -71,7 +71,7 @@ public class Autotamponneuse {
         return true;
     }
 
-    public boolean ajouterOccupant(String occupant) {
+    boolean ajouterOccupant(String occupant) {
         if(occupant != null && !occupée) {
             occupée = true;
             this.occupant = occupant;
@@ -80,7 +80,7 @@ public class Autotamponneuse {
         return false;
     }
 
-    public boolean enlèverOccupant() {
+    boolean enlèverOccupant() {
         if(occupée) {
             occupée = false;
             occupant = "undefined";
@@ -90,7 +90,7 @@ public class Autotamponneuse {
         return false;
     }
 
-    public boolean allumer() {
+    boolean allumer() {
         if(occupée) {
             allumée = true;
             return true;
@@ -98,7 +98,7 @@ public class Autotamponneuse {
         return false;
     }
 
-    public boolean éteindre() {
+    boolean éteindre() {
         if(allumée) {
             allumée = false;
             arrêterClignotement();
@@ -107,7 +107,7 @@ public class Autotamponneuse {
         return false;
     }
 
-    public boolean démarrerClignotement() {
+    boolean démarrerClignotement() {
         if(allumée) {
             clignotante = true;
             return true;
@@ -115,7 +115,7 @@ public class Autotamponneuse {
         return false;
     }
 
-    public boolean arrêterClignotement() {
+    boolean arrêterClignotement() {
         if(clignotante) {
             clignotante = false;
             return true;
@@ -155,7 +155,7 @@ public class Autotamponneuse {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj != null || this.getClass() == obj.getClass()) {
+        if (obj != null || obj.getClass() == Autotamponneuse.class) {
             Autotamponneuse auto = (Autotamponneuse) obj;
             return id == auto.id;
         }
