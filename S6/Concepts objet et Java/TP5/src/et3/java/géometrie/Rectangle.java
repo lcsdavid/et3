@@ -6,10 +6,15 @@ public class Rectangle extends Forme {
     private Point a, b, c, d;
 
     public Rectangle() {
-        a = new Point(-2, 1);
-        b = new Point(2, 1);
-        c = new Point(2, -1);
-        d = new Point(-2, -1);
+        this(new Point(-2, 1),  new Point(2, 1), new Point(2, -1), new Point(-2, -1));
+    }
+
+    public Rectangle(Point a, Point b, Point c, Point d) {
+        super();
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
     }
 
     @Override
