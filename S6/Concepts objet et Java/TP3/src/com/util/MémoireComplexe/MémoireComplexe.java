@@ -1,10 +1,10 @@
 package com.util.MémoireComplexe;
 import com.util.Complexe;
 
-import java.awt.List;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class MémoireComplexe extends Complexe {
+public class MémoireComplexe extends Complexe implements Serializable {
     private Vector<String> opérations;
 
     public MémoireComplexe() {
@@ -45,4 +45,6 @@ public class MémoireComplexe extends Complexe {
         opérations.add("diviser");
         return super.diviser(complexe);
     }
+
+    static final long serialVersionUID = 0;
 }

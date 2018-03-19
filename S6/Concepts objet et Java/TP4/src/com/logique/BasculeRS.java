@@ -1,43 +1,60 @@
 package com.logique;
 
-public class BasculeRS extends PorteLogique {
-    protected PorteNOR porteNOR_R;
-    protected PorteNOR porteNOR_S;
+import com.logique.io.*;
+import com.logique.porte.NOR;
+
+public final class BasculeRS {
+    private Entrée R, S;
+    private EntréeSortie Q, nonQ;
+    private NOR NOR_R;
+    private NOR NOR_S;
 
     public BasculeRS() {
-        super();
-        porteNOR_R = new PorteNOR();
-        porteNOR_S = new PorteNOR();
+        R = new Entrée();
+        S = new Entrée();
+        Q = new EntréeSortie();
+        nonQ = new EntréeSortie(true);
+        NOR_R = new NOR(R, nonQ, Q);
+        NOR_S = new NOR(Q, S, nonQ);
     }
 
     public BasculeRS(boolean r, boolean s, boolean q) {
-        super();
-        porteNOR_R = new PorteNOR(r, q);
-        porteNOR_S = new PorteNOR(q, s);
+        R = new Entrée(r);
+        S = new Entrée(s);
+        Q = new EntréeSortie(q);
+        nonQ = new EntréeSortie(!q);
+        NOR_R = new NOR(R, nonQ, Q);
+        NOR_S = new NOR(Q, S, nonQ);
     }
 
-    public boolean getQ() {
-        return Q;
+    public boolean Q() {
+        return Q.valeur();
     }
 
-    public boolean getNonQ() {
-        return !Q;
+    public boolean nonQ() {
+        return nonQ.valeur();
     }
 
-    public void setR(boolean r) {
-        porteNOR_R.setA(r);
-        actualiserQ();
+    public void R(boolean valeur) {
+        if(S.valeur() && valeur)
+            // TODO erreur
+        R.valeur(valeur);
+        NOR_R.calculer();
+        nonQ.valeur(!Q.valeur());
     }
 
-    public void setS(boolean s) {
-        porteNOR_S.setB(s);
-        actualiserQ();
+    public void S(boolean valeur) {
+        if(R.valeur() && valeur)
+            // TODO erreur
+        S.valeur(valeur);
+        NOR_S.calculer();
+        Q.valeur(!nonQ.valeur());
     }
 
     @Override
-    public void actualiserQ() {
-        porteNOR_R.setB(!Q);
-        porteNOR_S.setA(Q);
-        Q = porteNOR_R.Q;
+    public String toString() {
+        String s = "[R = " + R.valeur() + ", S = " + S.valeur() + ", Q = " + Q.valeur() + ", nonQ = " + nonQ.valeur()
+                + "]\n";
+        return s;
     }
 }

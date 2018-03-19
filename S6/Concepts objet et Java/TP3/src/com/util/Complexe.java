@@ -1,8 +1,6 @@
 package com.util;
 
-import java.io.Serializable;
-
-public class Complexe implements Serializable {
+public class Complexe {
     private double re, im;
 
     public Complexe() {
@@ -73,7 +71,4 @@ public class Complexe implements Serializable {
             return false;
         return re == ((Complexe) obj).re && im == ((Complexe)obj).im;
     }
-
-
-    static final long serialVersionUID = 0xFB;
 }
