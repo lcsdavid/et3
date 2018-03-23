@@ -8,8 +8,7 @@ public abstract class Forme {
     protected Color couleur;
 
     Forme() {
-        centreGravité = new Point();
-        couleur = new Color(255,255,255);
+        this(new Point(), new Color(255,255,255));
     }
 
     Forme(Point centreGravité, Color couleur) {
@@ -20,4 +19,5 @@ public abstract class Forme {
     public abstract void translation(int x, int y);
 
     public abstract void homothétie(int ratio);
+
 }

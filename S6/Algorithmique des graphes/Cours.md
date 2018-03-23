@@ -5,8 +5,8 @@
 Utilisation des propriérés de l'ABR  pour reduire le sous-ABR où l'on recherche.
 
 ``` java
-Fonction Recherche(x:élément, A: Arbre) : Booléen
-	Si A = Vide alors rendre Faux
+Fonction Recherche(x : élément, A : Arbre) : Booléen
+	Si A = Vide Alors rendre Faux
 	Sinon Si x = contenu(racine(A)) Alors rendre Vrai
 			Sinon Si x < contenu(racine(A))
 				Alors rendre Recherche(x, gauche(A))
@@ -97,7 +97,7 @@ Procédure Supprimer(x : élément, var A : Arbre)
 					Si vide(droite(A)) Alors A <- gauche(A)
 					Sinon
 						Sans_Max(gauche(A), v)	// suppression du max du sous-arbre
-						val(A) <- v 
+						val(A) <- v
 ```
 
 **Complexité** linéaire en la hauteur de l'arbre.

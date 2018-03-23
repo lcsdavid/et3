@@ -7,16 +7,20 @@ public class Cercle extends Forme {
     private int rayon;
 
     public Cercle() {
+        this(0);
+    }
+
+    public Cercle(int rayon) {
         super();
-        rayon = 1;
+        if(rayon < 0)
+            this.rayon = -rayon;
+        this.rayon = rayon;
     }
 
     public Cercle(Point centreGravité, Color couleur, int rayon) {
         super(centreGravité, couleur);
-        if(rayon < 0) {
-            System.getLogger("Le rayon doit être positif.");
-            System.exit(-1);
-        }
+        if(rayon < 0)
+            this.rayon = -rayon;
         this.rayon = rayon;
     }
 
