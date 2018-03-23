@@ -6,11 +6,20 @@
 ``` cpp
 ABR rechercher(élément n, ABR A) {
 	if (vide(A))
-		return nullptr
+		return nullptr;
 	if (A.valeur > n)
-		return rechercher(n, A.fg)
+		return rechercher(n, A.fg);
 	else if (A.valeur < n)
-		return rechercher(n, A.fd)
+		return rechercher(n, A.fd);
 	else
-		return A
+		return A;
+} 
 ```
+
+## Exercice 2: Insertion d'un noeud (feuille) dans un ABR. 
+
+``` cpp 
+void insérer(élément n, ABR& A) {
+	if (vide(A)) 
+		A = créer_arbre(n, nullptr, nullptr);
+} 
