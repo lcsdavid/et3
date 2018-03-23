@@ -3,13 +3,22 @@ package et3.java.géometrie;
 import java.awt.Point;
 
 public class Rectangle extends Forme {
-    private Point a, b, c, d;
+    protected Point a, b, c, d;
 
     public Rectangle() {
-        a = new Point(-2, 1);
-        b = new Point(2, 1);
-        c = new Point(2, -1);
-        d = new Point(-2, -1);
+        super();
+        a = new Point(-1, 1);
+        b = new Point(1, 1);
+        c = new Point(1, -1);
+        d = new Point(-1, -1);
+    }
+
+    public Rectangle(Point a, Point b, Point c, Point d) {
+        centreGravité.translate((b.x - a.x) / 2, (d.y - a.y) /2);
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
     }
 
     @Override
