@@ -5,6 +5,9 @@
 template <typename T>
 class ArbreBinaireRecherche : public ArbreBinaire<T> {
 public:
+	ArbreBinaireRecherche();
+	ArbreBinaireRecherche(T valeur);
+	~ArbreBinaireRecherche();
 
 	void ajouter(T x);
 

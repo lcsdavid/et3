@@ -5,7 +5,7 @@ template <typename T, unsigned int N>
 class Arbre {
 protected:
 	T valeur;
-	Arbre* fils[N]
+	Arbre* fils[N];
 
 public:
 	Arbre(); // Constructeur par défaut. (= Arbre vide)
