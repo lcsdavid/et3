@@ -112,3 +112,57 @@ Procédure Sans_Max(var A : Arbre, var V : élément)
 ```
 
 **Complexité** linéaire en la hauteur de l'arbre.
+
+
+# Chapitre 6 : Graphes
+
+## III - Parcours en profondeur récursif
+
+**But**: passer une seule fois par tous les sommets en utilisant seulement les arcs du graphe.
+
+**Principe** (récursif):
+
+- partir d'un sommet donné et suivre un chemin le plus loin possible.
+- revenir en arrière pour suivre les chemins initialement ignorés.
+
+**NB**: le parcours effectué dépend de l'ordre dans lequel les sommets ont été numérotés !
+
+## IV - Parcours en profondeur itératif
+
+... comme pour les arbres, on utilise unepile pour gérer les remontées le long des branches.
+
+## V - Parcours en largeur
+
+**Principe**: à partir d'un sommet, visiter tous ses successeurs immédiats puis tous les successeurs (non visités) des successeurs de la première liste, etc...
+
+**->** Là aussi, le parcours dépend de l'ordre dans lequel on numérote les sommets.
+
+``` java
+Procédure parcourir_en_largeur(G : Graphe)
+	// on utilise un tableau M pour marquer les sommets traités.
+	Pour s allant de 1 à G.taille Faire
+		M[s] <- Faux;
+	Pour s allant de 1 à G.taille Faire
+		Si(!M[s]) Alors largeur(s, G, M)
+
+Procédure largeur(s : Sommet, G : Graphe, var M : Tableau[sommets] de Booléen)
+	M[s] <- Vrai
+	Traiter(s)
+	New(F) // F, var. locale, file initialisée à vide
+	Ajouter s à F
+	Tant que !vide(F) Faire
+	 	w <- tête(F) // w, var. locale, sommet
+		décapiter(F)
+		P <- G.T[w] // P, var. locale, liste d'adjacence
+		Tant que !vide(P) Faire
+			v <- P.numéro // v, var. locale, contient le numéro du sommet adjacent à w courant
+			Si !M[v] Alors
+				M[v] <- Vrai
+				Traiter(v)
+				Ajouter v à F
+```
+
+**Remarque** : le parcours obtenu ne dépend pas que du graphe, mais aussi de l'ordre dans lequel les sommets ont été numérotés. Exemple: code de GRAY.
+
+
+# Chapitre 7 - Arbre de recouvrement minimal d'un graphe
