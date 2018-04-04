@@ -1,29 +1,28 @@
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Culotte {
-    private int K, V;
-    private Hashtable<String, Integer> table;
+    private Hashtable<String, Integer> m_hash;
 
     public Culotte() {
-        table = new Hashtable<>();
+        m_hash = new Hashtable<>();
     }
 
     public void analyser(String texte) {
         String[] ss = texte.split(" ");
         for (String s: ss) {
-            s.replaceAll("[^A-Za-z0-9_]", "");
-            if(!s.isEmpty())
-                if(table.containsKey(s))
-                    table.replace(s, table.get(s).intValue() + 1);
-                else
-                    table.put(s, 0);
+            s = s.replaceAll("[^A-Za-z0-9_'-]", "").toLowerCase();
+            if (!s.isEmpty()) {
+                m_hash.computeIfPresent(s, (k, v) -> m_hash.replace(k, v++));
+                m_hash.putIfAbsent(s, 1);
+            }
         }
     }
 
     public int fréquenceMot(String mot) {
-        if(mot == null || table.containsKey(mot))
-            return 0;
-        return table.get(mot).intValue();
+        assert mot != null;
+        if(m_hash.containsKey(mot))
+            return m_hash.get(mot);
+        return 0;
     }
+
 }
