@@ -40,7 +40,7 @@ public class Rectangle extends Forme {
 
     @Override
     public String toString() {
-        String s = "[Rectangle\n    "
+        String s = "[" + getClass().getSimpleName() + "\n    "
                 + "[centre de gravité : x = " + centreGravité.x + ", y = " + centreGravité.y + "]\n    "
                 + "[A : x = " + a.x + ", y = " + a.y + "]\n    "
                 + "[B : x = " + b.x + ", y = " + b.y + "]\n    "

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/lucasdavid/Documents/GitHub/et3/S6/Algorithmique des graphes/Implementation/C/arbres/arbre.c
+arbre.h
+C:/Users/lucasdavid/Documents/GitHub/et3/S6/Algorithmique des graphes/Implementation/C/arbres/arbre.h
+
+C:/Users/lucasdavid/Documents/GitHub/et3/S6/Algorithmique des graphes/Implementation/C/arbres/arbre.h
+stdlib.h
+-
+
+C:/Users/lucasdavid/Documents/GitHub/et3/S6/Algorithmique des graphes/Implementation/C/arbres/main.c
+stdio.h
+-
+wchar.h
+-
+arbre.h
+C:/Users/lucasdavid/Documents/GitHub/et3/S6/Algorithmique des graphes/Implementation/C/arbres/arbre.h
+
