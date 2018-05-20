@@ -1,9 +1,9 @@
 package lucasdavid.xml.element;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 import java.util.function.Predicate;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Abstract is a model representing an abstract form of XML element (cf. DOM).

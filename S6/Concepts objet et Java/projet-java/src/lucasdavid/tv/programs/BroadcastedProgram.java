@@ -1,50 +1,93 @@
 package lucasdavid.tv.programs;
 
-import lucasdavid.xml.element.Element;
-import lucasdavid.xml.element.NotExceptedElement;
-import lucasdavid.tv.Channel;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
 
+
+import lucasdavid.xml.element.Element;
+import lucasdavid.xml.element.NotExceptedElementException;
+
+import lucasdavid.tv.Channel;
+
+/**
+ * @author lucasdavid
+ */
 public final class BroadcastedProgram {
     private Program program;
     private Channel channel;
     private Date programming;
 
-    public BroadcastedProgram(Element element) throws NotExceptedElement {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-            programming = simpleDateFormat.parse("YYYY");
-        } catch (ParseException e) {
-            programming = new Date(0);
-            e.printStackTrace();
-        }
+    /**
+     * Constructor.
+     * Extracts data from a given {@link Element}.
+     *
+     * @param element data container
+     * @throws NotExceptedElementException If {@code element} not valid or miss data
+     */
+    public BroadcastedProgram(Element element) throws NotExceptedElementException {
+        if(!element.getName().equals("programme"))
+            throw new NotExceptedElementException("not \"programme\"");
         program = Program.newInstance(element);
+
+        String start = element.getAttribute("start");
+        if(start == null)
+            throw new NotExceptedElementException("miss \"start\" attribute");
+        try {
+            programming = new SimpleDateFormat("YYYYMMddmmss").parse(start);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new NotExceptedElementException("not valid \"start\" attribute");
+        }
+
+        String channelId = element.getAttribute("channel");
+        if(channelId == null)
+            throw new NotExceptedElementException("miss \"channel\" attribute");
+        channel = new Channel(channelId, "NaN");
     }
 
-    /* Getter */
+    /* Getters */
+
+    /**
+     * Returns {@link BroadcastedProgram#program}.
+     *
+     * @return {@link BroadcastedProgram#program}
+     */
     public Program getProgram() {
         return program;
     }
+
+    /**
+     * Returns {@link BroadcastedProgram#channel}.
+     *
+     * @return {@link BroadcastedProgram#channel}
+     */
     public Channel getChannel() {
         return channel;
     }
+
+    /**
+     * Returns {@link BroadcastedProgram#programming}.
+     *
+     * @return {@link BroadcastedProgram#programming}
+     */
     public Date getProgramming() {
         return programming;
     }
 
+    /**
+     * Returns a partial {@link String} descriptor of {@code this}.
+     *
+     * @return a partial {@link String} descriptor of {@code this}
+     * @see Program
+     * @see Channel
+     */
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("[BroadcastedProgram\n\t");
-        for (String str : program.toString().split("\n")) stringBuilder.append(str).append("\n\t");
-        for (String str : channel.toString().split("\n")) stringBuilder.append(str).append("\n\t");
-        stringBuilder.append("Programmation: ");
-        Formatter formatter = new Formatter(Locale.getDefault());
-        long time = programming.getTime();
-        formatter.format("%tA ", time).format("%td ", time).format("%tB", time).format(" %tk", time).format(":%tM", time);
-        stringBuilder.append(formatter.toString()).append("\n]");
-        return stringBuilder.toString();
+        String s = "[" + getClass().getSimpleName() + ": " + getProgram().getTitle() + '\n';
+        s += "on: " + getChannel().getName() + '\n';
+        s += "at: " + new SimpleDateFormat("[EEEE d MMMM] hh:mm").format(getProgramming()) + '\n';
+        s += ']';
+        return s;
     }
 }

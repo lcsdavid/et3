@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lucasdavid.tv.TV;
 import lucasdavid.xml.element.EmptyElement;
 
 public class Main extends Application {
@@ -15,7 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        EmptyElement emptyElement = new EmptyElement();
+        TV tv = new TV();
     }
 
     public static void main(String[] args) {

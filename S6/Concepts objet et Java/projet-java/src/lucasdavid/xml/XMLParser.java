@@ -22,7 +22,7 @@ public class XMLParser {
 
     /**
      * Default constructor.
-     * Allocates fields with emptu values.
+     * Allocates fields with empty values.
      */
     public XMLParser() {
         toParseFile = "";

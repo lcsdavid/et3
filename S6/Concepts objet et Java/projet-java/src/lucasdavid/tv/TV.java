@@ -6,6 +6,8 @@ import lucasdavid.tv.credits.Contributor;
 import lucasdavid.tv.programs.BroadcastedProgram;
 import lucasdavid.tv.programs.EnumCSA;
 import lucasdavid.tv.programs.Program;
+import lucasdavid.xml.element.NotExceptedElementException;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
@@ -14,7 +16,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 /**
- * Classe inteface-utilisateur qui réunit la majorité des fonctions de l'énoncé.
+ * Interface-user class.
+ * Contains most of all answers as API functionality.
+ *
+ * @author lucasdavid
  */
 public class TV {
     private boolean loaded;
@@ -24,8 +29,8 @@ public class TV {
     private List<Contributor> contributors;
 
     /**
-     * Constructeur.
-     * Initialise les listes qui ont pour but de stocker les chaînes, la programmation et les contributeurs.
+     * Constructor.
+     * Allocates fields with empty values.
      */
     public TV() {
         loaded = false;
@@ -44,27 +49,40 @@ public class TV {
      * @param tvFile fichier de description de la programmation télévisée
      * @throws NotLoadedException échec dans le chargement des données {@link IOException}, {@link XMLStreamException}
      */
-    public void load(String tvFile) throws NotLoadedException {
+    public void load(@NotNull String tvFile) throws NotLoadedException {
         XMLParser parser = null;
         try {
             parser = new XMLParser(tvFile);
             parser.parse();
         } catch (IOException | XMLStreamException e) {
             e.printStackTrace();
-            throw new NotLoadedException();
+            throw new NotLoadedException("");
         }
+
         loaded = true;
+
         parser.queryElementsByName("channel").forEach(element -> {
-            channels.add(new Channel((Element) element));
+            try {
+                channels.add(new Channel((Element) element));
+            } catch (NotExceptedElementException notExceptedElementException) {
+                notExceptedElementException.printStackTrace();
+            }
         });
+
         parser.queryElementsByName("programme").forEach(element -> {
-            programmation.add(new BroadcastedProgram((Element) element));
+            try {
+                programmation.add(new BroadcastedProgram((Element) element));
+            } catch (NotExceptedElementException notExceptedElementException) {
+                notExceptedElementException.printStackTrace();
+            }
         });
         bind();
     }
 
     /**
-     * Met en relation certaines classes associés programme-chaîne et programme-contributeurs.
+     * Binds {@link Channel}s with {@link BroadcastedProgram#channel}.
+     * Fills {@link TV#contributors} list with
+     * {@link TV#programmation}'s {@link BroadcastedProgram#program}'s {@link Program#credits}.
      */
     private void bind() {
 
@@ -72,28 +90,43 @@ public class TV {
 
     /**
      * Question 1: Liste des chaînes.
+     * Returns {@link TV#channels}.
      *
-     * @return {@link List} contenant toutes les chaînes chargées {@link TV#load}
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @return {@link TV#channels}
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<Channel> getChannels() throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
+        if (!loaded)
+            throw new NotLoadedException();
         return channels;
     }
 
     /**
-     * Accèsseur à la programmation.
+     * Returns {@link TV#programmation}.
      *
-     * @return {@link List} contenant toutes les émissions programmées chargées {@link TV#load}
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @return {@link TV#programmation}
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<BroadcastedProgram> getProgrammation() throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
+        if (!loaded)
+            throw new NotLoadedException();
         return programmation;
     }
 
     /**
-     * Vide le contenu chargé en vue d'un autre chargement.
+     * Returns {@link TV#contributors}.
+     *
+     * @return {@link TV#contributors}
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
+     */
+    public List<Contributor> getContributors() throws NotLoadedException {
+        if (!loaded)
+            throw new NotLoadedException();
+        return contributors;
+    }
+
+    /**
+     * Clears lists.
      */
     public void clear() {
         channels.clear();
@@ -128,9 +161,9 @@ public class TV {
      * @return {@link List} contenant la programmation d'un jour et d'une chaîne donné
      * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
      */
-    public List<BroadcastedProgram> programmationOfnAt(Channel channel, Date day) throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
-        assert channel != null && day != null;
+    public List<BroadcastedProgram> programmationOfnAt(@NotNull Channel channel, @NotNull Date day) throws NotLoadedException {
+        if (!loaded)
+            throw new NotLoadedException();
         Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
             @Override
             public boolean test(BroadcastedProgram program) {
@@ -149,7 +182,7 @@ public class TV {
      * @return la {@link List} contenant les émissions passant pendant un laps de temps donné
      * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
      */
-    public List<BroadcastedProgram> programsWhile(Date moment) throws NotLoadedException {
+    public List<BroadcastedProgram> programsWhile(@NotNull Date moment) throws NotLoadedException {
         if (!loaded) throw new NotLoadedException();
         assert moment != null;
         Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
@@ -166,11 +199,11 @@ public class TV {
     /**
      * Question 6: Liste des programmes (pas que film) concernant un contributeur (pas qu'acteur ou réalisateur parce que tant qu'à faire).
      *
-     * @param contributorName nom du contributeur @Not
+     * @param contributor
      * @return la {@link List} contenant les programmes concernant le contributeur donné
      * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
      */
-    public List<Program> programsWith(String contributorName) throws NotLoadedException {
+    public List<Program> programsWith(@NotNull Contributor contributor) throws NotLoadedException {
         if (!loaded) throw new NotLoadedException();
         assert contributorName != null;
         if (contributorName.isEmpty())
@@ -246,7 +279,25 @@ public class TV {
      * @see TV#load
      */
     private class NotLoadedException extends Exception {
+        /**
+         * Default constructor.
+         *
+         * @see Exception
+         */
+        public NotLoadedException() {
+            super();
+        }
 
+        /**
+         * Constructor.
+         *
+         * @param message the detail message. The detail message is saved for
+         *                later retrieval by the {@link #getMessage()} method.
+         * @see Exception
+         */
+        public NotLoadedException(String message) {
+            super(message);
+        }
     }
 }
 
