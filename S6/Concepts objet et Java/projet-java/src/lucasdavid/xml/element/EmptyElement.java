@@ -23,8 +23,8 @@ public final class EmptyElement extends AbstractElement {
     /**
      * Constructor.
      *
-     * @param name to be set.
-     * @param attributes to be set.
+     * @param name name of this element
+     * @param attributes attributes of this element
      * @see AbstractElement#AbstractElement(String, Map)
      */
     public EmptyElement(@NotNull String name, @NotNull Map<String, String> attributes) {

@@ -4,11 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import lucasdavid.xml.element.Element;
 import lucasdavid.xml.element.NotExceptedElementException;
 
 import lucasdavid.tv.Channel;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author lucasdavid
@@ -25,7 +25,7 @@ public final class BroadcastedProgram {
      * @param element data container
      * @throws NotExceptedElementException If {@code element} not valid or miss data
      */
-    public BroadcastedProgram(Element element) throws NotExceptedElementException {
+    public BroadcastedProgram(@NotNull Element element) throws NotExceptedElementException {
         if(!element.getName().equals("programme"))
             throw new NotExceptedElementException("not \"programme\"");
         program = Program.newInstance(element);
@@ -67,6 +67,15 @@ public final class BroadcastedProgram {
     }
 
     /**
+     * Sets {@link BroadcastedProgram#channel}.
+     *
+     * @param channel channel on which the program is broadcasted
+     */
+    public void setChannel(@NotNull Channel channel) {
+        this.channel = channel;
+    }
+
+    /**
      * Returns {@link BroadcastedProgram#programming}.
      *
      * @return {@link BroadcastedProgram#programming}
@@ -76,6 +85,7 @@ public final class BroadcastedProgram {
     }
 
     /**
+     * Question 4: Affichage programme adéquat.
      * Returns a partial {@link String} descriptor of {@code this}.
      *
      * @return a partial {@link String} descriptor of {@code this}

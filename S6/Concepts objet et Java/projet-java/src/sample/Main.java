@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lucasdavid.tv.TV;
-import lucasdavid.xml.element.EmptyElement;
 
 public class Main extends Application {
 
@@ -17,9 +16,12 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         TV tv = new TV();
+        tv.load("tvguide_20180430_20180511.xml");
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws Exception {
+        TV tv = new TV();
+        tv.load("tvguide_20180430_20180511.xml");
+        // launch(args);
     }
 }

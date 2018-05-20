@@ -25,8 +25,8 @@ public final class Element extends AbstractElement {
     /**
      * Constructor.
      *
-     * @param name to be set
-     * @param attributes to be set
+     * @param name name of this element
+     * @param attributes attributes of this element
      * @see AbstractElement#AbstractElement(String, Map)
      */
     public Element(@NotNull String name, @NotNull Map<String, String> attributes) {
@@ -37,9 +37,9 @@ public final class Element extends AbstractElement {
     /**
      * Constructor.
      *
-     * @param name to be set
-     * @param attributes to be set
-     * @param subElements to be set
+     * @param name name of this element
+     * @param attributes attributes of this element
+     * @param subElements subs elements of this element
      * @see AbstractElement#AbstractElement(String, Map)
      */
     public Element(@NotNull String name, @NotNull Map<String, String> attributes, List<AbstractElement> subElements) {
@@ -50,9 +50,9 @@ public final class Element extends AbstractElement {
     }
 
     /**
-     * Returns {@link Element#subElements} {@link List<AbstractElement>}.
+     * Returns {@link Element#subElements}.
      *
-     * @return {@link Element#subElements} {@link List<AbstractElement>}
+     * @return {@link Element#subElements}
      */
     public List<AbstractElement> getSubElements() {
         return subElements;
@@ -61,7 +61,7 @@ public final class Element extends AbstractElement {
     /**
      * Appends the specified element to the end of {@link Element#subElements}.
      *
-     * @param subElement {@link AbstractElement} to be appended to {@link Element#subElements}
+     * @param subElement {@link AbstractElement} to append to {@link Element#subElements}
      */
     public void addSubElement(@NotNull AbstractElement subElement) {
         subElements.add(subElement);

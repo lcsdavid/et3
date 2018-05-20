@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"lcsdavid.xml"},{"l":"sample"},{"l":"sample.channel"},{"l":"lucasdavid.tv"},{"l":"lucasdavid.tv.credits"},{"l":"lucasdavid.tv.programs"},{"l":"lucasdavid.tv.programs.category"}]
+packageSearchIndex = [{"l":"lucasdavid.tv"},{"l":"lucasdavid.tv.credits"},{"l":"lucasdavid.tv.programs"},{"l":"lucasdavid.tv.programs.category"},{"l":"lucasdavid.xml"},{"l":"lucasdavid.xml.element"},{"l":"sample"},{"l":"sample.channel"}]

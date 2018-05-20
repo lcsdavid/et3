@@ -85,6 +85,20 @@ public class TV {
      * {@link TV#programmation}'s {@link BroadcastedProgram#program}'s {@link Program#credits}.
      */
     private void bind() {
+        for (BroadcastedProgram broadcastedProgram: programmation) {
+            List<Channel> channelQuery = queryChannels(c -> c.equals(broadcastedProgram.getChannel()));
+            if(!channelQuery.isEmpty()) { /* On fait rien si y'a rien tanpis. */
+                while (channelQuery.size() > 1) { /* Doublon où erreur dans le fichier XML, on retire l'excedant */
+                    channels.remove(channelQuery.get(0));
+                    channelQuery.remove(0);
+                }
+                broadcastedProgram.setChannel(channelQuery.get(0));
+            }
+
+            List<Contributor> contributors = broadcastedProgram.getProgram().getCredits();
+            /* Si la liste est vide c'est regrettable mais c'est plus ma faute */
+            this.contributors.addAll(contributors);
+        }
 
     }
 
@@ -138,9 +152,10 @@ public class TV {
 
     /**
      * Question 2: Liste des jours programmés.
+     * Lists all days programmed.
      *
-     * @return {@link List} contenant les jours programmés
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @return all days programmed
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<Date> daysProgrammed() throws NotLoadedException {
         if (!loaded) throw new NotLoadedException();
@@ -155,11 +170,12 @@ public class TV {
 
     /**
      * Question 3: Programmation d'un jour et d'une chaîne donné.
+     * Lists all {@link BroadcastedProgram} for a given day and a given channel.
      *
-     * @param channel chaîne selectionnée
-     * @param day     jour selectionné
-     * @return {@link List} contenant la programmation d'un jour et d'une chaîne donné
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @param channel given day
+     * @param day     given channel
+     * @return all {@link BroadcastedProgram} for a given day and a given channel
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<BroadcastedProgram> programmationOfnAt(@NotNull Channel channel, @NotNull Date day) throws NotLoadedException {
         if (!loaded)
@@ -177,14 +193,15 @@ public class TV {
 
     /**
      * Question 5: Liste des émissions pendant un laps de temps donné.
+     * Lists {@link BroadcastedProgram} for a given time.
      *
-     * @param moment point dans le tempts sélectionné
-     * @return la {@link List} contenant les émissions passant pendant un laps de temps donné
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @param moment given time
+     * @return {@link BroadcastedProgram} for a given time.
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<BroadcastedProgram> programsWhile(@NotNull Date moment) throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
-        assert moment != null;
+        if (!loaded)
+            throw new NotLoadedException();
         Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
             @Override
             public boolean test(BroadcastedProgram program) {
@@ -197,21 +214,21 @@ public class TV {
     }
 
     /**
-     * Question 6: Liste des programmes (pas que film) concernant un contributeur (pas qu'acteur ou réalisateur parce que tant qu'à faire).
+     * Question 6: Liste des programmes (pas que film) concernant un contributeur
+     * (pas qu'acteur ou réalisateur parce que tant qu'à faire).
+     * Lists {@link BroadcastedProgram} which containes a given {@link Contributor}.
      *
-     * @param contributor
-     * @return la {@link List} contenant les programmes concernant le contributeur donné
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @param contributor condition
+     * @return {@link BroadcastedProgram} which containes a given {@link Contributor}.
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public List<Program> programsWith(@NotNull Contributor contributor) throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
-        assert contributorName != null;
-        if (contributorName.isEmpty())
-            return List.of();
+        if (!loaded)
+            throw new NotLoadedException();
         Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
             @Override
             public boolean test(BroadcastedProgram program) {
-                return program.getProgram().getCredits().removeIf(c -> c.getName().equals(contributorName));
+                return program.getProgram().getCredits().removeIf(c -> !contributor.getName().equals(c.getName()));
             }
         };
         List<BroadcastedProgram> query = queryPrograms(filter);
@@ -225,19 +242,28 @@ public class TV {
      * Question 9: Nombre de chaque catégorie CSA.
      *
      * @return une {@link Map} catégorie CSA / nombre d'occurence
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public Map<EnumCSA, Integer> enumCSAMultiplicty() throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
+        if (!loaded)
+            throw new NotLoadedException();
         Map<EnumCSA, Integer> result = new HashMap<>();
+        for (BroadcastedProgram broadcastedProgram : programmation) {
+            EnumCSA enumCSA = broadcastedProgram.getProgram().getRating();
+            if (result.containsKey(enumCSA))
+                result.put(enumCSA, 0);
+            else
+                result.put(enumCSA, result.get(enumCSA) + 1);
+        }
         return result;
     }
 
 
     /**
-     * Génère un compte rendu suivant les questions de l'énoncéµ.
+     * Question 11: Génération XHTML.
+     * Generates a XHTML file, which summarize all analysis.
      *
-     * @throws NotLoadedException fichier non chargé, chargé le fichier au préalable
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
     public void generateXHTLMReport() throws NotLoadedException {
         if (!loaded) throw new NotLoadedException();
@@ -246,33 +272,55 @@ public class TV {
 
     /* Fonctions génériques */
 
-    public List<Channel> queryChannels(Predicate<Channel> filter) {
-        assert filter != null;
+    /**
+     * Queries {@link TV#channels} with a given filter.
+     *
+     * @param filter query test
+     * @return {@link TV#channels} with a given filter
+     */
+    public List<Channel> queryChannels(@NotNull Predicate<Channel> filter) {
         List<Channel> result = new ArrayList<>(channels);
         result.removeIf(filter.negate());
         return result;
     }
 
-    public List<BroadcastedProgram> queryPrograms(Predicate<BroadcastedProgram> filter) {
-        assert filter != null;
+    /**
+     * Queries {@link TV#programmation} with a given filter.
+     *
+     * @param filter query test
+     * @return {@link TV#programmation} with a given filter
+     */
+    public List<BroadcastedProgram> queryPrograms(@NotNull Predicate<BroadcastedProgram> filter) {
         List<BroadcastedProgram> result = new ArrayList<>(programmation);
         result.removeIf(filter.negate());
         return result;
     }
 
-    public List<Channel> channelsOrderedBy(Comparator<Channel> comparator) {
-        assert comparator != null;
+    /**
+     * Returns a sorted list of {@link TV#channels} with a given comparator.
+     *
+     * @param comparator comparison test
+     * @return a sorted list of {@link TV#channels} with a given comparator.
+     */
+    public List<Channel> channelsOrderedBy(@NotNull Comparator<Channel> comparator) {
         List<Channel> result = new ArrayList<>(channels);
         result.sort(comparator);
         return result;
     }
 
-    public List<BroadcastedProgram> programsOrderedBy(Comparator<BroadcastedProgram> comparator) {
-        assert comparator != null;
+    /**
+     * Returns a sorted list of {@link TV#programmation} with a given comparator.
+     *
+     * @param comparator comparison test
+     * @return a sorted list of {@link TV#programmation} with a given comparator.
+     */
+    public List<BroadcastedProgram> programsOrderedBy(@NotNull Comparator<BroadcastedProgram> comparator) {
         List<BroadcastedProgram> result = new ArrayList<>(programmation);
         result.sort(comparator);
         return result;
     }
+
+    /* Inner class */
 
     /**
      * @see TV#loaded

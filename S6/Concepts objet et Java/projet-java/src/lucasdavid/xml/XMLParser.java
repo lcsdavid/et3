@@ -27,18 +27,18 @@ public class XMLParser {
     public XMLParser() {
         toParseFile = "";
 
-        parseBuffer = new ArrayList<>();
+        parseBuffer = new Vector<>();
     }
 
     /**
      * Constructor.
      *
-     * @param toParseFile to be set
+     * @param toParseFile source file
      */
     public XMLParser(@NotNull String toParseFile) {
         this.toParseFile = toParseFile;
 
-        parseBuffer = new ArrayList<>();
+        parseBuffer = new Vector<>();
     }
 
     /**
@@ -53,7 +53,7 @@ public class XMLParser {
     /**
      * Sets {@link XMLParser#toParseFile}.
      *
-     * @param toParseFile to be set
+     * @param toParseFile XML source file
      */
     public void setToParseFile(@NotNull String toParseFile) {
         this.toParseFile = toParseFile;
@@ -81,15 +81,15 @@ public class XMLParser {
 
     /**
      * Parses {@link XMLParser#toParseFile}
-     * XML stream parse putting all data in a {@link List<AbstractElement>}.
+     * XML stream parse putting all data in a {@link List}.
      * Which means this is a semi-stream-DOM model.
      *
      * @throws FileNotFoundException if parsing file path is invalid
      * @throws XMLStreamException ...
      */
     public void parse() throws FileNotFoundException, XMLStreamException {
-        if(!hasValidToParseFile())
-            throw new FileNotFoundException();
+        //if(!hasValidToParseFile())
+        //   throw new FileNotFoundException();
 
         XMLStreamReader streamReader = XMLInputFactory.newInstance().createXMLStreamReader(new FileReader(toParseFile));
         parseBuffer.clear();

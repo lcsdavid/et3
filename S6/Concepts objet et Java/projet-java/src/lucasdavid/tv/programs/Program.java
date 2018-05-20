@@ -132,7 +132,7 @@ public class Program {
     /* Setter */
 
     /**
-     * Set data from a given {@link Element}.
+     * Sets data from a given {@link Element}.
      *
      * @param element data container
      */
@@ -172,6 +172,7 @@ public class Program {
      * @return a new allocated instance of {@link Program} from a given {@link Element},
      * otherwise {@code null} if the {@link Element} can't be queried.
      * @see Program#set(Element)
+     * @throws NotExceptedElementException ...
      */
     public static Program newInstance(@NotNull Element element) throws NotExceptedElementException {
         if (!element.getName().equals("programme"))
@@ -207,6 +208,7 @@ public class Program {
 
 
     /**
+     * Question 4: Affichage programme adéquat.
      * Returns a brief of {@code this}.
      *
      * @return a brief of {@code this}
@@ -227,6 +229,7 @@ public class Program {
     }
 
     /**
+     * Question 4: Affichage programme adéquat.
      * Returns a partial {@link String} descriptor of {@code this}.
      * More info than {@link Program#brief()} .
      *

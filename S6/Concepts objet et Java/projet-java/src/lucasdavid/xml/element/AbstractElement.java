@@ -30,8 +30,8 @@ public abstract class AbstractElement {
     /**
      *  Constructor.
      *
-     * @param name to be set
-     * @param attributes to be set
+     * @param name name of this element
+     * @param attributes attributes of this element
      */
     public AbstractElement(@NotNull String name, @NotNull Map<String, String> attributes) {
         this.name = name;
@@ -92,7 +92,8 @@ public abstract class AbstractElement {
 
     /**
      * Sets {@link AbstractElement#name}.
-     * @param name to be set
+     *
+     * @param name name of this element
      */
     public void setName(@NotNull String name) {
         this.name = name;

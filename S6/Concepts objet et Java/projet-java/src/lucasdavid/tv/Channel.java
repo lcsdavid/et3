@@ -13,8 +13,8 @@ public class Channel {
     /**
      * Constructor.
      *
-     * @param id to be set
-     * @param name to be set
+     * @param id identifier of the channel
+     * @param name name of the channel
      */
     public Channel(@NotNull String id, @NotNull String name) {
         this.id = id;
@@ -53,6 +53,21 @@ public class Channel {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Indicates whether some other channel is "equal to" this one.
+     *
+     * @param obj the channel with which to compare
+     * @return {@code true} if this channel has the same id the obj, {@code false} otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Channel) {
+            Channel channel_obj = (Channel) obj;
+            return id.equals(channel_obj.id);
+        }
+        return false;
     }
 
     /**

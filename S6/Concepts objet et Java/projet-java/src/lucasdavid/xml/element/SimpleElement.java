@@ -26,9 +26,9 @@ public final class SimpleElement extends AbstractElement {
     /**
      * Constructor.
      *
-     * @param name to be set
-     * @param attributes to be set
-     * @param text to be set
+     * @param name name of this element
+     * @param attributes attributes of this element
+     * @param text text of this element
      * @see AbstractElement#AbstractElement(String, Map)
      */
     public SimpleElement(@NotNull String name, @NotNull Map<String, String> attributes, @NotNull String text) {
