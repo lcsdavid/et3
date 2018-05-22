@@ -5,7 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lucasdavid.tv.Channel;
 import lucasdavid.tv.TV;
+import lucasdavid.tv.programs.EnumCSA;
+import lucasdavid.xml.XMLParser;
+import lucasdavid.xml.element.Element;
+import lucasdavid.xml.element.SimpleElement;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
 
 public class Main extends Application {
 
@@ -15,13 +24,9 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        TV tv = new TV();
-        tv.load("tvguide_20180430_20180511.xml");
     }
 
     public static void main(String[] args) throws Exception {
-        TV tv = new TV();
-        tv.load("tvguide_20180430_20180511.xml");
-        // launch(args);
+        launch(args);
     }
 }

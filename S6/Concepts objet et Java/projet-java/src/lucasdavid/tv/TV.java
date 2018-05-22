@@ -2,7 +2,7 @@ package lucasdavid.tv;
 
 import lucasdavid.xml.element.Element;
 import lucasdavid.xml.XMLParser;
-import lucasdavid.tv.credits.Contributor;
+import lucasdavid.tv.contributor.Contributor;
 import lucasdavid.tv.programs.BroadcastedProgram;
 import lucasdavid.tv.programs.EnumCSA;
 import lucasdavid.tv.programs.Program;
@@ -61,19 +61,21 @@ public class TV {
 
         loaded = true;
 
-        parser.queryElementsByName("channel").forEach(element -> {
+        parser.queryElementsByName("channel").forEach(abstractElement -> {
             try {
-                channels.add(new Channel((Element) element));
-            } catch (NotExceptedElementException notExceptedElementException) {
-                notExceptedElementException.printStackTrace();
+                if (abstractElement instanceof Element)
+                    channels.add(new Channel((Element) abstractElement));
+            } catch (NotExceptedElementException e) {
+                System.err.println(e.toString());
             }
         });
 
-        parser.queryElementsByName("programme").forEach(element -> {
+        parser.queryElementsByName("programme").forEach(abstractElement -> {
             try {
-                programmation.add(new BroadcastedProgram((Element) element));
-            } catch (NotExceptedElementException notExceptedElementException) {
-                notExceptedElementException.printStackTrace();
+                if (abstractElement instanceof Element)
+                    programmation.add(new BroadcastedProgram((Element) abstractElement));
+            } catch (NotExceptedElementException e) {
+                System.err.println(e.toString());
             }
         });
         bind();
@@ -85,9 +87,9 @@ public class TV {
      * {@link TV#programmation}'s {@link BroadcastedProgram#program}'s {@link Program#credits}.
      */
     private void bind() {
-        for (BroadcastedProgram broadcastedProgram: programmation) {
+        for (BroadcastedProgram broadcastedProgram : programmation) {
             List<Channel> channelQuery = queryChannels(c -> c.equals(broadcastedProgram.getChannel()));
-            if(!channelQuery.isEmpty()) { /* On fait rien si y'a rien tanpis. */
+            if (!channelQuery.isEmpty()) { /* On fait rien si y'a rien tanpis. */
                 while (channelQuery.size() > 1) { /* Doublon où erreur dans le fichier XML, on retire l'excedant */
                     channels.remove(channelQuery.get(0));
                     channelQuery.remove(0);
@@ -159,13 +161,13 @@ public class TV {
      */
     public List<Date> daysProgrammed() throws NotLoadedException {
         if (!loaded) throw new NotLoadedException();
-        List<Date> result = new ArrayList<>();
+        Set<Date> result = new HashSet<>();
         for (BroadcastedProgram p : programmation) {
-            Date current_date = new Date(TimeUnit.DAYS.convert(p.getProgramming().getTime(), TimeUnit.MILLISECONDS));
-            if (!programmation.stream().findAny().filter(any -> any.getProgramming().equals(current_date)).isPresent())
-                result.add(current_date);
+            long numberOfDay = TimeUnit.DAYS.convert(p.getProgramming().getTime(), TimeUnit.MILLISECONDS);
+            Date round = new Date(TimeUnit.MILLISECONDS.convert(numberOfDay, TimeUnit.DAYS));
+            result.add(round);
         }
-        return result;
+        return new ArrayList<>(result);
     }
 
     /**
@@ -180,13 +182,12 @@ public class TV {
     public List<BroadcastedProgram> programmationOfnAt(@NotNull Channel channel, @NotNull Date day) throws NotLoadedException {
         if (!loaded)
             throw new NotLoadedException();
-        Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
-            @Override
-            public boolean test(BroadcastedProgram program) {
-                Date programming = new Date(TimeUnit.DAYS.convert(program.getProgramming().getTime(), TimeUnit.MILLISECONDS));
-                day.setTime(TimeUnit.DAYS.convert(day.getTime(), TimeUnit.MILLISECONDS));
-                return program.getChannel().getId().equals(channel.getId()) && programming.equals(day);
-            }
+        Predicate<BroadcastedProgram> filter = program -> {
+            long numberOfDay = TimeUnit.DAYS.convert(program.getProgramming().getTime(), TimeUnit.MILLISECONDS);
+            Date round = new Date(TimeUnit.MILLISECONDS.convert(numberOfDay, TimeUnit.DAYS));
+            numberOfDay = TimeUnit.DAYS.convert(day.getTime(), TimeUnit.MILLISECONDS);
+            day.setTime(TimeUnit.MILLISECONDS.convert(numberOfDay, TimeUnit.DAYS));
+            return program.getChannel().getId().equals(channel.getId()) && round.equals(day);
         };
         return queryPrograms(filter);
     }
@@ -202,13 +203,11 @@ public class TV {
     public List<BroadcastedProgram> programsWhile(@NotNull Date moment) throws NotLoadedException {
         if (!loaded)
             throw new NotLoadedException();
-        Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
-            @Override
-            public boolean test(BroadcastedProgram program) {
-                Date start = program.getProgramming();
-                Date end = new Date(program.getProgramming().getTime() + program.getProgram().getLenght());
-                return moment.after(start) && moment.before(end);
-            }
+
+        Predicate<BroadcastedProgram> filter = program -> {
+            Date start = program.getProgramming();
+            Date end = new Date(start.getTime() + program.getProgram().getLenght());
+            return moment.after(start) && moment.before(end);
         };
         return queryPrograms(filter);
     }
@@ -225,15 +224,8 @@ public class TV {
     public List<Program> programsWith(@NotNull Contributor contributor) throws NotLoadedException {
         if (!loaded)
             throw new NotLoadedException();
-        Predicate<BroadcastedProgram> filter = new Predicate<BroadcastedProgram>() {
-            @Override
-            public boolean test(BroadcastedProgram program) {
-                return program.getProgram().getCredits().removeIf(c -> !contributor.getName().equals(c.getName()));
-            }
-        };
-        List<BroadcastedProgram> query = queryPrograms(filter);
         List<Program> result = new ArrayList<>();
-        for (BroadcastedProgram p : query)
+        for (BroadcastedProgram p : queryPrograms(program -> program.getProgram().getCredits().contains(contributor)))
             result.add(p.getProgram());
         return result;
     }
@@ -244,13 +236,13 @@ public class TV {
      * @return une {@link Map} catégorie CSA / nombre d'occurence
      * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
-    public Map<EnumCSA, Integer> enumCSAMultiplicty() throws NotLoadedException {
+    public Map<EnumCSA, Integer> CSAOccurrences() throws NotLoadedException {
         if (!loaded)
             throw new NotLoadedException();
-        Map<EnumCSA, Integer> result = new HashMap<>();
+        Map<EnumCSA, Integer> result = new EnumMap<>(EnumCSA.class);
         for (BroadcastedProgram broadcastedProgram : programmation) {
             EnumCSA enumCSA = broadcastedProgram.getProgram().getRating();
-            if (result.containsKey(enumCSA))
+            if (!result.containsKey(enumCSA))
                 result.put(enumCSA, 0);
             else
                 result.put(enumCSA, result.get(enumCSA) + 1);

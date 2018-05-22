@@ -104,7 +104,7 @@ public final class Element extends AbstractElement {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder().append('<').append(name);
         for (Map.Entry<String, String> entry: attributes.entrySet())
-            stringBuilder.append(' ').append(entry.getKey()).append(" = \"").append(entry.getValue()).append('\"');
+            stringBuilder.append(' ').append(entry.getKey()).append("=\"").append(entry.getValue()).append('\"');
         stringBuilder.append(">\n");
         for (AbstractElement element: subElements)
             for(String split: element.toString().split("\n"))

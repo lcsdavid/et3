@@ -27,7 +27,7 @@ public class XMLParser {
     public XMLParser() {
         toParseFile = "";
 
-        parseBuffer = new Vector<>();
+        parseBuffer = new ArrayList<>();
     }
 
     /**
@@ -38,7 +38,7 @@ public class XMLParser {
     public XMLParser(@NotNull String toParseFile) {
         this.toParseFile = toParseFile;
 
-        parseBuffer = new Vector<>();
+        parseBuffer = new ArrayList<>();
     }
 
     /**
@@ -85,7 +85,7 @@ public class XMLParser {
      * Which means this is a semi-stream-DOM model.
      *
      * @throws FileNotFoundException if parsing file path is invalid
-     * @throws XMLStreamException ...
+     * @throws XMLStreamException    ...
      */
     public void parse() throws FileNotFoundException, XMLStreamException {
         //if(!hasValidToParseFile())
@@ -94,15 +94,12 @@ public class XMLParser {
         XMLStreamReader streamReader = XMLInputFactory.newInstance().createXMLStreamReader(new FileReader(toParseFile));
         parseBuffer.clear();
 
-        Stack<AbstractElement> abstractElements = new Stack<>();
+        Stack<Element> elementStack = new Stack<>();
         int eventType;
-
         while (streamReader.hasNext()) {
             eventType = streamReader.next();
-
             /* Premier cas triggered dans la boucle */
             if (eventType == XMLEvent.START_ELEMENT) {
-
                 /* Récolte des premières infos */
                 String name = streamReader.getName().toString();
                 Map<String, String> attributes = new HashMap<>();
@@ -112,27 +109,28 @@ public class XMLParser {
                 /* Instanciation de  <? extends AbstractElement>} */
                 AbstractElement abstractElement;
                 eventType = streamReader.next();
-                if (streamReader.hasText())
-                    abstractElement = new SimpleElement(name, attributes, streamReader.getText());
-                else if (eventType == XMLEvent.END_ELEMENT)
+                if (streamReader.hasText() && !streamReader.getText().trim().isEmpty()) {
+                    abstractElement = new SimpleElement(name, attributes, streamReader.getText().trim());
+                    while (eventType != XMLEvent.END_ELEMENT)
+                        eventType = streamReader.next();
+                } else if (eventType == XMLEvent.END_ELEMENT)
                     abstractElement = new EmptyElement(name, attributes);
                 else
                     abstractElement = new Element(name, attributes);
 
                 /* Coeur de la boucle (gère le modèle arboricole des Element(s) avec une Pile et le buffer final */
-                if (parseBuffer.isEmpty()) {
+                if (parseBuffer.isEmpty() || parseBuffer.get(parseBuffer.size() - 1).isLock()) {
                     parseBuffer.add(abstractElement);
-                    if (!abstractElement.isLock()) abstractElements.push(abstractElement);
-                } else if (((Vector<AbstractElement>) parseBuffer).lastElement().isLock()) {
-                    parseBuffer.add(abstractElement);
-                    if (!abstractElement.isLock()) abstractElements.push(abstractElement);
+                    if (abstractElement instanceof Element)
+                        elementStack.push((Element) abstractElement);
                 } else {
-                    if (!abstractElements.empty()) ((Element) abstractElements.peek()).addSubElement(abstractElement);
-                    if (!abstractElement.isLock()) abstractElements.push(abstractElement);
+                    if (!elementStack.empty())
+                        elementStack.peek().addSubElement(abstractElement);
+                    if (abstractElement instanceof Element)
+                        elementStack.push((Element) abstractElement);
                 }
-
             } else if (eventType == XMLEvent.END_ELEMENT) /* Second cas */
-                abstractElements.pop().lock(); /* Autre partie du coeur arboricole (pour que ça boucle correctement) */
+                    elementStack.pop().lock(); /* Autre partie du coeur arboricole (pour que ça boucle correctement) */
         }
     }
 
@@ -144,7 +142,7 @@ public class XMLParser {
      */
     public List<AbstractElement> queryElements(@NotNull Predicate<AbstractElement> filter) {
         List<AbstractElement> result = new ArrayList<>();
-        for (AbstractElement abstractElement: parseBuffer)
+        for (AbstractElement abstractElement : parseBuffer)
             result.addAll(abstractElement.query(filter));
         return result;
     }

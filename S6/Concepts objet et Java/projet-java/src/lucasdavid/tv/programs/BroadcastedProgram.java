@@ -1,8 +1,14 @@
 package lucasdavid.tv.programs;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalField;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import lucasdavid.xml.element.Element;
 import lucasdavid.xml.element.NotExceptedElementException;
@@ -34,7 +40,7 @@ public final class BroadcastedProgram {
         if(start == null)
             throw new NotExceptedElementException("miss \"start\" attribute");
         try {
-            programming = new SimpleDateFormat("YYYYMMddmmss").parse(start);
+            programming = new SimpleDateFormat("yyyyMMddhhmmss").parse(start);
         } catch (ParseException e) {
             e.printStackTrace();
             throw new NotExceptedElementException("not valid \"start\" attribute");
@@ -95,6 +101,7 @@ public final class BroadcastedProgram {
     @Override
     public String toString() {
         String s = "[" + getClass().getSimpleName() + ": " + getProgram().getTitle() + '\n';
+        s += "category: " + getProgram().getClass().getSimpleName() + '\n';
         s += "on: " + getChannel().getName() + '\n';
         s += "at: " + new SimpleDateFormat("[EEEE d MMMM] hh:mm").format(getProgramming()) + '\n';
         s += ']';

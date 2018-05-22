@@ -9,7 +9,7 @@ import lucasdavid.xml.element.Element;
 import lucasdavid.xml.element.NotExceptedElementException;
 import lucasdavid.xml.element.SimpleElement;
 
-import lucasdavid.tv.credits.Contributor;
+import lucasdavid.tv.contributor.Contributor;
 import lucasdavid.tv.programs.category.*;
 
 import org.jetbrains.annotations.NotNull;
@@ -136,40 +136,76 @@ public class Program {
      *
      * @param element data container
      */
-    private void set(@NotNull Element element) {
-        element.getSubElements().forEach(subElem -> {
-            switch (subElem.getName()) {
+    private void set(@NotNull Element element) throws NotExceptedElementException {
+        for (AbstractElement subElement: element.getSubElements()) {
+            switch (subElement.getName()) {
                 case "title":
-                    title = ((SimpleElement) subElem).getText();
+                    if (subElement instanceof SimpleElement) {
+                        SimpleElement title = (SimpleElement) subElement;
+                        this.title = title.getText();
+                    } else
+                        throw new NotExceptedElementException("not a SimpleElement");
                     break;
                 case "sub-title":
-                    subtitle = ((SimpleElement) subElem).getText();
+                    if (subElement instanceof SimpleElement) {
+                        SimpleElement subtitle = (SimpleElement) subElement;
+                        this.subtitle = subtitle.getText();
+                    } else
+                        throw new NotExceptedElementException("not a SimpleElement");
                     break;
-                case "description":
-                    description = ((SimpleElement) subElem).getText();
+                case "desc":
+                    if (subElement instanceof SimpleElement) {
+                        SimpleElement description = (SimpleElement) subElement;
+                        this.description = description.getText();
+                    } else
+                        throw new NotExceptedElementException("not a SimpleElement");
                     break;
-                case "lenght":
-                    if (subElem.getAttribute("units").equals("minutes"))
-                        lenght = Long.parseLong(((SimpleElement) subElem).getText()) * 60000;
-                    else if (subElem.getAttribute("units").equals("hours"))
-                        lenght = Long.parseLong(((SimpleElement) subElem).getText()) * 36000000;
+                case "contributor":
+                    if (subElement instanceof Element) {
+                        Element credits = (Element) subElement;
+                        this.credits = Contributor.newInstances(credits);
+                    } else
+                        throw new NotExceptedElementException("not an Element");
+                    break;
+                case "length":
+                    if (subElement instanceof SimpleElement) {
+                        if(subElement.hasAttributes()) {
+                            SimpleElement lenght = (SimpleElement) subElement;
+                            if (lenght.getAttribute("units").equals("minutes"))
+                                this.lenght = Long.parseLong(lenght.getText()) * 60000;
+                            else if (lenght.getAttribute("units").equals("hours"))
+                                this.lenght = Long.parseLong(lenght.getText()) * 36000000;
+                        } else
+                            throw new NotExceptedElementException("miss attributes");
+                    } else
+                        throw new NotExceptedElementException("not a SimpleElement");
+
                     break;
                 case "star-rating":
-                    starRating = Float.parseFloat(((SimpleElement) subElem).getText());
+                    if (subElement instanceof Element) {
+                        Element starRating = (Element) subElement;
+                        SimpleElement starRating_ = (SimpleElement) starRating.getSubElements().get(0);
+                        this.starRating = Float.parseFloat(starRating_.getText().split("/")[0]);
+                    } else
+                        throw new NotExceptedElementException("not an Element \"star-rating\"");
                     break;
                 case "rating":
-                    rating = EnumCSA.parseEnumCSA(((SimpleElement) subElem).getText());
+                    if (subElement instanceof Element) {
+                        Element rating = (Element) subElement;
+                        SimpleElement rating_ = (SimpleElement) rating.getSubElements().get(0);
+                        this.rating = EnumCSA.parseEnumCSA(rating_.getText());
+                    } else
+                        throw new NotExceptedElementException("not an Element \"rating\"");
                     break;
             }
-        });
+        }
     }
 
     /**
-     * Returns a new allocated instance of {@link Program} and set data from a given {@link Element},
-     * otherwise {@code null} if the {@link Element} can't be queried.
+     * Returns a new instance of {@link Program} and set data from a given {@link Element}.
      *
      * @param element data container
-     * @return a new allocated instance of {@link Program} from a given {@link Element},
+     * @return a new instance of {@link Program} from a given {@link Element},
      * otherwise {@code null} if the {@link Element} can't be queried.
      * @see Program#set(Element)
      * @throws NotExceptedElementException ...
@@ -178,30 +214,37 @@ public class Program {
         if (!element.getName().equals("programme"))
             throw new NotExceptedElementException("not \"programme\"");
 
-        List<AbstractElement> categories = element.query(e -> e.getName().equals("categorie"));
+        List<AbstractElement> categories = element.query(e -> e.getName().equals("category"));
         if(categories.isEmpty())
-            throw new NotExceptedElementException("miss \"categorie\"");
+            throw new NotExceptedElementException("miss \"category\"");
         if(categories.size() != 1)
-            throw new NotExceptedElementException("excepted 1 \"categorie\"");
-        String category = ((SimpleElement) categories.get(0)).getText();
-
+            throw new NotExceptedElementException("excepted 1 \"category\"");
+        String category = ((SimpleElement) categories.get(0)).getText().split(" ")[0];
         Program newInstance;
         switch (category) {
             case "documentaire":
                 newInstance = new Documentary();
+                break;
             case "film":
                 newInstance = new Film();
+                break;
             case "journal":
                 newInstance = new Journal();
+                break;
             case "magazine":
                 newInstance = new Magazine();
+                break;
             case "série":
                 newInstance = new Serie();
+                break;
             case "téléfilm":
                 newInstance = new TVMovie();
+                break;
             default:
                 newInstance = new Program();
+                break;
         }
+
         newInstance.set(element);
         return newInstance;
     }
@@ -238,8 +281,9 @@ public class Program {
     @Override
     public String toString() {
         String s = '[' + getClass().getSimpleName() + ": " + title + '\n';
-        s += subtitle + '\n';
-        s += description + "\n]";
+        if(!subtitle.isEmpty())
+            s += subtitle + '\n';
+        s += description + ']';
         return s;
     }
 }

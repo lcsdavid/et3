@@ -91,6 +91,15 @@ public abstract class AbstractElement {
     }
 
     /**
+     * Returns {@code true} if {@code attributes} is not empty, {@code false} otherwise.
+     *
+     * @return {@code true} if {@code attributes} is not empty, {@code false} otherwise
+     */
+    public boolean hasAttributes() {
+        return !attributes.isEmpty();
+    }
+
+    /**
      * Sets {@link AbstractElement#name}.
      *
      * @param name name of this element

@@ -30,9 +30,16 @@ public class Channel {
      */
     public Channel(@NotNull Element element) throws NotExceptedElementException {
         if(!element.getName().equals("channel"))
-            throw new NotExceptedElementException();
-        id = ((SimpleElement) ((Element) element).getSubElements().get(0)).getText();
-        name = ((SimpleElement) ((Element) element).getSubElements().get(1)).getText();
+            throw new NotExceptedElementException("not \"channel\"");
+
+        String id = element.getAttribute("id");
+        if(id == null)
+            throw new NotExceptedElementException("miss \"channel\" attribute");
+        this.id = id;
+
+        if (element.getSubElements().isEmpty())
+            throw new NotExceptedElementException("miss \"channel\" sub-element");
+        this.name = ((SimpleElement) element.getSubElements().get(0)).getText();
     }
 
     /* Getters */
