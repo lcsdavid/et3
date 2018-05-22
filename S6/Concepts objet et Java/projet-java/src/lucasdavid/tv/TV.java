@@ -1,5 +1,6 @@
 package lucasdavid.tv;
 
+import lucasdavid.tv.contributor.Actor;
 import lucasdavid.xml.element.Element;
 import lucasdavid.xml.XMLParser;
 import lucasdavid.tv.contributor.Contributor;
@@ -11,9 +12,11 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Interface-user class.
@@ -26,7 +29,6 @@ public class TV {
 
     private List<Channel> channels;
     private List<BroadcastedProgram> programmation;
-    private List<Contributor> contributors;
 
     /**
      * Constructor.
@@ -37,7 +39,6 @@ public class TV {
 
         channels = new ArrayList<>();
         programmation = new ArrayList<>();
-        contributors = new ArrayList<>();
     }
 
     /* Get & Set */
@@ -75,7 +76,7 @@ public class TV {
                 if (abstractElement instanceof Element)
                     programmation.add(new BroadcastedProgram((Element) abstractElement));
             } catch (NotExceptedElementException e) {
-                System.err.println(e.toString());
+                System.err.println(e.getMessage());
             }
         });
         bind();
@@ -83,7 +84,7 @@ public class TV {
 
     /**
      * Binds {@link Channel}s with {@link BroadcastedProgram#channel}.
-     * Fills {@link TV#contributors} list with
+     *
      * {@link TV#programmation}'s {@link BroadcastedProgram#program}'s {@link Program#credits}.
      */
     private void bind() {
@@ -96,10 +97,6 @@ public class TV {
                 }
                 broadcastedProgram.setChannel(channelQuery.get(0));
             }
-
-            List<Contributor> contributors = broadcastedProgram.getProgram().getCredits();
-            /* Si la liste est vide c'est regrettable mais c'est plus ma faute */
-            this.contributors.addAll(contributors);
         }
 
     }
@@ -130,24 +127,12 @@ public class TV {
     }
 
     /**
-     * Returns {@link TV#contributors}.
-     *
-     * @return {@link TV#contributors}
-     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
-     */
-    public List<Contributor> getContributors() throws NotLoadedException {
-        if (!loaded)
-            throw new NotLoadedException();
-        return contributors;
-    }
-
-    /**
      * Clears lists.
      */
     public void clear() {
         channels.clear();
         programmation.clear();
-        contributors.clear();
+
     }
 
     /* Questions (cas autres) */
@@ -203,11 +188,11 @@ public class TV {
     public List<BroadcastedProgram> programsWhile(@NotNull Date moment) throws NotLoadedException {
         if (!loaded)
             throw new NotLoadedException();
-
         Predicate<BroadcastedProgram> filter = program -> {
             Date start = program.getProgramming();
             Date end = new Date(start.getTime() + program.getProgram().getLenght());
-            return moment.after(start) && moment.before(end);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy hh:mm");
+            return start.before(moment) && end.after(moment);
         };
         return queryPrograms(filter);
     }
@@ -225,8 +210,57 @@ public class TV {
         if (!loaded)
             throw new NotLoadedException();
         List<Program> result = new ArrayList<>();
+        System.out.println("Yo !");
         for (BroadcastedProgram p : queryPrograms(program -> program.getProgram().getCredits().contains(contributor)))
             result.add(p.getProgram());
+        return result;
+    }
+
+    /**
+     * Question 7: Acteur et leur nombre de films.
+     *
+     * @return
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
+     */
+    public Map<Actor, Integer> palmares() throws NotLoadedException {
+        if (!loaded)
+            throw new NotLoadedException();
+        Map<Actor, Integer> result = new HashMap<>();
+        for (BroadcastedProgram broadcastedProgram : programmation) {
+            for (Contributor contributor : broadcastedProgram.getProgram().getCredits()) {
+                if (contributor instanceof Actor) {
+                    Actor actor = (Actor) contributor;
+                    if (!result.containsKey(actor))
+                        result.put(actor, 0);
+                    else
+                        result.put(actor, result.get(actor) + 1);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Question 8: J'ai pas trop compris la question parce que si c'est par jour
+     * on donne pas de période sinon c'est plus par jour.
+     * Donc du coup je vais juste lister les catégories et leurs occurrences.
+     * Le reste quelque soit la question est parfaitement possible
+     * avec les algos utilisés dans mes autres questions.
+     *
+     * @return
+     * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
+     */
+    public Map<String, Integer> categoryOccurrences() throws NotLoadedException {
+        if (!loaded)
+            throw new NotLoadedException();
+        Map<String, Integer> result = new HashMap<>();
+        for(BroadcastedProgram program: programmation) {
+            String category = program.getProgram().getClass().getSimpleName();
+            if(!result.containsKey(category))
+                result.put(category, 0);
+            else
+                result.replace(category, result.get(category) + 1);
+        }
         return result;
     }
 
@@ -252,14 +286,22 @@ public class TV {
 
 
     /**
-     * Question 11: Génération XHTML.
-     * Generates a XHTML file, which summarize all analysis.
+     * Question Final: Recherche par mots-clés.
      *
      * @throws NotLoadedException If file not loaded, ie. {@code loaded == true}.
      */
-    public void generateXHTLMReport() throws NotLoadedException {
-        if (!loaded) throw new NotLoadedException();
-
+    public List<Program> keyWordSearch(String... keyWords) throws NotLoadedException {
+        if (!loaded)
+            throw new NotLoadedException();
+        List<Program> result = new ArrayList<>();
+        for (BroadcastedProgram p : queryPrograms(program -> {
+            for (String keyWord: keyWords)
+                if(!program.getProgram().getDescription().contains(keyWord))
+                    return false;
+            return true;
+        }))
+            result.add(p.getProgram());
+        return result;
     }
 
     /* Fonctions génériques */

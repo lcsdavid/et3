@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lucasdavid
@@ -38,7 +39,6 @@ public class Contributor {
      * @param simpleElement data container
      */
     protected void set(@NotNull SimpleElement simpleElement) {
-        assert simpleElement != null;
         name = simpleElement.getText();
     }
 
@@ -94,8 +94,8 @@ public class Contributor {
      * @throws NotExceptedElementException ...
      */
     static public List<Contributor> newInstances(@NotNull Element element) throws NotExceptedElementException {
-        if (!element.getName().equals("contributor"))
-            throw new NotExceptedElementException("not \"contributor\"");
+        if (!element.getName().equals("credits"))
+            throw new NotExceptedElementException("not \"credits\"");
 
         List<Contributor> contributors = new ArrayList<>();
         for (AbstractElement abstractElement: element.getSubElements()) {
@@ -109,9 +109,14 @@ public class Contributor {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), name);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof Contributor) {
-            return ((Contributor) obj).name.equals(name);
+            return name.equals(((Contributor) obj).name);
         }
         return false;
     }

@@ -1,5 +1,7 @@
 package lucasdavid.tv.contributor;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author lucasdavid
  */
@@ -13,6 +15,15 @@ public class Presenter extends Contributor {
      */
     public Presenter() {
         super();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name presenter's name
+     */
+    public Presenter(@NotNull String name) {
+        this.name = name;
     }
 
     @Override

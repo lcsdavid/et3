@@ -3,6 +3,8 @@ package lucasdavid.tv.programs;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import lucasdavid.xml.element.AbstractElement;
 import lucasdavid.xml.element.Element;
@@ -137,7 +139,7 @@ public class Program {
      * @param element data container
      */
     private void set(@NotNull Element element) throws NotExceptedElementException {
-        for (AbstractElement subElement: element.getSubElements()) {
+        for (AbstractElement subElement : element.getSubElements()) {
             switch (subElement.getName()) {
                 case "title":
                     if (subElement instanceof SimpleElement) {
@@ -160,7 +162,7 @@ public class Program {
                     } else
                         throw new NotExceptedElementException("not a SimpleElement");
                     break;
-                case "contributor":
+                case "credits":
                     if (subElement instanceof Element) {
                         Element credits = (Element) subElement;
                         this.credits = Contributor.newInstances(credits);
@@ -169,12 +171,13 @@ public class Program {
                     break;
                 case "length":
                     if (subElement instanceof SimpleElement) {
-                        if(subElement.hasAttributes()) {
+                        if (subElement.hasAttributes()) {
                             SimpleElement lenght = (SimpleElement) subElement;
+                            int parse = Integer.parseInt(lenght.getText());
                             if (lenght.getAttribute("units").equals("minutes"))
-                                this.lenght = Long.parseLong(lenght.getText()) * 60000;
+                                this.lenght = TimeUnit.MINUTES.toMillis(parse);
                             else if (lenght.getAttribute("units").equals("hours"))
-                                this.lenght = Long.parseLong(lenght.getText()) * 36000000;
+                                this.lenght = TimeUnit.HOURS.toMillis(parse);
                         } else
                             throw new NotExceptedElementException("miss attributes");
                     } else
@@ -207,17 +210,17 @@ public class Program {
      * @param element data container
      * @return a new instance of {@link Program} from a given {@link Element},
      * otherwise {@code null} if the {@link Element} can't be queried.
-     * @see Program#set(Element)
      * @throws NotExceptedElementException ...
+     * @see Program#set(Element)
      */
     public static Program newInstance(@NotNull Element element) throws NotExceptedElementException {
         if (!element.getName().equals("programme"))
             throw new NotExceptedElementException("not \"programme\"");
 
         List<AbstractElement> categories = element.query(e -> e.getName().equals("category"));
-        if(categories.isEmpty())
+        if (categories.isEmpty())
             throw new NotExceptedElementException("miss \"category\"");
-        if(categories.size() != 1)
+        if (categories.size() != 1)
             throw new NotExceptedElementException("excepted 1 \"category\"");
         String category = ((SimpleElement) categories.get(0)).getText().split(" ")[0];
         Program newInstance;
@@ -249,6 +252,20 @@ public class Program {
         return newInstance;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), title, subtitle, lenght);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Program) {
+            Program program = (Program) obj;
+            return title.equals(program.title) && subtitle.equals(program.subtitle)
+                    && lenght == program.lenght;
+        }
+        return false;
+    }
 
     /**
      * Question 4: Affichage programme adéquat.
@@ -281,7 +298,7 @@ public class Program {
     @Override
     public String toString() {
         String s = '[' + getClass().getSimpleName() + ": " + title + '\n';
-        if(!subtitle.isEmpty())
+        if (!subtitle.isEmpty())
             s += subtitle + '\n';
         s += description + ']';
         return s;

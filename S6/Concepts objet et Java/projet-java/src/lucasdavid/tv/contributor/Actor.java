@@ -1,5 +1,8 @@
 package lucasdavid.tv.contributor;
 
+import lucasdavid.xml.element.SimpleElement;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author lucasdavid
  */
@@ -13,6 +16,23 @@ public class Actor extends Contributor {
      */
     public Actor() {
         super();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name actor's name
+     */
+    public Actor(@NotNull String name) {
+        this.name = name;
+    }
+
+    @Override
+    protected void set(@NotNull SimpleElement simpleElement) {
+        if(simpleElement.getText().contains("("))
+            name = simpleElement.getText().split("[(]")[0].trim();
+        else
+            super.set(simpleElement);
     }
 
     @Override
