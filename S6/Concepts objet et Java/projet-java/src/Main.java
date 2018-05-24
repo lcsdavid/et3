@@ -7,6 +7,7 @@ import lucasdavid.tv.programs.BroadcastedProgram;
 import lucasdavid.tv.programs.EnumCSA;
 import lucasdavid.tv.programs.Program;
 
+import java.nio.channels.Channel;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;

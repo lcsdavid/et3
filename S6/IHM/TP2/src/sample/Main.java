@@ -12,7 +12,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Open file...");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 300, 400));
+        primaryStage.setMinWidth(300);
+        primaryStage.setMinHeight(400);
+        primaryStage.setMaxWidth(350);
+        primaryStage.setMaxHeight(500);
         primaryStage.show();
     }
 
