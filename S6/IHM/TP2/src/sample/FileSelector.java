@@ -1,25 +1,50 @@
 package sample;
 
-import com.sun.source.util.TreePath;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import tree.Tree;
+import tree.Node;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.Objects;
 
-public class FileSelector extends Tree<File> {
-    private TreeSet<File> fileTree;
+public class FileSelector {
+    private File cursor = null;
+    private Tree<File> fileTree = new Tree<>();
 
     public FileSelector() {
-        super();
-        fileTree = new TreeSet<>();
-        TreePath
+        File[] listRoots = File.listRoots();
+        fileTree.setRoot(new Node<>());
+        for(File file: File.listRoots()) {
+            Node<File> node = new Node<>(file);
+            if(file.isDirectory()) {
+                File[] listFiles = file.listFiles();
+                if(listFiles != null)
+                    for (File subFile: listFiles)
+                        node.addChild(new Node<>(subFile));
+            }
+            fileTree.getRoot().addChild(node);
+        }
     }
 
-    public static File[] listRoots() {
-        return File.listRoots();
+    public FileSelector(String path) {
+        this();
+        cursor = new File(path);
+        if (cursor.exists()) {
+
+            File parent = cursor.getParentFile();
+            System.out.println();
+
+
+
+
+
+        }
+    }
+
+
+/*
+    public Node<File> search(File file) {
+
     }
 
     public static File[] listParents(String path) {
@@ -37,7 +62,7 @@ public class FileSelector extends Tree<File> {
     }
 
     // Retourne une Arraylist des parents du fichier Path
-    public ArrayList<String> getListRepParent(String path) {
+    /*public ArrayList<String> getListRepParent(String path) {
         String actualPath = "";
         File dir = new File(path);
         if (!dir.exists() || !dir.isDirectory())
@@ -94,5 +119,5 @@ public class FileSelector extends Tree<File> {
         return listFile;
     }
 
-
+*/
 }

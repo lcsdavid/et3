@@ -1,64 +1,141 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import tree.Tree;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    File actualFile;
+    private static ImageView dirIcon;
+    private static ImageView hiddenDirIcon = new ImageView();
+    private static ImageView fileIcon = new ImageView();
 
-    FileSelector fileSelector;
+
+    private File actualFile;
+
 
     @FXML
-    ComboBox<String> pathSelector;
+    private TextField pathSelector;
 
     @FXML
-    TreeView<File> fileTreeView;
+    private TreeView<String> fileView;
 
-    void initializeFileView() {
-        fileTreeView.
-        TreeItem<File> treeRoot = new TreeItem<>();
+    private void initializeFileView() {
+        fileView.setRoot(new TreeItem<>(""));
         for (File root : File.listRoots()) {
-            TreeItem<File> rootItem = new TreeItem<>(root);
-            if (root.isDirectory())
-                for (File rootChild : root.listFiles()) {
-                    TreeItem<File> rootChildItem = new TreeItem<>(rootChild);
-                    rootChildItem.setGraphic(new Label(rootChild.getName()));
-                    rootItem.getChildren().add(rootChildItem);
-                }
-            rootItem.setGraphic(new Label(root.getName()));
-            rootItem.
-            treeRoot.getChildren().add(rootItem);
+            insert(root.getPath());
+            insertChildren(root);
         }
-        fileTreeView.setRoot(treeRoot);
-        fileTreeView.setShowRoot(false);
+        fileView.setShowRoot(false);
+    }
+
+
+
+    private void setGraphic(TreeItem<String> item) {
+        String path = item.getValue();
+        TreeItem<String> it = item.getParent();
+        while (it != null) {
+            path = it.getValue() + '\\' + path;
+            it = it.getParent();
+        }
+        ImageView imageView = new ImageView("file:" + new File("rsc/dirIcon.png").getAbsolutePath());
+        imageView.setFitWidth(16);
+        imageView.setPreserveRatio(true);
+        item.setGraphic(imageView);
+       /* File file = new File(path);
+        if (file.isDirectory())
+            item.setGraphic(dirIcon);
+        else if (file.isFile())
+            item.setGraphic(fileIcon);
+        else if (file.isHidden())
+            item.setGraphic(hiddenDirIcon);*/
+    }
+
+    @FXML
+    private void cancel() {
+        System.exit(0);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /* */
+        System.out.println(new File("rsc/dirIcon.jpg").getAbsolutePath());
+        /* initialize values */
+        actualFile = new File("");
+        pathSelector.setText(actualFile.getAbsolutePath());
+        /**/
+
+        /* fill tree */
         initializeFileView();
-        try {
-            actualFile = new File(location.toURI());
-        } catch (URISyntaxException e) {
-            actualFile = File.listRoots()[0];
-            System.out.println(e.getMessage());
-        }
-        fileSelector = new FileSelector();
+        TreeItem<String> current = insert(actualFile.getAbsolutePath());
+        expand(current);
+        select(current);
         /**/
-        pathSelector.setPromptText(actualFile.getName());
-        /**/
-        TreeItem<File> root = new TreeItem<>();
-        FileSelector.listParents("");
+
     }
+
+    private TreeItem<String> insert(String path) {
+        String[] splitedPath = path.split("\\\\");
+        String currentPath = splitedPath[0];
+        TreeItem<String> currentItem = fileView.getRoot();
+        for (String split: splitedPath) {
+            ObservableList<TreeItem<String>> copy = FXCollections.observableArrayList(currentItem.getChildren());
+            copy.removeIf(item -> !item.getValue().equals(split));
+            if(copy.isEmpty()) {
+                TreeItem<String> child = new TreeItem<>(split);
+                currentItem.getChildren().add(child);
+                setGraphic(child);
+                currentItem = child;
+            } else {
+                currentItem = copy.get(0);
+            }
+            currentPath += '\\' + split;
+
+        }
+        return currentItem;
+    }
+
+    private void insertChildren(File parent) {
+        if(parent.isDirectory()) {
+            File[] children = parent.listFiles();
+            if(children != null)
+                for(File file: children)
+                    insert(file.getPath());
+        }
+    }
+
+    private void insertChildren(TreeItem<String> item) {
+        String path = item.getValue();
+        TreeItem<String> currentItem = item;
+        while (currentItem != null) {
+            path = item.getValue() + '\\' + path;
+            currentItem = currentItem.getParent();
+        }
+        File parent = new File(path);
+        insertChildren(parent);
+    }
+
+    private void expand(TreeItem<String> item) {
+        insertChildren(item);
+        while (item != null) {
+            item.setExpanded(true);
+            item = item.getParent();
+        }
+    }
+
+    private void select(TreeItem<String> item) {
+        int index = fileView.getRow(item);
+        fileView.getSelectionModel().select(index);
+        fileView.scrollTo(index);
+    }
+
+
 }
