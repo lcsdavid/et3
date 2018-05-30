@@ -210,7 +210,6 @@ public class TV {
         if (!loaded)
             throw new NotLoadedException();
         List<Program> result = new ArrayList<>();
-        System.out.println("Yo !");
         for (BroadcastedProgram p : queryPrograms(program -> program.getProgram().getCredits().contains(contributor)))
             result.add(p.getProgram());
         return result;

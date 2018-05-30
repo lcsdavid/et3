@@ -33,7 +33,7 @@ public class Main {
         /* RAS */
         List<Channel> chaînes = tv.getChannels();
         for (Channel chaîne: chaînes) {
-            // System.out.println(chaîne);
+            System.out.println(chaîne);
         }
 
         System.out.println();
@@ -42,7 +42,7 @@ public class Main {
         List<Date> jourProgrammés = tv.daysProgrammed();
         // jourProgrammés.sort(Date::compareTo);
         for (Date jour: jourProgrammés) {
-            // System.out.println(formatter.format(jour));
+            System.out.println(formatter.format(jour));
         }
 
         System.out.println();
@@ -52,7 +52,7 @@ public class Main {
         Channel chaîne = new Channel("C80.api.telerama.fr", "");
         List<BroadcastedProgram> programmesSurEtLe = tv.programmationOfnAt(chaîne, parser.parse(jour));
         for (BroadcastedProgram program: programmesSurEtLe) {
-            // System.out.println(program);
+            System.out.println(program);
         }
 
         System.out.println();
@@ -62,7 +62,7 @@ public class Main {
         List<BroadcastedProgram> programmesPendant = tv.programsWhile(parser.parse(moment));
         programmesPendant.sort(Comparator.comparing(BroadcastedProgram::getProgramming));
         for (BroadcastedProgram program: programmesPendant) {
-            // System.out.println(program);
+            System.out.println(program);
         }
 
         System.out.println();
@@ -74,27 +74,27 @@ public class Main {
         // contributeur = new Presenter(nomDeContributeur); marche aussi !
         List<Program> programmesAvec = tv.programsWith(contributeur);
         for (Program program: programmesAvec) {
-            // System.out.println(program);
+            System.out.println(program);
         }
 
         System.out.println();
 
         Map<Actor, Integer> palmares = tv.palmares();
         for(Map.Entry<Actor, Integer> entrée :palmares.entrySet()) {
-            // System.out.println(entrée.getKey() + ": " + entrée.getValue());
+            System.out.println(entrée.getKey() + ": " + entrée.getValue());
         }
 
         System.out.println();
 
         Map<String, Integer> categorieOcurences = tv.categoryOccurrences();
         for(Map.Entry<String, Integer> entrée: categorieOcurences.entrySet()) {
-            // System.out.println(entrée.getKey() + ": " + entrée.getValue());
+            System.out.println(entrée.getKey() + ": " + entrée.getValue());
         }
 
         /* RSA */
         Map<EnumCSA, Integer> occurencesDesNormesCSA = tv.CSAOccurrences();
         for (Map.Entry<EnumCSA, Integer> entrée: occurencesDesNormesCSA.entrySet()) {
-            // System.out.println(entrée.getKey() + " : " + entrée.getValue() + " occurences.");
+            System.out.println(entrée.getKey() + " : " + entrée.getValue() + " occurences.");
         }
 
         System.out.println();
