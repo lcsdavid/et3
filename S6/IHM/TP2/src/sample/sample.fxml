@@ -23,7 +23,7 @@
                   <Font name="Ubuntu" size="12.0" />
                </font>
             </Button>
-            <Button disable="true" text="Open" textAlignment="CENTER">
+            <Button disable="true" onAction="#open" text="Open" textAlignment="CENTER">
                <font>
                   <Font name="Ubuntu" size="12.0" />
                </font>

@@ -1,5 +1,10 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.ImageView;
 import tree.Tree;
 import tree.Node;
 
@@ -8,116 +13,94 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FileSelector {
-    private File cursor = null;
-    private Tree<File> fileTree = new Tree<>();
+    private TreeView<String> fileView = null;
 
-    public FileSelector() {
-        File[] listRoots = File.listRoots();
-        fileTree.setRoot(new Node<>());
-        for(File file: File.listRoots()) {
-            Node<File> node = new Node<>(file);
-            if(file.isDirectory()) {
-                File[] listFiles = file.listFiles();
-                if(listFiles != null)
-                    for (File subFile: listFiles)
-                        node.addChild(new Node<>(subFile));
+    public FileSelector(TreeView<String> fileView) {
+        this.fileView = fileView;
+    }
+
+    public void initialize() {
+        fileView.setRoot(new TreeItem<>(""));
+        for (File root : File.listRoots()) {
+            insert(root.getPath());
+            insertChildren(root);
+        }
+        fileView.setShowRoot(false);
+    }
+
+    public TreeItem<String> insert(String path) {
+        String[] splitedPath = path.split("\\\\");
+        String currentPath = splitedPath[0];
+        TreeItem<String> currentItem = fileView.getRoot();
+        for (String split: splitedPath) {
+            ObservableList<TreeItem<String>> copy = FXCollections.observableArrayList(currentItem.getChildren());
+            copy.removeIf(item -> !item.getValue().equals(split));
+            if(copy.isEmpty()) {
+                TreeItem<String> child = new TreeItem<>(split);
+                currentItem.getChildren().add(child);
+                setGraphic(child);
+                currentItem = child;
+            } else {
+                currentItem = copy.get(0);
             }
-            fileTree.getRoot().addChild(node);
+            currentPath += '\\' + split;
+
+        }
+        return currentItem;
+    }
+
+    public void insertChildren(File parent) {
+        if(parent.isDirectory()) {
+            File[] children = parent.listFiles();
+            if(children != null)
+                for(File file: children)
+                    insert(file.getPath());
         }
     }
 
-    public FileSelector(String path) {
-        this();
-        cursor = new File(path);
-        if (cursor.exists()) {
+    public void insertChildren(TreeItem<String> item) {
+        String path = item.getValue();
+        TreeItem<String> currentItem = item;
+        while (currentItem != null) {
+            path = item.getValue() + '\\' + path;
+            currentItem = currentItem.getParent();
+        }
+        File parent = new File(path);
+        insertChildren(parent);
+    }
 
-            File parent = cursor.getParentFile();
-            System.out.println();
-
-
-
-
-
+    public void expand(TreeItem<String> item) {
+        insertChildren(item);
+        while (item != null) {
+            item.setExpanded(true);
+            item = item.getParent();
         }
     }
 
-
-/*
-    public Node<File> search(File file) {
-
+    public void select(TreeItem<String> item) {
+        int index = fileView.getRow(item);
+        fileView.getSelectionModel().select(index);
+        fileView.scrollTo(index);
     }
 
-    public static File[] listParents(String path) {
-        File file = new File(path);
-        System.out.println(file.getParent());
-        if(!file.exists())
-            return null;
-        File[] files = new File[5];
-        System.out.println(file.getParent());
-        String absolutePath = file.getAbsolutePath();
-        while (!absolutePath.isEmpty()) {
-
+    private void setGraphic(TreeItem<String> item) {
+        String path = item.getValue();
+        TreeItem<String> it = item.getParent();
+        while (it != null) {
+            path = it.getValue() + '\\' + path;
+            it = it.getParent();
         }
-        return null;
+        ImageView imageView = new ImageView("file:" + new File("rsc/dirIcon.png").getAbsolutePath());
+        imageView.setFitWidth(16);
+        imageView.setPreserveRatio(true);
+        item.setGraphic(imageView);
+       /* File file = new File(path);
+        if (file.isDirectory())
+            item.setGraphic(dirIcon);
+        else if (file.isFile())
+            item.setGraphic(fileIcon);
+        else if (file.isHidden())
+            item.setGraphic(hiddenDirIcon);*/
     }
 
-    // Retourne une Arraylist des parents du fichier Path
-    /*public ArrayList<String> getListRepParent(String path) {
-        String actualPath = "";
-        File dir = new File(path);
-        if (!dir.exists() || !dir.isDirectory())
-            return null;
-
-        directory = dir.getAbsolutePath();
-        System.out.println(directory) ;
-        file = null;
-
-        String[] files = dir.list();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                File f = new File(path, files[i]);
-                if (f.isDirectory()) files[i] = files[i] + File.separator;
-                System.out.format("  file: %s\n",files[i]) ;
-            }
-        }
-
-        System.out.format("  parentdir: %s\n",File.separator) ;
-        listRepParent.clear();
-        String[] dirs = path.split(File.separator);
-        for (String p : dirs) {
-            actualPath += p + File.separator;
-            if (p.equals("")) continue ;
-            listRepParent.add(actualPath);
-            System.out.format("  parentdir: %s\n",p) ;
-        }
-        return listRepParent;
-    }
-
-    //retourne une arraylist des fichier present dans le dossier Path
-    public ArrayList<String> getListFile(String path) {
-        File dir = new File(path);
-
-        if (!dir.exists() || !dir.isDirectory()) return null;
-
-        directory = dir.getAbsolutePath();
-        file = null;
-
-        String[] files = dir.list();
-        if (files != null) {
-            listFile.clear();
-            for (int i = 0; i < files.length; i++) {
-                File f = new File(path, files[i]);
-                if (f.isDirectory()) {
-                    files[i] = files[i] + File.separator;
-                    listFile.add(f.getName() + File.separator);
-                } else if (f.isFile()) {
-                    listFile.add(f.getName());
-                }
-                // System.out.format("  file: %s\n",files[i]) ;
-            }
-        }
-        return listFile;
-    }
-
-*/
 }
