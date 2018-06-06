@@ -2,8 +2,6 @@ package lucasdavid.tv.programs.category;
 
 import lucasdavid.tv.programs.Program;
 
-import java.util.concurrent.Flow;
-
 /**
  * @author lucasdavid
  */

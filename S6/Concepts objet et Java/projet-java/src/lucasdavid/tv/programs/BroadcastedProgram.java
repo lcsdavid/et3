@@ -1,14 +1,8 @@
 package lucasdavid.tv.programs;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import lucasdavid.xml.element.Element;
 import lucasdavid.xml.element.NotExceptedElementException;

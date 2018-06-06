@@ -6,17 +6,17 @@ import lucasdavid.xml.element.EmptyElement;
 import lucasdavid.xml.element.SimpleElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.*;
 import java.util.function.Predicate;
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
 
 public class XMLParser {
-    private String toParseFile;
+    private InputStream toParseFile;
 
     private List<AbstractElement> parseBuffer;
 
@@ -25,7 +25,7 @@ public class XMLParser {
      * Allocates fields with empty values.
      */
     public XMLParser() {
-        toParseFile = "";
+        toParseFile = null;
 
         parseBuffer = new ArrayList<>();
     }
@@ -35,7 +35,7 @@ public class XMLParser {
      *
      * @param toParseFile source file
      */
-    public XMLParser(@NotNull String toParseFile) {
+    public XMLParser(@NotNull InputStream toParseFile) {
         this.toParseFile = toParseFile;
 
         parseBuffer = new ArrayList<>();
@@ -46,7 +46,7 @@ public class XMLParser {
      *
      * @return {@link XMLParser#toParseFile}
      */
-    public String getToParseFile() {
+    public InputStream getToParseFile() {
         return toParseFile;
     }
 
@@ -55,28 +55,8 @@ public class XMLParser {
      *
      * @param toParseFile XML source file
      */
-    public void setToParseFile(@NotNull String toParseFile) {
+    public void setToParseFile(@NotNull InputStream toParseFile) {
         this.toParseFile = toParseFile;
-    }
-
-    /**
-     * Returns {@code true} if {@link XMLParser#toParseFile} is not empty,
-     * and if {@link Paths#get(String, String...)} do not throw an {@link InvalidPathException}.
-     * Otherwise returns {@code false}.
-     *
-     * @return {@code true} if {@link XMLParser#toParseFile} is not empty,
-     * and if {@link Paths#get(String, String...)} do not throw an {@link InvalidPathException}.
-     * Otherwise returns {@code false}.
-     */
-    public boolean hasValidToParseFile() {
-        if (!toParseFile.isEmpty())
-            return false;
-        try {
-            Paths.get(toParseFile);
-        } catch (InvalidPathException ignored) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -88,10 +68,7 @@ public class XMLParser {
      * @throws XMLStreamException    ...
      */
     public void parse() throws FileNotFoundException, XMLStreamException {
-        //if(!hasValidToParseFile())
-        //   throw new FileNotFoundException();
-
-        XMLStreamReader streamReader = XMLInputFactory.newInstance().createXMLStreamReader(new FileReader(toParseFile));
+        XMLStreamReader streamReader = XMLInputFactory.newInstance().createXMLStreamReader(toParseFile);
         parseBuffer.clear();
 
         Stack<Element> elementStack = new Stack<>();

@@ -1,17 +1,12 @@
-import lucasdavid.tv.Channel;
 import lucasdavid.tv.TV;
-import lucasdavid.tv.contributor.Actor;
-import lucasdavid.tv.contributor.Contributor;
-import lucasdavid.tv.contributor.Presenter;
+import lucasdavid.tv.contributor.*;
 import lucasdavid.tv.programs.BroadcastedProgram;
-import lucasdavid.tv.programs.EnumCSA;
-import lucasdavid.tv.programs.Program;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.jar.JarFile;
 
 
 /**
@@ -20,88 +15,166 @@ import java.util.Map;
  * @author lucasdavid
  */
 public class Main {
-
+    private static Scanner in = new Scanner(System.in);
     private static SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private static SimpleDateFormat formatter = new SimpleDateFormat("EEEE dd MMMM yyyy");
-
+    private static SimpleDateFormat formatter_ = new SimpleDateFormat("EEEE dd MMMM yyyy HH:mm:ss");
 
     public static void main(String[] args) throws Exception {
         TV tv = new TV();
         /* Nécessaire */
-        tv.load("res/tvguide_20180430_20180511.xml");
+        tv.load(Main.class.getClassLoader().getResourceAsStream("tvguide_20180430_20180511.xml"));
 
-        /* RAS */
-        List<Channel> chaînes = tv.getChannels();
-        for (Channel chaîne: chaînes) {
-            System.out.println(chaîne);
-        }
+        System.in.skip(8);
 
+        System.out.println("[1] : liste des chaînes.");
+        System.out.println("[2] : jours programmés.");
+        System.out.println("[3] : programmes sur [chaîne] et le [date].");
+        System.out.println("[4] : programmes pendant [date].");
+        System.out.println("[5] : programmes avec [contributeur].");
+        System.out.println("[6] : palmares des contributeurs.");
+        System.out.println("[7] : ocurrences des catégories de programme.");
+        System.out.println("[8] : ocurrences des évaluations CSA des programmes.");
+        System.out.println("[9] : recherche par mots-clés.");
         System.out.println();
 
-        /* RAS */
-        List<Date> jourProgrammés = tv.daysProgrammed();
-        // jourProgrammés.sort(Date::compareTo);
-        for (Date jour: jourProgrammés) {
-            System.out.println(formatter.format(jour));
-        }
-
+        char c = (char) System.in.read();
+        System.in.skip(8);
         System.out.println();
 
-        /* Remplacer id et jour tester /!\ n'importe quelle heure du jour fonctionne */
-        String jour = "11/05/2018 02:00:00";
-        Channel chaîne = new Channel("C80.api.telerama.fr", "");
-        List<BroadcastedProgram> programmesSurEtLe = tv.programmationOfnAt(chaîne, parser.parse(jour));
-        for (BroadcastedProgram program: programmesSurEtLe) {
-            System.out.println(program);
+        switch (c) {
+            case '1':
+                tv.getChannels().forEach(System.out::println);
+                break;
+            case '2':
+                /*.sort(Date::compareTo)*/
+                tv.daysProgrammed().forEach(System.out::println);
+                break;
+            case '3':
+                System.out.println("Choisir chaîne: ");
+                for(int index = 0; index < tv.getChannels().size(); index++)
+                    System.out.println("[" + (index  + 1) + "] : " + tv.getChannels().get(index).getName());
+                System.out.println();
+
+                byte[] i = new byte[2];
+                System.in.read(i);
+                System.in.skip(8);
+                System.out.println();
+
+                int index = (Byte.toUnsignedInt(i[0]) - '0') * 10 + Byte.toUnsignedInt(i[1]) - '1';
+
+                if(index > tv.getChannels().size()) {
+                    System.out.println("Entrée pas valide.");
+                    System.exit(0);
+                }
+
+
+                Date jour = parser.parse("11/05/2018 02:32:20");
+                boolean loop = true;
+                while(loop) {
+                    System.out.print("\rUse - and + : " + formatter.format(jour) + "  ");
+                    c = (char) System.in.read();
+                    System.in.skip(8);
+                    switch (c) {
+                        case '+':
+                            jour.setTime(jour.getTime() + 86400000);
+                            break;
+                        case '-':
+                            jour.setTime(jour.getTime() - 86400000);
+                            break;
+                        default:
+                            loop = false;
+                            break;
+                    }
+                }
+                tv.programmationOfnAt(tv.getChannels().get(index), jour).forEach(System.out::println);
+                break;
+            case '4':
+                Date moment = parser.parse("11/05/2018 02:32:20");
+                boolean loop_ = true;
+                while(loop_) {
+                    System.out.print("\rUse - and + : " + formatter_.format(moment) + "  ");
+                    c = (char) System.in.read();
+                    System.in.skip(8);
+                    switch (c) {
+                        case '+':
+                            moment.setTime(moment.getTime() + 60000);
+                            break;
+                        case '-':
+                            moment.setTime(moment.getTime() - 60000);
+                            break;
+                        default:
+                            loop_ = false;
+                            break;
+                    }
+                }
+                List<BroadcastedProgram> programsWhile = tv.programsWhile(moment);
+                programsWhile.sort(Comparator.comparing(BroadcastedProgram::getProgramming));
+                programsWhile.forEach(System.out::println);
+                break;
+            case '5':
+                System.out.println("[1] : Acteur");
+                System.out.println("[2] : Contributeur (classe parente)");
+                System.out.println("[3] : Directeur");
+                System.out.println("[4] : Invité");
+                System.out.println("[5] : Présentateur");
+                System.out.println("[6] : Scripteur");
+                System.out.println();
+
+                c = (char) System.in.read();
+                System.in.skip(8);
+                System.out.println();
+
+                System.out.println("Choisir le nom: ");
+                byte[] b = new byte[32];
+                System.in.read(b);
+                String s = new String(b, StandardCharsets.UTF_8);
+                System.out.println();
+
+                /* On peut spécifier via la classe un rôle Acteur ou Présentateur pour affiner les recherches */
+                Contributor contributor = null;
+                switch (c) {
+                    case '1':
+                        contributor = new Actor(s);
+                        break;
+                    case '2':
+                        contributor = new Contributor(s);
+                        break;
+                    case '3':
+                        contributor = new Director(s);
+                        break;
+                    case '4':
+                        contributor = new Guest(s);
+                        break;
+                    case '5':
+                        contributor = new Presenter(s);
+                        break;
+                    case '6':
+                        contributor = new Writer(s);
+                        break;
+                    default:
+                        System.out.println("Erreur.");
+                        System.exit(1);
+                        break;
+                }
+                tv.programsWith(contributor);
+                break;
+            case '6':
+                tv.palmares().forEach((key, value) -> System.out.println(key + ": " + value));
+                break;
+            case '7':
+                tv.categoryOccurrences().forEach((key, value) -> System.out.println(key + ": " + value));
+                break;
+            case '8':
+                tv.CSAOccurrences().forEach((key, value) -> System.out.println(key + ": " + value));
+                break;
+            case '9':
+                tv.keyWordSearch(System.console().readLine()).forEach(System.out::println);
+                break;
+            default:
+                System.out.println("Erreur");
+                System.exit(1);
+                break;
         }
-
-        System.out.println();
-
-        /* Remplacer pour tester /!\ le moment c'est strictement pendant le programme */
-        String moment = "11/05/2018 02:32:20";
-        List<BroadcastedProgram> programmesPendant = tv.programsWhile(parser.parse(moment));
-        programmesPendant.sort(Comparator.comparing(BroadcastedProgram::getProgramming));
-        for (BroadcastedProgram program: programmesPendant) {
-            System.out.println(program);
-        }
-
-        System.out.println();
-
-        /* On peut spécifier via la classe un rôle Acteur ou Présentateur pour affiner les recherches */
-        String nomDeContributeur = "Vincent Ferniot"; /* ou Michel Hassan */
-        Contributor contributeur = new Contributor(nomDeContributeur);
-        // contributeur = new Actor(nomDeContributeur); ne marchera pas !
-        // contributeur = new Presenter(nomDeContributeur); marche aussi !
-        List<Program> programmesAvec = tv.programsWith(contributeur);
-        for (Program program: programmesAvec) {
-            System.out.println(program);
-        }
-
-        System.out.println();
-
-        Map<Actor, Integer> palmares = tv.palmares();
-        for(Map.Entry<Actor, Integer> entrée :palmares.entrySet()) {
-            System.out.println(entrée.getKey() + ": " + entrée.getValue());
-        }
-
-        System.out.println();
-
-        Map<String, Integer> categorieOcurences = tv.categoryOccurrences();
-        for(Map.Entry<String, Integer> entrée: categorieOcurences.entrySet()) {
-            System.out.println(entrée.getKey() + ": " + entrée.getValue());
-        }
-
-        /* RSA */
-        Map<EnumCSA, Integer> occurencesDesNormesCSA = tv.CSAOccurrences();
-        for (Map.Entry<EnumCSA, Integer> entrée: occurencesDesNormesCSA.entrySet()) {
-            System.out.println(entrée.getKey() + " : " + entrée.getValue() + " occurences.");
-        }
-
-        System.out.println();
-
-        List<Program> rechercheParMotsClés = tv.keyWordSearch("victoire");
-        for(Program program: rechercheParMotsClés)
-            System.out.println(program);
-
     }
 }

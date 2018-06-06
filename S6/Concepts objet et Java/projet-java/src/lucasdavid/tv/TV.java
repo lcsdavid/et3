@@ -11,7 +11,9 @@ import lucasdavid.xml.element.NotExceptedElementException;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.stream.XMLStreamException;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +52,7 @@ public class TV {
      * @param tvFile fichier de description de la programmation télévisée
      * @throws NotLoadedException échec dans le chargement des données {@link IOException}, {@link XMLStreamException}
      */
-    public void load(@NotNull String tvFile) throws NotLoadedException {
+    public void load(@NotNull InputStream tvFile) throws NotLoadedException {
         XMLParser parser = null;
         try {
             parser = new XMLParser(tvFile);
